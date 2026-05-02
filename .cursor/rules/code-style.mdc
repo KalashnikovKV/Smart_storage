@@ -1,0 +1,82 @@
+---
+description: Стандарты кода для Smart Storage — именование, комментарии, обработка ошибок
+globs: src/**/*.py
+alwaysApply: false
+---
+
+# Code Style — Smart Storage
+
+## Язык комментариев
+Все комментарии в коде — **только на английском**.
+
+```python
+# ✅ GOOD
+# Apply CLAHE to L channel for contrast enhancement
+lab[:, :, 0] = clahe.apply(lab[:, :, 0])
+
+# ❌ BAD
+# Применяем CLAHE к L-каналу
+lab[:, :, 0] = clahe.apply(lab[:, :, 0])
+```
+
+## Именование
+- Методы пайплайна: `enhance`, `segment`, `clean`, `detect`, `decide`, `run`
+- Модели: PascalCase — `ColorResult`, `DetectionResult`, `Decision`, `PipelineResult`
+- Переменные: snake_case — `bbox`, `area_ratio`, `size_category`, `color_hsv`
+- Константы в config: snake_case в `AppConfig` (не UPPER_CASE)
+
+## Возвращаемые типы
+Все методы пайплайна возвращают **dataclass-объекты**, не dict:
+
+```python
+# ✅ GOOD
+return DetectionResult(bbox=bbox, color_hsv=hsv_result, ...)
+
+# ❌ BAD
+return {"bbox": bbox, "color_hsv": hsv_result, ...}
+```
+
+## Обработка ошибок (обязательные случаи)
+```python
+# Нет камеры
+if not cap.isOpened():
+    raise RuntimeError("Camera not available. Use --mode image instead.")
+
+# Пустое изображение
+if image is None or image.size == 0:
+    return None  # caller handles None gracefully
+
+# Объект не найден (пустая маска)
+if contours is None or len(contours) == 0:
+    return Decision(category="Объект не найден", confidence=0.0, ...)
+```
+
+## Модульность
+Каждый модуль = одна ответственность:
+- `pipeline.py` — только логика пайплайна, никаких cv2.imshow
+- `visualizer.py` — только отображение, никакой классификации
+- `config.py` — только конфигурация, никакой бизнес-логики
+- `main.py` — только координация, никаких алгоритмов
+
+## GUI (OpenCV highgui)
+Дашборд показывает все 6 этапов одновременно:
+1. Original
+2. Enhanced
+3. Segmentation Mask
+4. Cleaned Mask
+5. Detection (bounding box)
+6. Final Decision (text label + confidence %)
+
+Confidence display:
+- `≥ 0.70` → `"Зарядка iPhone — 87%"`
+- `0.40-0.69` → `"Зарядка iPhone? — 55%"`
+- `< 0.40` → `"Неизвестный объект (ближайшее: Зарядка iPhone — 32%)"`
+
+## CSV Export
+Обязательные поля:
+```
+timestamp, category, color, size_category, confidence, method,
+area_pixels, aspect_ratio, color_hsv, color_kmeans,
+confidence_hsv, confidence_kmeans
+```
+Файл: `output/results.csv` (задаётся в AppConfig.csv_output_path)

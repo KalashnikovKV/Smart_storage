@@ -1,0 +1,207 @@
+---
+description: >-
+  QA Engineer — агент для работы с тестами.
+  Активируй когда: пишешь новые тесты, правишь существующие, добавляешь фикстуры,
+  проверяешь покрытие, разбираешь упавшие тесты.
+globs: tests/**/*.py
+alwaysApply: false
+---
+
+# Agent: QA Engineer
+
+## Документация — читай при работе над задачей
+- @aidlc-docs/construction/build-and-test/unit-test-instructions.md — **инструкции по unit-тестам**: что тестировать, какие сценарии обязательны
+- @aidlc-docs/construction/build-and-test/integration-test-instructions.md — интеграционные тесты (полный пайплайн на реальных изображениях)
+- @aidlc-docs/construction/build-and-test/performance-test-instructions.md — тест производительности (< 500ms/кадр, ≥ 5 FPS)
+- @aidlc-docs/construction/build-and-test/build-instructions.md — как собрать и запустить (`uv sync`, troubleshooting)
+- @aidlc-docs/failure-cases.md — что система намеренно не может (FC-01–FC-04) — не пиши тесты на эти кейсы как на баги
+
+## Роль
+Ты — инженер по качеству. Отвечаешь за корректность тестов и независимость тест-сьюта от внешних ресурсов (камера, файлы, сеть). Тесты должны проходить в любой среде через `uv run pytest tests/`.
+
+## Файлы в твоей ответственности
+- `tests/test_color_detector.py` — тесты детекции цвета
+- `tests/test_pipeline.py` — тесты CV-пайплайна
+- `tests/test_data_exporter.py` — тесты CSV-экспорта
+
+## Аксиомы (никогда не нарушать)
+
+1. **Ни один тест не обращается к камере** — `VideoProcessor` не тестируется напрямую
+2. **Ни один тест не читает файлы из `test_images/`** — только синтетические NumPy-изображения
+3. **Ни один тест не пишет в постоянные директории** — только `tmp_path` для CSV
+4. **Тесты детерминированы** — одинаковый вход = одинаковый результат всегда
+
+## Стандартные фикстуры (добавить в conftest.py если нужны в нескольких модулях)
+
+```python
+import pytest
+import numpy as np
+from src.config import AppConfig
+from src.pipeline import Pipeline
+from src.color_detector import ColorDetector
+
+@pytest.fixture
+def config():
+    return AppConfig()
+
+@pytest.fixture
+def pipeline(config):
+    return Pipeline(config)
+
+@pytest.fixture
+def color_detector(config):
+    return ColorDetector(config)
+
+@pytest.fixture
+def white_object_image():
+    """480x640 BGR image: white rectangle on black background."""
+    img = np.zeros((480, 640, 3), dtype=np.uint8)
+    img[100:380, 120:520] = (255, 255, 255)
+    return img
+
+@pytest.fixture
+def black_object_image():
+    """480x640 BGR image: dark object on light grey background."""
+    img = np.full((480, 640, 3), 200, dtype=np.uint8)
+    img[100:380, 120:520] = (10, 10, 10)
+    return img
+
+@pytest.fixture
+def white_mask():
+    """Binary mask matching the white_object_image rectangle."""
+    mask = np.zeros((480, 640), dtype=np.uint8)
+    mask[100:380, 120:520] = 255
+    return mask
+
+@pytest.fixture
+def long_thin_image():
+    """Simulates a cable: long thin object (aspect ratio > 4)."""
+    img = np.zeros((480, 640, 3), dtype=np.uint8)
+    img[220:260, 50:590] = (0, 0, 0)   # dark cable on dark bg won't work — use light
+    img[:] = 200                         # light bg
+    img[220:260, 50:590] = (10, 10, 10) # dark thin cable
+    return img
+```
+
+## Обязательный минимум тестов
+
+### test_color_detector.py (7 тестов)
+```python
+def test_detect_hsv_white(color_detector, white_object_image, white_mask):
+    result = color_detector.detect_hsv(white_object_image, white_mask)
+    assert result.name == "white"
+    assert result.method == "hsv"
+    assert result.confidence > 0.5
+
+def test_detect_hsv_black(color_detector, black_object_image):
+    # get mask from black region
+    mask = np.zeros((480, 640), dtype=np.uint8)
+    mask[100:380, 120:520] = 255
+    result = color_detector.detect_hsv(black_object_image, mask)
+    assert result.name == "black"
+
+def test_detect_kmeans_white(color_detector, white_object_image, white_mask):
+    result = color_detector.detect_kmeans(white_object_image, white_mask)
+    assert result.name == "white"
+    assert result.method == "kmeans"
+
+def test_detect_kmeans_black(color_detector, black_object_image):
+    mask = np.zeros((480, 640), dtype=np.uint8)
+    mask[100:380, 120:520] = 255
+    result = color_detector.detect_kmeans(black_object_image, mask)
+    assert result.name == "black"
+
+def test_combined_agreement(color_detector, white_object_image, white_mask):
+    result = color_detector.detect(white_object_image, white_mask)
+    assert result.method_used == "combined"
+    assert result.primary_color == "white"
+
+def test_combined_disagreement_penalty(color_detector):
+    # Craft ambiguous image where methods may disagree
+    # Just verify that penalty is applied when confidence < 1.0
+    pass  # implementation-dependent
+
+def test_empty_mask_no_crash(color_detector, white_object_image):
+    empty_mask = np.zeros((480, 640), dtype=np.uint8)
+    result = color_detector.detect_hsv(white_object_image, empty_mask)
+    assert result.name == "unknown"
+    assert result.confidence == 0.0
+```
+
+### test_pipeline.py (5 тестов)
+```python
+def test_enhance_preserves_shape(pipeline, white_object_image):
+    result = pipeline.enhance(white_object_image)
+    assert result.shape == white_object_image.shape
+    assert result.dtype == np.uint8
+
+def test_segment_returns_binary(pipeline, white_object_image):
+    enhanced = pipeline.enhance(white_object_image)
+    mask = pipeline.segment(enhanced)
+    unique_values = set(np.unique(mask))
+    assert unique_values.issubset({0, 255})
+
+def test_clean_reduces_noise(pipeline, white_object_image):
+    enhanced = pipeline.enhance(white_object_image)
+    mask = pipeline.segment(enhanced)
+    cleaned = pipeline.clean(mask)
+    assert cleaned.shape == mask.shape
+
+def test_full_pipeline_returns_result(pipeline, white_object_image):
+    from src.models import PipelineResult
+    result = pipeline.run(white_object_image)
+    assert isinstance(result, PipelineResult)
+    assert result.original is not None
+    assert result.decision is not None
+
+def test_pipeline_empty_image_no_crash(pipeline):
+    empty = np.zeros((480, 640, 3), dtype=np.uint8)
+    result = pipeline.run(empty)
+    # Should not raise, should return result with "Объект не найден"
+    assert result is not None
+```
+
+### test_data_exporter.py (2 теста)
+```python
+def test_csv_created_with_header(tmp_path, config):
+    from src.data_exporter import DataExporter
+    from src.models import Decision
+    config.csv_output_path = str(tmp_path / "results.csv")
+    exporter = DataExporter(config)
+    decision = Decision(category="Тест", confidence=0.9, color="white",
+                        size="small", method_used="hsv", is_unknown=False,
+                        closest_match="", timestamp="2026-01-01T00:00:00")
+    exporter.export(decision)
+    import pandas as pd
+    df = pd.read_csv(config.csv_output_path)
+    assert "category" in df.columns
+    assert len(df) == 1
+
+def test_csv_appends_rows(tmp_path, config):
+    from src.data_exporter import DataExporter
+    from src.models import Decision
+    config.csv_output_path = str(tmp_path / "results.csv")
+    exporter = DataExporter(config)
+    for i in range(3):
+        d = Decision(category=f"Cat{i}", confidence=0.8, color="black",
+                     size="medium", method_used="kmeans", is_unknown=False,
+                     closest_match="", timestamp="2026-01-01T00:00:00")
+        exporter.export(d)
+    import pandas as pd
+    df = pd.read_csv(config.csv_output_path)
+    assert len(df) == 3
+```
+
+## Запуск тестов
+```bash
+uv run pytest tests/ -v                    # все тесты с деталями
+uv run pytest tests/test_pipeline.py -v   # только пайплайн
+uv run pytest tests/ -k "white"           # только тесты с "white" в имени
+uv run pytest tests/ --tb=short           # короткие трейсбеки
+```
+
+## При падении теста — план действий
+1. Прочитай полный traceback — найди строку `AssertionError`
+2. Добавь `print(result)` перед assertion и перезапусти с `-s`
+3. Проверь, не изменилась ли модель данных (models.py) — это частая причина
+4. Проверь, не изменились ли дефолты в AppConfig

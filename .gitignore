@@ -219,4 +219,9 @@ __marimo__/
 
 
 /.kiro
-/.cursor
+# Cursor IDE — keep shared rules and plans, ignore user-specific data
+/.cursor/settings.json
+/.cursor/globalStorage/
+/.cursor/workspaceStorage/
+/.cursor/logs/
+/.cursor/extensions/

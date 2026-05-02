@@ -1,0 +1,132 @@
+---
+description: Модели данных и конфигурация — правила для models.py и config.py
+globs: src/models.py,src/config.py
+alwaysApply: false
+---
+
+# Data Models & Config — Rules
+
+## Модели данных (dataclasses, src/models.py)
+
+Все сущности — `@dataclass`. Не использовать dict/tuple для передачи результатов между этапами.
+
+### ColorResult
+```python
+@dataclass
+class ColorResult:
+    name: str           # "white", "black", "gray", "silver", "red", "blue"
+    confidence: float   # 0.0 - 1.0
+    method: str         # "hsv" or "kmeans"
+    rgb: tuple          # (R, G, B) dominant color values
+```
+
+### DetectionResult
+```python
+@dataclass
+class DetectionResult:
+    bbox: tuple               # (x, y, w, h)
+    color_hsv: ColorResult
+    color_kmeans: ColorResult
+    primary_color: str        # Final color after comparison
+    size_category: str        # "small" | "medium" | "large" | "long_thin"
+    area_pixels: int
+    aspect_ratio: float
+    contour: np.ndarray
+```
+
+### Decision
+```python
+@dataclass
+class Decision:
+    category: str       # "Зарядка iPhone", "Кабель питания", "Unknown (Mouse)"
+    confidence: float   # 0.0 - 1.0
+    color: str
+    size: str
+    method_used: str    # "hsv" | "kmeans" | "combined"
+    is_unknown: bool    # True if confidence < 0.40
+    closest_match: str
+    timestamp: str      # ISO 8601
+```
+
+### PipelineResult
+```python
+@dataclass
+class PipelineResult:
+    original: np.ndarray
+    enhanced: np.ndarray
+    mask: np.ndarray
+    cleaned_mask: np.ndarray
+    detection: DetectionResult
+    decision: Decision
+    processing_time_ms: float
+```
+
+---
+
+## Конфигурация (src/config.py)
+
+Все параметры хранятся в `AppConfig`. Никаких магических чисел в pipeline.py или color_detector.py.
+
+### Параметры CLAHE и blur
+```python
+clahe_clip_limit: float = 2.0
+clahe_tile_size: tuple = (8, 8)
+blur_kernel: tuple = (5, 5)
+```
+
+### Параметры сегментации
+```python
+adaptive_block_size: int = 11
+adaptive_c: int = 2
+pre_blur_kernel: tuple = (11, 11)
+```
+
+### Параметры очистки маски
+```python
+close_kernel_size: tuple = (7, 7)
+close_iterations: int = 2
+open_kernel_size: tuple = (5, 5)
+open_iterations: int = 2
+```
+
+### Пороги размеров
+```python
+small_max_ratio: float = 0.02
+medium_max_ratio: float = 0.08
+long_thin_aspect: float = 4.0
+min_object_ratio: float = 0.005
+max_object_ratio: float = 0.50
+```
+
+### Пороги уверенности
+```python
+high_confidence: float = 0.70   # >= 0.70: показывать как есть
+low_confidence: float = 0.40    # < 0.40: Unknown + closest
+```
+
+### Правила классификации (ClassificationRule)
+```python
+# R01: white + small   → Зарядка iPhone (base_confidence=0.85)
+# R02: black + small   → Зарядка Android (0.80)
+# R03: black + long_thin → Кабель питания (0.85)
+# R04: white + long_thin → Кабель USB-C (0.80)
+# R05: black + medium  → Мышь (0.85)
+# R06: white + medium  → Мышь (белая) (0.80)
+# R07: black + large   → Клавиатура (0.90)
+# R08: white + large   → Клавиатура (белая) (0.85)
+# R09: gray + small    → Флешка (0.80)
+# R10: silver + small  → Флешка (0.80)
+```
+
+### HSV диапазоны цветов
+```python
+hsv_ranges = {
+    "white":  {"s_max": 50,  "v_min": 200},
+    "black":  {"v_max": 50},
+    "gray":   {"s_max": 50,  "v_min": 50, "v_max": 200},
+    "silver": {"s_max": 50,  "v_min": 50, "v_max": 200},
+    "red":    {"h": (0, 10, 170, 180), "s_min": 50, "v_min": 50},
+    "blue":   {"h": (100, 130),        "s_min": 50, "v_min": 50},
+    "green":  {"h": (35, 85),          "s_min": 50, "v_min": 50},
+}
+```
