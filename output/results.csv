@@ -75,3 +75,29 @@ timestamp,category,color,size_category,confidence,method,area_pixels,aspect_rati
 2026-05-02T22:22:24.417946,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
 2026-05-02T22:23:58.119437,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
 2026-05-02T22:27:32.238935,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
+2026-05-03T00:28:28.544357,Image_3.png,1,Keyboard,black,large,0.857,combined,550297,3.25,rectangular,0.483,0.978,0.956,black,black,0.952,0.829
+2026-05-03T00:44:49.337370,Image_9.png,1,Headphones,black,large,0.739,combined,203657,2.41,irregular,0.032,0.519,0.313,black,black,0.948,0.563
+2026-05-03T00:46:41.007667,Image_10.png,1,Mouse,black,large,0.385,combined,420175,1.53,oval,0.809,0.994,0.838,black,black,0.142,0.438
+2026-05-03T00:49:31.081237,Image_11.png,1,Mouse,black,medium,0.88,combined,207571,1.68,oval,0.744,0.986,0.836,black,black,1.0,0.653
+2026-05-03T00:50:13.831123,Image_12.png,1,Keyboard,black,large,0.84,combined,549070,3.14,rectangular,0.169,0.947,0.919,black,black,0.934,0.607
+2026-05-03T00:50:38.703705,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
+2026-05-03T00:56:41.460685,Image_16.png,1,Headphones,silver,large,0.417,combined,268189,1.03,irregular,0.025,0.281,0.272,silver,silver,0.534,0.471
+2026-05-03T00:57:13.917758,Image_17.png,1,Colored Object,green,medium,0.468,combined,122406,2.71,rectangular,0.604,0.973,0.893,green,green,0.721,0.531
+2026-05-03T00:58:15.797433,Image_18.png,1,Headphones,black,medium,0.582,combined,120974,1.17,block,0.137,0.512,0.4,black,black,0.746,0.466
+2026-05-03T01:00:08.022063,Image_19.png,1,Mouse,black,large,0.639,combined,375940,1.37,oval,0.83,0.992,0.835,black,black,0.726,0.405
+2026-05-03T01:02:43.227692,Image_20.png,1,Headphones,black,large,0.677,combined,348335,1.35,ring_like,0.252,0.807,0.632,black,black,0.868,0.425
+2026-05-03T01:19:53.166913,Image_20.png,1,USB-C Cable,black,large,0.404,combined,348335,1.35,ring_like,0.252,0.807,0.632,blue,black,0.532,0.425
+2026-05-03T01:20:40.811972,Image_19.png,1,Mouse,black,large,0.636,combined,375940,1.37,oval,0.83,0.992,0.835,black,black,0.722,0.405
+2026-05-03T01:21:54.816496,Image_18.png,1,Charger Adapter,silver,small,0.824,combined,20290,1.22,block,0.274,0.59,0.408,silver,silver,0.981,0.801
+2026-05-03T01:23:00.380018,Image_17.png,1,Colored Object,green,medium,0.472,combined,122406,2.71,rectangular,0.604,0.973,0.893,green,green,0.726,0.531
+2026-05-03T01:24:07.113984,Image_2.jpeg,1,USB-C Cable,black,large,0.463,combined,741226,1.06,ring_like,0.167,0.618,0.436,blue,black,0.387,0.609
+2026-05-03T01:25:09.616090,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
+2026-05-03T01:26:28.520830,Image_16.png,1,Headphones,silver,large,0.417,combined,268189,1.03,irregular,0.025,0.281,0.272,silver,silver,0.534,0.471
+2026-05-03T01:29:39.263121,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
+2026-05-03T01:30:12.233269,Image_12.png,1,Keyboard,black,large,0.84,combined,549070,3.14,rectangular,0.169,0.947,0.919,black,black,0.934,0.607
+2026-05-03T01:30:49.067110,Image_11.png,1,Mouse,black,medium,0.88,combined,207571,1.68,oval,0.744,0.986,0.836,black,black,1.0,0.653
+2026-05-03T01:31:14.353184,Image_12.png,1,Keyboard,black,large,0.84,combined,549070,3.14,rectangular,0.169,0.947,0.919,black,black,0.934,0.607
+2026-05-03T01:31:43.383071,Image_10.png,1,Mouse,black,large,0.385,combined,420175,1.53,oval,0.809,0.994,0.838,black,black,0.142,0.438
+2026-05-03T01:32:30.941343,Image_9.png,1,Headphones,black,large,0.739,combined,203657,2.41,irregular,0.032,0.519,0.313,black,black,0.948,0.563
+2026-05-03T01:33:05.334551,Image_8.png,1,USB-C Cable,black,small,0.397,combined,4876,1.21,ring_like,0.421,0.49,0.31,black,silver,0.489,0.523
+2026-05-03T01:33:28.108731,Image_3.png,1,Keyboard,black,large,0.857,combined,550297,3.25,rectangular,0.483,0.978,0.956,black,black,0.952,0.829
