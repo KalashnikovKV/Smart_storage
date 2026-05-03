@@ -219,6 +219,7 @@ __marimo__/
 
 
 /.kiro
+output/stages/
 # Cursor IDE — keep shared rules and plans, ignore user-specific data
 /.cursor/settings.json
 /.cursor/globalStorage/
