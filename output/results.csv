@@ -128,3 +128,32 @@ timestamp,category,color,size_category,confidence,method,area_pixels,aspect_rati
 2026-05-03T14:05:29.151938,Image_18.png,1,Headphones,black,medium,0.582,combined,120974,1.17,block,0.137,0.512,0.4,black,black,0.746,0.466
 2026-05-03T14:07:47.698023,Image_17.png,1,Colored Object,green,medium,0.468,combined,122406,2.71,rectangular,0.604,0.973,0.893,green,green,0.721,0.531
 2026-05-03T14:09:09.924022,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
+2026-05-03T14:23:25.747185,Image_2.jpeg,1,USB-C Cable,black,large,0.472,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
+2026-05-03T14:24:06.327526,Image_1.jpeg,1,Keyboard,black,large,0.874,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788
+2026-05-03T14:25:05.333834,Image_4.jpeg,1,USB-C Cable,silver,medium,0.406,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
+2026-05-03T14:26:03.994013,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
+2026-05-03T14:27:12.539664,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
+2026-05-03T14:27:47.791378,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
+2026-05-03T14:28:13.709325,Image_11.png,1,Mouse,black,medium,0.88,combined,207571,1.68,oval,0.744,0.986,0.836,black,black,1.0,0.653
+2026-05-03T14:28:38.683155,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
+2026-05-03T14:28:57.195902,Image_12.png,1,Keyboard,black,large,0.84,combined,549070,3.14,rectangular,0.169,0.947,0.919,black,black,0.934,0.607
+2026-05-03T14:37:24.188701,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
+2026-05-03T14:38:04.121115,Image_4.jpeg,1,USB-C Cable,silver,medium,0.406,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
+2026-05-03T14:39:02.159986,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
+2026-05-03T14:39:43.138832,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
+2026-05-03T14:40:13.434513,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
+2026-05-03T14:41:11.809448,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
+2026-05-03T14:45:58.643106,Image_4.jpeg,1,USB-C Cable,silver,medium,0.406,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
+2026-05-03T14:46:59.557586,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
+2026-05-03T14:48:00.848409,Image_2.jpeg,1,USB-C Cable,black,large,0.472,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
+2026-05-03T14:48:43.745572,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
+2026-05-03T14:51:18.913866,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
+2026-05-03T14:52:17.356641,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
+2026-05-03T14:53:27.031086,Image_4.jpeg,1,USB-C Cable,silver,medium,0.406,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
+2026-05-03T14:54:20.328405,Image_2.jpeg,1,USB-C Cable,black,large,0.472,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
+2026-05-03T14:58:11.026050,Image_2.jpeg,1,USB-C Cable,black,large,0.472,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
+2026-05-03T14:59:06.134340,Image_4.jpeg,1,USB-C Cable,silver,medium,0.406,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
+2026-05-03T15:00:03.722619,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
+2026-05-03T15:04:59.328401,Image_5.jpeg,1,USB-C Cable,white,medium,0.551,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
+2026-05-03T15:05:42.475377,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
+2026-05-03T15:07:18.124021,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
