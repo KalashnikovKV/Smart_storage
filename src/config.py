@@ -48,6 +48,8 @@ OUTPUT_DIR = "output"
 STAGES_DIR = "output/stages"
 
 # --- HSV Color Ranges ---
+# Format: {color_name: {"h": (min, max), "s": (min, max), "v": (min, max)}}
+# Special handling: white, black, gray checked by S/V first
 HSV_RANGES = {
     "white": {"h": (0, 180), "s": (0, 45), "v": (185, 255)},
     "black": {"h": (0, 180), "s": (0, 120), "v": (0, 100)},
@@ -66,8 +68,7 @@ HSV_RANGES = {
 
 # --- Classification Rules ---
 # These rules document the expected sorting categories.
-# The pipeline mainly uses shape-based logic, but these rules are useful
-# for report explanation, fallback logic, and future extension.
+# Format: list of dicts {color, size, category_ru, category_en, base_confidence}
 CLASSIFICATION_RULES = [
     {
         "rule_id": "R01",

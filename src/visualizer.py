@@ -15,10 +15,10 @@ class Visualizer:
     FONT = cv2.FONT_HERSHEY_SIMPLEX
     FONT_SCALE = 0.5
     FONT_THICKNESS = 1
-    BOX_COLOR = (0, 255, 0)
-    TEXT_COLOR = (255, 255, 255)
-    TEXT_BG = (0, 0, 0)
-    PANEL_SIZE = (360, 260)
+    BOX_COLOR = (0, 255, 0) # Green
+    TEXT_COLOR = (255, 255, 255) # White
+    TEXT_BG = (0, 0, 0) # Black background for text
+    PANEL_SIZE = (360, 260)   # Width x Height for each panel
 
     def draw_detection(
         self,
@@ -48,25 +48,25 @@ class Visualizer:
     def create_dashboard(self, result: PipelineResult) -> np.ndarray:
         """Create a 2x3 dashboard with all pipeline stages."""
         panel_width, panel_height = self.PANEL_SIZE
-
+        # Resize and pad all images to fit the panels
         original = self._resize_with_padding(result.original, (panel_width, panel_height))
         enhanced = self._resize_with_padding(result.enhanced, (panel_width, panel_height))
-
+        # For masks, convert to BGR and pad to avoid distortion
         mask = self._resize_with_padding(result.mask, (panel_width, panel_height))
         cleaned = self._resize_with_padding(result.cleaned_mask, (panel_width, panel_height))
-
+        # Convert masks to BGR for visualization
         mask_bgr = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
         cleaned_bgr = cv2.cvtColor(cleaned, cv2.COLOR_GRAY2BGR)
-
+        # Draw detections on the enhanced image for the detection panel
         detection_image = self.draw_all_detections(result.enhanced, result)
         detection_panel = self._resize_with_padding(
             detection_image,
             (panel_width, panel_height),
         )
-
+        # Create a blank panel for the decision text
         decision_panel = np.zeros((panel_height, panel_width, 3), dtype=np.uint8)
         self._draw_decision_text(decision_panel, result)
-
+        # Combine panels into a 2x3 grid
         panels = [
             ("1. Original", original),
             ("2. Enhanced", enhanced),
@@ -77,7 +77,7 @@ class Visualizer:
         ]
 
         labeled_panels = [self._add_title(panel, title) for title, panel in panels]
-
+        # Stack panels into a 2x3 grid
         row1 = np.hstack(labeled_panels[:3])
         row2 = np.hstack(labeled_panels[3:])
 
@@ -174,7 +174,7 @@ class Visualizer:
         y_offset = 30
 
         conf_pct = f"{d.confidence * 100:.0f}%"
-
+        # Encode to ASCII-safe for OpenCV (replace non-ASCII with '?')
         def safe(text: str) -> str:
             return text.encode("ascii", errors="replace").decode("ascii")
 
