@@ -1,0 +1,22 @@
+[project]
+name = "smart-storage"
+version = "0.1.0"
+description = "IT Peripheral Recognition System — Computer Vision pipeline for automatic classification of IT peripherals by color and size"
+requires-python = ">=3.12"
+dependencies = [
+    "opencv-python>=4.9,<4.12",
+    "numpy>=1.26,<2.0",
+    "scikit-learn>=1.4,<1.6",
+    "pandas>=2.2,<2.3",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0,<9.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.uv]
+package = false
