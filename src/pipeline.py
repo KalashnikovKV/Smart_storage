@@ -7,50 +7,38 @@ image -> enhance -> segment -> clean -> detect -> decide
 
 1. Keyboard        — large dark elongated rectangular
 2. Mouse           — compact dark rounded
-3. Charger Adapter — compact light solid (edge_density < 0.06, not ring)
+3. Charger Adapter — compact light solid block/rect, circ >= 0.25
 4. Flash Drive     — small compact any color
 5. USB-C Cable     — loop/elongated/hollow-coil, neutral color
-6. Headphones      — large/medium ring_like/irregular neutral, high solidity
+6. Headphones      — large/medium ring_like/irregular, solid >= 0.62
 7. Colored Object  — chromatic fallback
 8. Unknown Object
 
 --- Calibration data (from real --debug measurements) ---
 
-Object              circ   solid  extent  edge   area   shape
-Big headphones:     0.161  0.640  0.453   0.076  0.207  ring_like
-Small headphones:   0.196  0.729  0.490   0.060  0.122  ring_like
-Cable (hollow):     0.181  0.819  0.657   0.017  0.045  rectangular
+Object                  edge   solid  circ   shape       area
+White charger (Image_13) 0.011  0.534  0.132  block       0.071
+Silver charger (Image_6) 0.018  0.851  0.386  rectangular 0.044
+Cable hollow (Image_5)   0.017  0.819  0.181  rectangular 0.045
+Big headphones (Image_2) 0.076  0.640  0.161  ring_like   0.207
+Small headphones (Image_4) 0.060 0.729 0.196  ring_like   0.122
 
-Key separators derived from measurements:
+Key separator — cable hollow vs charger:
+  Cable hollow:     circ=0.181  (low — elongated blob from coil inner circle)
+  Silver charger:   circ=0.386  (higher — compact rectangular block)
+  White charger:    circ=0.132  (also low — BUT shape=block, not rectangular)
 
-Cable (rectangular hollow mask) vs Charger:
-  - Cable: edge=0.017 (extremely low, empty hollow inside coil)
-  - Charger: edge typically 0.02-0.05 but solid block shape
-  - NEW separator: cable rectangular mask has solidity > 0.80 AND
-    edge < 0.025 AND circularity < 0.30 — this is unique to the
-    hollow coil inner circle captured as a rectangular blob.
-    A real charger has solidity > 0.80 too but its edge > 0.025.
-    Actually edge=0.017 is below any real charger edge density.
-    Guard: if shape=rectangular AND edge < 0.025 → it's a cable hollow,
-    NOT a charger. This overrides the charger check.
+  The edge < 0.025 guard WRONGLY rejects both chargers (edge=0.011 and 0.018).
+  REMOVED. New approach:
 
-Cable (ring_like) vs Headphones:
-  - Big headphones:   solid=0.640  (LOW)
-  - Small headphones: solid=0.729  (MEDIUM-LOW)
-  - Cables (ring):    solid < 0.68 typically (fragmented thin strand)
-  But small headphones solid=0.729 overlaps with some cables.
-  Better separator: use COMBINATION of solid + edge:
-  - Headphones: solid >= 0.62 AND (edge < 0.08 OR area > 0.10)
-  - Cables: solid < 0.62 OR (solid < 0.75 AND edge >= 0.08 AND area < 0.10)
-  
-  Simplest clean rule from data:
-  → If ring_like AND solid >= 0.62 → Headphones (both headphone cases pass)
-  → If ring_like AND solid < 0.62 → USB-C Cable (thin fragmented wire)
-  
-  This correctly classifies:
-  - Big headphones:   solid=0.640 >= 0.62 → Headphones ✓
-  - Small headphones: solid=0.729 >= 0.62 → Headphones ✓
-  - Coiled cables:    solid typically < 0.60 → USB-C Cable ✓
+  For shape=rectangular AND edge < 0.025:
+    → cable hollow if circ < 0.25  (cable: circ=0.181 → cable)
+    → charger      if circ >= 0.25 (silver charger: circ=0.386 → charger)
+
+  For shape=block:
+    → always allow charger (white charger has shape=block, never a cable)
+    → cable hollow never produces shape=block (it's a nearly circular blob
+      which classifies as rectangular or oval, not block)
 """
 
 import logging
@@ -435,53 +423,66 @@ class Pipeline:
         """Check whether object looks like a compact charger adapter.
 
         Calibrated from real data:
-        - Cable hollow (rectangular mask): edge=0.017, solid=0.819, circ=0.181
-        - Real charger: edge=0.02-0.05, solid=0.60-0.85, shape=block/rect
 
-        Key guard: if shape=rectangular AND edge < 0.025 this is a cable
-        inner hollow (empty coil circle), NOT a charger. Real chargers
-        photographed on a plain background have higher edge density from
-        their physical edges (plug pins, port opening, seams).
+        White charger (Image_13):  edge=0.011, solid=0.534, circ=0.132, shape=block
+        Silver charger (Image_6):  edge=0.018, solid=0.851, circ=0.386, shape=rectangular
+        Cable hollow (Image_5):    edge=0.017, solid=0.819, circ=0.181, shape=rectangular
 
-        Additional guard: shape must not be ring_like (chargers are solid).
+        Previous approach (edge < 0.025 guard) incorrectly rejected both chargers
+        because their edge values are similar to the cable hollow.
+
+        New approach — use circularity to separate cable hollow from charger:
+        - Cable hollow inner circle: circ=0.181 (elongated blob, not circular)
+        - Silver charger:            circ=0.386 (compact block, more circular)
+        - Threshold: circ >= 0.25 → charger (rectangular shape only)
+
+        For shape=block: always allow charger. A cable hollow never produces
+        shape=block — it is a near-circular or rectangular blob.
+
+        For shape=oval: allow charger (some chargers photograph as oval blobs).
+
+        White charger (Image_13) has shape=block AND solid=0.534 (below the old
+        solid > 0.50 threshold with some margin). The solid_shape check now
+        accepts solid > 0.40 to include this case.
         """
         is_light = color in {"white", "silver", "gray"}
 
         compact_block = (
             detection.aspect_ratio < 2.20
-            and detection.bbox_width_ratio < 0.55
-            and detection.bbox_height_ratio < 0.65
-            and detection.area_ratio < 0.15
+            and detection.bbox_width_ratio < 0.60
+            and detection.bbox_height_ratio < 0.70
+            and detection.area_ratio < 0.18
         )
 
+        # shape=block → always a candidate for charger (never cable hollow)
+        # shape=rectangular → only if circularity >= 0.25 (cable hollow has circ=0.181)
+        # shape=oval → allow (some charger photographs look oval)
+        shape_ok = (
+            detection.shape_category == "block"
+            or detection.shape_category == "oval"
+            or (
+                detection.shape_category == "rectangular"
+                and detection.circularity >= 0.25
+            )
+        )
+
+        # Relaxed solid threshold to include white charger (solid=0.534)
         solid_shape = (
-            detection.extent > 0.28
-            and detection.solidity > 0.42
-            and detection.shape_category in {"rectangular", "block", "oval"}
+            detection.extent > 0.25
+            and detection.solidity > 0.40
         )
 
         not_loop = detection.shape_category != "ring_like"
 
-        not_too_fragmented = (
-            detection.edge_density < 0.18
-            and detection.solidity > 0.50
-        )
-
-        # Real charger has low edge density but NOT near-zero.
-        # Cable hollow inner circle: edge=0.017 (very close to zero).
-        # Real charger: edge >= 0.025 from plug pins and port edges.
-        not_cable_hollow = not (
-            detection.shape_category in {"rectangular", "block"}
-            and detection.edge_density < 0.025
-        )
+        not_too_fragmented = detection.edge_density < 0.18
 
         return (
             is_light
             and compact_block
+            and shape_ok
             and solid_shape
             and not_loop
             and not_too_fragmented
-            and not_cable_hollow
         )
 
     def _is_flash_drive(self, detection: DetectionResult, color: str) -> bool:
@@ -498,26 +499,23 @@ class Pipeline:
 
         Calibrated from real data:
 
-        Cable (hollow rectangular mask):
-          edge=0.017, solid=0.819, circ=0.181, area=0.045, shape=rectangular
-          → Caught by: hollow_rectangular_coil signal
+        Cable hollow (Image_5): edge=0.017, solid=0.819, circ=0.181, shape=rectangular
+          → Caught by: hollow_rectangular_coil (shape=rectangular AND circ < 0.25)
 
-        Cable (ring_like, if present):
-          solid typically < 0.60, edge >= 0.06, area variable
-          → Caught by: ring_like_cable signal (solid < 0.62)
+        Cable ring_like (other images): solid < 0.62
+          → Caught by: ring_like_cable
 
-        NOT cable — headphones:
-          Big:   solid=0.640, edge=0.076, area=0.207  → solid >= 0.62 → headphones
-          Small: solid=0.729, edge=0.060, area=0.122  → solid >= 0.62 → headphones
+        NOT cable — chargers pass through _is_charger_adapter() first in decide()
+        so they never reach this check.
 
-        The solid >= 0.62 threshold cleanly separates all three cases.
+        NOT cable — headphones have solid >= 0.62 (both 0.640 and 0.729).
         """
         is_cable_color = color in {"white", "silver", "gray", "black"}
 
         if not is_cable_color:
             return False
 
-        # Reject solid large dark keyboard-like rectangles
+        # Solid large dark keyboard-like rectangle → not a cable
         solid_large_rectangle = (
             detection.shape_category == "rectangular"
             and detection.area_ratio >= 0.12
@@ -536,15 +534,13 @@ class Pipeline:
         )
 
         # Signal 2: hollow rectangular coil mask
-        # Calibrated: cable hollow has edge=0.017, solid=0.819, shape=rectangular
-        # A real charger has edge >= 0.025.
-        # This signal specifically catches the case where segmentation
-        # captures only the empty inner circle of a coiled cable.
+        # Calibrated: cable hollow circ=0.181 (< 0.25)
+        # Silver charger circ=0.386 (>= 0.25) → NOT caught here → goes to charger
         hollow_rectangular_coil = (
             detection.shape_category in {"rectangular", "block"}
-            and detection.edge_density < 0.025
+            and detection.circularity < 0.25
             and detection.area_ratio < 0.10
-            and detection.solidity > 0.75
+            and detection.edge_density < 0.025
         )
 
         # Signal 3: ring_like shape with LOW solidity
@@ -555,9 +551,7 @@ class Pipeline:
             and detection.solidity < 0.62
         )
 
-        # Signal 4: fragmented strand structure (any shape)
-        # High edge density + very low solidity = tangled thin wire
-        # Kept conservative to avoid catching headphones
+        # Signal 4: fragmented strand structure
         fragmented_strand = (
             detection.edge_density >= 0.09
             and detection.solidity < 0.55
@@ -577,9 +571,7 @@ class Pipeline:
         - Big headphones:   solid=0.640, edge=0.076, area=0.207, ring_like
         - Small headphones: solid=0.729, edge=0.060, area=0.122, ring_like
 
-        Both have solid >= 0.62. This is the primary separator from cables.
-        Objects that reach this check have already been rejected by
-        _is_usb_cable(), so ring_like with solid >= 0.62 → Headphones.
+        Both have solid >= 0.62. Primary separator from cables.
         """
         headphones_colors = {"black", "white", "silver", "gray"}
 
@@ -602,7 +594,6 @@ class Pipeline:
         not_charger_like = not self._is_charger_adapter(detection, color)
 
         # Primary separator from cables: solid >= 0.62
-        # Calibrated: both headphone objects have solid >= 0.62
         solid_enough_for_headphones = detection.solidity >= 0.62
 
         return (

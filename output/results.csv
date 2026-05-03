@@ -157,3 +157,20 @@ timestamp,category,color,size_category,confidence,method,area_pixels,aspect_rati
 2026-05-03T15:04:59.328401,Image_5.jpeg,1,USB-C Cable,white,medium,0.551,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
 2026-05-03T15:05:42.475377,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
 2026-05-03T15:07:18.124021,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
+2026-05-03T15:28:24.154531,Image_6.jpeg,1,USB-C Cable,silver,medium,0.585,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
+2026-05-03T15:30:21.504105,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
+2026-05-03T15:31:45.365143,Image_13.png,1,Unknown Object,white,medium,0.299,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
+2026-05-03T15:32:19.380465,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
+2026-05-03T15:35:15.560397,Image_13.png,1,Unknown Object,white,medium,0.299,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
+2026-05-03T15:36:17.067190,Image_6.jpeg,1,USB-C Cable,silver,medium,0.585,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
+2026-05-03T15:37:02.332905,Image_1.jpeg,1,Keyboard,black,large,0.874,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788
+2026-05-03T15:41:20.583991,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
+2026-05-03T15:42:12.224959,Image_5.jpeg,1,USB-C Cable,white,medium,0.551,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
+2026-05-03T15:42:59.523058,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
+2026-05-03T15:43:29.912630,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
+2026-05-03T15:44:24.881824,Image_8.png,1,Flash Drive,black,small,0.397,combined,4876,1.21,ring_like,0.421,0.49,0.31,black,silver,0.489,0.523
+2026-05-03T15:45:02.289850,Image_9.png,1,USB-C Cable,black,large,0.72,combined,203657,2.41,irregular,0.032,0.519,0.313,black,black,0.948,0.563
+2026-05-03T15:45:32.642648,Image_18.png,1,USB-C Cable,black,medium,0.567,combined,120974,1.17,block,0.137,0.512,0.4,black,black,0.746,0.466
+2026-05-03T15:46:25.797711,Image_16.png,1,USB-C Cable,silver,large,0.406,combined,268189,1.03,irregular,0.025,0.281,0.272,silver,silver,0.534,0.471
+2026-05-03T15:48:15.610864,Image_18.png,1,USB-C Cable,black,medium,0.567,combined,120974,1.17,block,0.137,0.512,0.4,black,black,0.746,0.466
+2026-05-03T15:48:56.942454,Image_20.png,1,Headphones,black,large,0.677,combined,348335,1.35,ring_like,0.252,0.807,0.632,black,black,0.868,0.425
