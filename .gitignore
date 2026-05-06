@@ -226,3 +226,4 @@ output/stages/
 /.cursor/workspaceStorage/
 /.cursor/logs/
 /.cursor/extensions/
+.cursor/rules
