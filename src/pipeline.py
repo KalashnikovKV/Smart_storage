@@ -48,6 +48,7 @@ import cv2
 import numpy as np
 
 from src import config
+from src.classifier_protocol import Classifier
 from src.color_detector import ColorDetector
 from src.models import Decision, DetectionResult, PipelineResult
 
@@ -57,8 +58,10 @@ LOGGER = logging.getLogger(__name__)
 class Pipeline:
     """Main CV pipeline: enhance -> segment -> clean -> detect -> decide."""
 
-    def __init__(self) -> None:
+    def __init__(self, classifier: Classifier | None = None) -> None:
         self.color_detector = ColorDetector()
+        self.classifier = classifier
+        self._current_frame: np.ndarray | None = None  # set during run()
 
     def enhance(self, image: np.ndarray) -> np.ndarray:
         """Enhance image using CLAHE, gamma correction and light blur."""
@@ -227,8 +230,23 @@ class Pipeline:
 
         return [detection] if detection is not None else []
 
+    def _extract_roi(self, detection: DetectionResult) -> np.ndarray | None:
+        """Crop the bounding-box region from the current frame for ML classifiers."""
+        if self._current_frame is None:
+            return None
+        x, y, w, h = detection.bbox
+        roi = self._current_frame[y : y + h, x : x + w]
+        return roi if roi.size > 0 else None
+
     def decide(self, detection: DetectionResult) -> Decision:
-        """Produce final automatic decision."""
+        """Delegate to injected classifier or fall back to rule-based logic."""
+        if self.classifier is not None:
+            roi = self._extract_roi(detection)
+            return self.classifier.classify(detection, roi)
+        return self._rule_based_decide(detection)
+
+    def _rule_based_decide(self, detection: DetectionResult) -> Decision:
+        """Produce final automatic decision using hard-coded rules."""
         color = detection.primary_color
         size = detection.size_category
 
@@ -341,7 +359,9 @@ class Pipeline:
         if not detections:
             return None
 
+        self._current_frame = image
         decisions = self.decide_all(detections)
+        self._current_frame = None
         elapsed_ms = (time.time() - start) * 1000
 
         return PipelineResult(
