@@ -18,7 +18,8 @@ class Visualizer:
     BOX_COLOR = (0, 255, 0) # Green
     TEXT_COLOR = (255, 255, 255) # White
     TEXT_BG = (0, 0, 0) # Black background for text
-    PANEL_SIZE = (360, 260)   # Width x Height for each panel
+    PANEL_SIZE = (480, 360)   # Width x Height for each panel
+    WINDOW_NAME = "Smart Storage — Pipeline Dashboard"
 
     def draw_detection(
         self,
@@ -110,9 +111,12 @@ class Visualizer:
         cv2.imwrite(str(folders["dashboard"] / f"{base_name}_dashboard.jpg"), dashboard)
 
     def show_pipeline(self, result: PipelineResult) -> None:
-        """Display dashboard."""
+        """Display dashboard in a resizable window."""
         dashboard = self.create_dashboard(result)
-        cv2.imshow("Smart Storage — Pipeline Dashboard", dashboard)
+        cv2.namedWindow(self.WINDOW_NAME, cv2.WINDOW_NORMAL)
+        cv2.imshow(self.WINDOW_NAME, dashboard)
+        h, w = dashboard.shape[:2]
+        cv2.resizeWindow(self.WINDOW_NAME, w, h)
 
     def _draw_detection_on_image(
         self,
@@ -171,12 +175,12 @@ class Visualizer:
         """Draw decision text on the decision panel."""
         d = result.decision
         det = result.detection
-        y_offset = 30
 
-        conf_pct = f"{d.confidence * 100:.0f}%"
         # Encode to ASCII-safe for OpenCV (replace non-ASCII with '?')
         def safe(text: str) -> str:
             return text.encode("ascii", errors="replace").decode("ascii")
+
+        conf_pct = f"{d.confidence * 100:.0f}%"
 
         if d.is_unknown:
             line1 = "Unknown Object"
@@ -186,105 +190,27 @@ class Visualizer:
             line1 = safe(d.category)
             line2 = f"Confidence: {conf_pct}"
 
-        cv2.putText(
-            panel,
-            line1,
-            (10, y_offset),
-            self.FONT,
-            0.6,
-            (0, 255, 0),
-            1,
-        )
+        rows = [
+            (line1,                                                 0.75, (0, 255, 0),    2),
+            (line2,                                                 0.60, self.TEXT_COLOR, 1),
+            (f"Color: {d.color}",                                   0.55, self.TEXT_COLOR, 1),
+            (f"Size: {d.size}",                                     0.55, self.TEXT_COLOR, 1),
+            (f"Area: {det.area_ratio * 100:.1f}% of frame",         0.50, self.TEXT_COLOR, 1),
+            (f"BBox: {det.bbox_width_ratio*100:.0f}% x {det.bbox_height_ratio*100:.0f}%",
+                                                                    0.50, self.TEXT_COLOR, 1),
+            (f"Time: {result.processing_time_ms:.0f} ms",           0.55, (0, 200, 200),  1),
+            (f"Shape: {det.shape_category}",                        0.50, (200, 150, 0),  1),
+            (f"HSV:    {det.color_hsv.name} ({det.color_hsv.confidence:.0%})",
+                                                                    0.48, (200, 200, 0),  1),
+            (f"KMeans: {det.color_kmeans.name} ({det.color_kmeans.confidence:.0%})",
+                                                                    0.48, (200, 200, 0),  1),
+        ]
 
-        cv2.putText(
-            panel,
-            line2,
-            (10, y_offset + 30),
-            self.FONT,
-            0.5,
-            self.TEXT_COLOR,
-            1,
-        )
-
-        cv2.putText(
-            panel,
-            f"Color: {d.color}",
-            (10, y_offset + 60),
-            self.FONT,
-            0.45,
-            self.TEXT_COLOR,
-            1,
-        )
-
-        cv2.putText(
-            panel,
-            f"Visual size: {d.size}",
-            (10, y_offset + 85),
-            self.FONT,
-            0.45,
-            self.TEXT_COLOR,
-            1,
-        )
-
-        cv2.putText(
-            panel,
-            f"Area: {det.area_ratio * 100:.1f}% of image",
-            (10, y_offset + 110),
-            self.FONT,
-            0.42,
-            self.TEXT_COLOR,
-            1,
-        )
-
-        cv2.putText(
-            panel,
-            f"BBox: {det.bbox_width_ratio * 100:.0f}% x {det.bbox_height_ratio * 100:.0f}%",
-            (10, y_offset + 132),
-            self.FONT,
-            0.42,
-            self.TEXT_COLOR,
-            1,
-        )
-
-        cv2.putText(
-            panel,
-            f"Time: {result.processing_time_ms:.0f}ms",
-            (10, y_offset + 155),
-            self.FONT,
-            0.45,
-            (0, 200, 200),
-            1,
-        )
-
-        cv2.putText(
-            panel,
-            f"Shape: {det.shape_category}",
-            (10, y_offset + 180),
-            self.FONT,
-            0.4,
-            (200, 150, 0),
-            1,
-        )
-
-        cv2.putText(
-            panel,
-            f"HSV: {det.color_hsv.name} ({det.color_hsv.confidence:.0%})",
-            (10, y_offset + 202),
-            self.FONT,
-            0.4,
-            (200, 200, 0),
-            1,
-        )
-
-        cv2.putText(
-            panel,
-            f"KMeans: {det.color_kmeans.name} ({det.color_kmeans.confidence:.0%})",
-            (10, y_offset + 222),
-            self.FONT,
-            0.4,
-            (200, 200, 0),
-            1,
-        )
+        y = 32
+        for text, scale, color, thickness in rows:
+            cv2.putText(panel, text, (12, y), self.FONT, scale, color, thickness)
+            line_h = int(cv2.getTextSize(text, self.FONT, scale, thickness)[0][1] * 2.2)
+            y += max(line_h, 28)
     def _resize_with_padding(
         self,
         image: np.ndarray,

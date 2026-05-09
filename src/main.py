@@ -110,7 +110,7 @@ def run_video_mode(output_path: str | None = None) -> None:
                         (0, 0, 255),
                         2,
                     )
-                    cv2.imshow("Smart Storage — Pipeline Dashboard", display)
+                    cv2.imshow("Smart Storage — Pipeline Dashboard", display)  # noqa: E501
 
             key = cv2.waitKey(1) & 0xFF
 
@@ -228,6 +228,7 @@ def run_image_mode(
     if show_window:
         visualizer.show_pipeline(result)
         print("\nPress any key in the OpenCV window to close...")
+        cv2.waitKey(1)   # force initial render
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
