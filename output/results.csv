@@ -174,3 +174,6 @@ timestamp,category,color,size_category,confidence,method,area_pixels,aspect_rati
 2026-05-03T15:46:25.797711,Image_16.png,1,USB-C Cable,silver,large,0.406,combined,268189,1.03,irregular,0.025,0.281,0.272,silver,silver,0.534,0.471
 2026-05-03T15:48:15.610864,Image_18.png,1,USB-C Cable,black,medium,0.567,combined,120974,1.17,block,0.137,0.512,0.4,black,black,0.746,0.466
 2026-05-03T15:48:56.942454,Image_20.png,1,Headphones,black,large,0.677,combined,348335,1.35,ring_like,0.252,0.807,0.632,black,black,0.868,0.425
+2026-05-09T20:52:32.916355,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
+2026-05-09T20:59:29.873214,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
+2026-05-09T21:00:43.161888,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
