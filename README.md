@@ -19,6 +19,25 @@ cd smart-storage
 uv sync
 ```
 
+### Optional dependency groups
+
+Install only what you need — groups are independent of each other:
+
+| Group | What it installs | Command |
+|-------|-----------------|---------|
+| `ml-tabular` | LightGBM, joblib, matplotlib, albumentations | `uv sync --group ml-tabular` |
+| `ml-cnn` | PyTorch, torchvision, timm, albumentations, **Ultralytics YOLO** | `uv sync --group ml-cnn` |
+| `notebook` | Jupyter, matplotlib, seaborn | `uv sync --group notebook` |
+| `dev` | pytest, httpx | `uv sync --group dev` |
+
+Multiple groups can be combined:
+
+```bash
+uv sync --group ml-cnn --group notebook
+```
+
+> **Note:** `uv sync` without `--group` installs only core dependencies and does **not** pull in torch or any ML libraries.
+
 ## Usage
 
 ### Webcam mode (real-time)
