@@ -47,9 +47,9 @@ import time
 import cv2
 import numpy as np
 
-from src import config
 from src.classifier_protocol import Classifier
 from src.color_detector import ColorDetector
+from src.config import AppConfig
 from src.models import Decision, DetectionResult, PipelineResult
 
 LOGGER = logging.getLogger(__name__)
@@ -58,8 +58,13 @@ LOGGER = logging.getLogger(__name__)
 class Pipeline:
     """Main CV pipeline: enhance -> segment -> clean -> detect -> decide."""
 
-    def __init__(self, classifier: Classifier | None = None) -> None:
-        self.color_detector = ColorDetector()
+    def __init__(
+        self,
+        config: AppConfig | None = None,
+        classifier: Classifier | None = None,
+    ) -> None:
+        self.config = config or AppConfig()
+        self.color_detector = ColorDetector(self.config)
         self.classifier = classifier
         self._current_frame: np.ndarray | None = None  # set during run()
 
@@ -69,22 +74,22 @@ class Pipeline:
         l_channel, a_channel, b_channel = cv2.split(lab)
 
         clahe = cv2.createCLAHE(
-            clipLimit=config.CLAHE_CLIP_LIMIT,
-            tileGridSize=config.CLAHE_TILE_SIZE,
+            clipLimit=self.config.clahe_clip_limit,
+            tileGridSize=self.config.clahe_tile_size,
         )
         l_enhanced = clahe.apply(l_channel)
 
         enhanced_lab = cv2.merge([l_enhanced, a_channel, b_channel])
         enhanced = cv2.cvtColor(enhanced_lab, cv2.COLOR_LAB2BGR)
-        enhanced = self._apply_gamma(enhanced, config.GAMMA_VALUE)
-        enhanced = cv2.GaussianBlur(enhanced, config.BLUR_KERNEL, 0)
+        enhanced = self._apply_gamma(enhanced, self.config.gamma_value)
+        enhanced = cv2.GaussianBlur(enhanced, self.config.blur_kernel, 0)
 
         return enhanced
 
     def segment(self, image: np.ndarray) -> np.ndarray:
         """Segment the main object from background."""
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        blurred = cv2.GaussianBlur(gray, config.PRE_BLUR_KERNEL, 0)
+        blurred = cv2.GaussianBlur(gray, self.config.pre_blur_kernel, 0)
 
         _, otsu_inv = cv2.threshold(
             blurred, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU,
@@ -94,11 +99,11 @@ class Pipeline:
         )
         adaptive_inv = cv2.adaptiveThreshold(
             blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-            cv2.THRESH_BINARY_INV, config.ADAPTIVE_BLOCK_SIZE, config.ADAPTIVE_C,
+            cv2.THRESH_BINARY_INV, self.config.adaptive_block_size, self.config.adaptive_c,
         )
         adaptive_norm = cv2.adaptiveThreshold(
             blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-            cv2.THRESH_BINARY, config.ADAPTIVE_BLOCK_SIZE, config.ADAPTIVE_C,
+            cv2.THRESH_BINARY, self.config.adaptive_block_size, self.config.adaptive_c,
         )
 
         color_distance_mask = self._create_color_distance_mask(image)
@@ -141,19 +146,19 @@ class Pipeline:
         binary = self._remove_border_connected_components(binary)
 
         close_kernel = cv2.getStructuringElement(
-            cv2.MORPH_ELLIPSE, config.CLOSE_KERNEL_SIZE,
+            cv2.MORPH_ELLIPSE, self.config.close_kernel_size,
         )
         closed = cv2.morphologyEx(
             binary, cv2.MORPH_CLOSE, close_kernel,
-            iterations=config.CLOSE_ITERATIONS,
+            iterations=self.config.close_iterations,
         )
 
         open_kernel = cv2.getStructuringElement(
-            cv2.MORPH_ELLIPSE, config.OPEN_KERNEL_SIZE,
+            cv2.MORPH_ELLIPSE, self.config.open_kernel_size,
         )
         opened = cv2.morphologyEx(
             closed, cv2.MORPH_OPEN, open_kernel,
-            iterations=config.OPEN_ITERATIONS,
+            iterations=self.config.open_iterations,
         )
 
         main_contour = self._find_best_contour(opened)
@@ -315,7 +320,7 @@ class Pipeline:
             is_unknown = True
             closest_match = self._guess_closest_category(detection)
 
-        if confidence < config.LOW_CONFIDENCE:
+        if confidence < self.config.low_confidence:
             is_unknown = True
             closest_match = closest_match or category
             category = "Unknown Object"
@@ -695,7 +700,7 @@ class Pipeline:
         frame_area = image_height * image_width
         area_ratio = area_pixels / frame_area
 
-        if area_ratio < config.MIN_OBJECT_RATIO or area_ratio > config.MAX_OBJECT_RATIO:
+        if area_ratio < self.config.min_object_ratio or area_ratio > self.config.max_object_ratio:
             return None
 
         points = cv2.findNonZero(object_mask)
@@ -871,7 +876,7 @@ class Pipeline:
             if area <= 0:
                 continue
             area_ratio = area / frame_area
-            if config.MIN_OBJECT_RATIO <= area_ratio <= config.MAX_OBJECT_RATIO:
+            if self.config.min_object_ratio <= area_ratio <= self.config.max_object_ratio:
                 x, y, w, h = cv2.boundingRect(contour)
                 aspect_ratio = max(w, h) / max(min(w, h), 1)
                 if aspect_ratio <= 25.0:
@@ -890,7 +895,7 @@ class Pipeline:
             return -1.0
 
         area_ratio = area / frame_area
-        if area_ratio < config.MIN_OBJECT_RATIO or area_ratio > config.MAX_OBJECT_RATIO:
+        if area_ratio < self.config.min_object_ratio or area_ratio > self.config.max_object_ratio:
             return -1.0
 
         x, y, w, h = cv2.boundingRect(contour)
@@ -966,9 +971,9 @@ class Pipeline:
         relative_width = w / image_width
         relative_height = h / image_height
 
-        if area_ratio < config.MIN_OBJECT_RATIO:
+        if area_ratio < self.config.min_object_ratio:
             return True
-        if area_ratio > config.MAX_OBJECT_RATIO:
+        if area_ratio > self.config.max_object_ratio:
             return True
         if aspect_ratio > 25.0 and extent < 0.35:
             return True
@@ -1331,19 +1336,19 @@ class Pipeline:
     ) -> tuple[str, float]:
         max_bbox_ratio = max(bbox_width_ratio, bbox_height_ratio)
 
-        if aspect_ratio >= config.LONG_THIN_ASPECT:
+        if aspect_ratio >= self.config.long_thin_aspect:
             return ("long_thin", 0.85)
 
         if shape_category in {"ring_like", "irregular"}:
-            if area_ratio < config.SMALL_MAX_RATIO and max_bbox_ratio < 0.38:
+            if area_ratio < self.config.small_max_ratio and max_bbox_ratio < 0.38:
                 return ("small", 0.70)
-            if area_ratio < config.MEDIUM_MAX_RATIO and max_bbox_ratio < 0.70:
+            if area_ratio < self.config.medium_max_ratio and max_bbox_ratio < 0.70:
                 return ("medium", 0.75)
             return ("large", 0.70)
 
-        if area_ratio < config.SMALL_MAX_RATIO and max_bbox_ratio < 0.32:
+        if area_ratio < self.config.small_max_ratio and max_bbox_ratio < 0.32:
             return ("small", 0.85)
-        if area_ratio < config.MEDIUM_MAX_RATIO and max_bbox_ratio < 0.62:
+        if area_ratio < self.config.medium_max_ratio and max_bbox_ratio < 0.62:
             return ("medium", 0.85)
 
         return ("large", 0.85)

@@ -5,7 +5,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from src import config
+from src.config import AppConfig
 from src.models import DetectionResult, PipelineResult
 
 
@@ -86,7 +86,7 @@ class Visualizer:
 
     def save_pipeline_outputs(self, result: PipelineResult, base_name: str) -> None:
         """Save all required output images for one test image."""
-        stages_dir = Path(config.STAGES_DIR)
+        stages_dir = Path(AppConfig().stages_dir)
 
         folders = {
             "original": stages_dir / "original",

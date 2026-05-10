@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from src import config
+from src.config import AppConfig
 from src.models import Decision, DetectionResult
 
 
@@ -33,8 +33,13 @@ class DataExporter:
         "confidence_kmeans",
     ]
 
-    def __init__(self, output_path: str | None = None) -> None:
-        self.output_path = output_path or config.CSV_OUTPUT_PATH
+    def __init__(
+        self,
+        output_path: str | None = None,
+        config: AppConfig | None = None,
+    ) -> None:
+        cfg = config or AppConfig()
+        self.output_path = output_path or cfg.csv_output_path
         Path(self.output_path).parent.mkdir(parents=True, exist_ok=True)
 
     def export(
