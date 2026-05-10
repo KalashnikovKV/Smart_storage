@@ -3,14 +3,14 @@
 import cv2
 import numpy as np
 
-from src import config
+from src.config import AppConfig
 
 
 class VideoProcessor:
     """Captures frames from a webcam."""
 
     def __init__(self, camera_id: int | None = None) -> None:
-        self.camera_id = camera_id if camera_id is not None else config.CAMERA_ID
+        self.camera_id = camera_id if camera_id is not None else AppConfig().camera_id
         self._cap: cv2.VideoCapture | None = None
 
     def start(self) -> bool:

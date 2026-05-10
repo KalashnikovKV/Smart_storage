@@ -4,19 +4,20 @@ import cv2
 import numpy as np
 from sklearn.cluster import KMeans
 
-from src import config
+from src.config import AppConfig
 from src.models import ColorResult
 
 
 class ColorDetector:
     """Detects dominant color of an object using HSV and K-means."""
 
-    def __init__(self) -> None:
-        self.hsv_ranges = config.HSV_RANGES
-        self.kmeans_clusters = config.KMEANS_CLUSTERS
-        self.kmeans_max_iter = config.KMEANS_MAX_ITER
-        self.kmeans_n_init = config.KMEANS_N_INIT
-        self.max_kmeans_pixels = getattr(config, "KMEANS_MAX_PIXELS", 12000)
+    def __init__(self, config: AppConfig | None = None) -> None:
+        cfg = config or AppConfig()
+        self.hsv_ranges = cfg.hsv_ranges
+        self.kmeans_clusters = cfg.kmeans_clusters
+        self.kmeans_max_iter = cfg.kmeans_max_iter
+        self.kmeans_n_init = cfg.kmeans_n_init
+        self.max_kmeans_pixels = cfg.kmeans_max_pixels
 
     def detect_hsv(self, image: np.ndarray, mask: np.ndarray) -> ColorResult:
         """Detect dominant color using HSV range analysis."""
