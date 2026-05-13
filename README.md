@@ -66,17 +66,20 @@ First install YOLO dependencies:
 uv sync --group yolo
 ```
 
-Then run with `--model`:
+Then run with `--model` and optionally `--device`:
 
 ```bash
-# Webcam
-./run.sh --mode video --model models/yolo_segmentation_best.pt
+# Webcam — CPU
+uv run python -m src.main --mode video --model models/yolo11n-seg.pt --device cpu
+
+# Webcam — GPU (CUDA)
+uv run python -m src.main --mode video --model models/yolo11n-seg.pt --device cuda
 
 # Single image
-./run.sh --mode image --source test_images/Image.jpeg --model models/yolo_segmentation_best.pt
+uv run python -m src.main --mode image --source test_images/Image_1.jpeg --model models/yolo11n-seg.pt
 
 # Batch
-./run.sh --mode batch --source test_images/ --model models/yolo_segmentation_best.pt
+uv run python -m src.main --mode batch --source test_images/ --model models/yolo11n-seg.pt
 ```
 
 In YOLO-Seg mode the pipeline uses:
@@ -93,21 +96,25 @@ In YOLO-Seg mode the pipeline uses:
 | `--mode` | `video`, `image`, or `batch` | `video` |
 | `--source` | Image path (image mode) or folder path (batch mode) | — |
 | `--model` | Path to YOLO-Seg weights `.pt` | None (rule-based) |
+| `--device` | Inference device: `cpu`, `cuda`, `cuda:0`, `mps` | auto-detect |
 | `--output` | CSV output path | `output/results.csv` |
 | `--no-save-images` | Do not save pipeline stage images | off |
 | `--no-display` | Run without OpenCV window (headless) | off |
 | `--debug` | Enable debug logging | off |
 
+> When `--device` is omitted, CUDA is auto-detected and falls back to `cpu` with a warning if unavailable.
+
 ---
 
 ### Controls (video mode)
 
-| Key | Action |
+| Key / Action | Effect |
 |-----|--------|
+| `q` | Quit |
+| Close window (×) | Quit |
 | `s` | Save current result to CSV |
 | `c` | Freeze current frame |
 | `p` | Pause / resume |
-| `q` | Quit |
 
 ---
 

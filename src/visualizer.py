@@ -21,6 +21,9 @@ class Visualizer:
     PANEL_SIZE = (480, 360)   # Width x Height for each panel
     WINDOW_NAME = "Smart Storage — Pipeline Dashboard"
 
+    def __init__(self) -> None:
+        self._window_created = False
+
     def draw_detection(
         self,
         image: np.ndarray,
@@ -113,10 +116,12 @@ class Visualizer:
     def show_pipeline(self, result: PipelineResult) -> None:
         """Display dashboard in a resizable window."""
         dashboard = self.create_dashboard(result)
-        cv2.namedWindow(self.WINDOW_NAME, cv2.WINDOW_NORMAL)
+        if not self._window_created:
+            cv2.namedWindow(self.WINDOW_NAME, cv2.WINDOW_NORMAL)
+            h, w = dashboard.shape[:2]
+            cv2.resizeWindow(self.WINDOW_NAME, w, h)
+            self._window_created = True
         cv2.imshow(self.WINDOW_NAME, dashboard)
-        h, w = dashboard.shape[:2]
-        cv2.resizeWindow(self.WINDOW_NAME, w, h)
 
     def _draw_detection_on_image(
         self,

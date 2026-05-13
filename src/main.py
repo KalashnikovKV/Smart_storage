@@ -54,13 +54,36 @@ def configure_logging(debug: bool) -> None:
     )
 
 
-def _build_pipeline(model_path: str | None) -> Pipeline:
+def _resolve_device(requested: str) -> str:
+    """Return the effective device string, falling back to cpu if CUDA unavailable."""
+    if requested in {"cpu", "mps"}:
+        return requested
+    # cuda / cuda:N — verify availability
+    try:
+        import torch
+        if torch.cuda.is_available():
+            return requested
+        LOGGER.warning(
+            "CUDA requested but torch.cuda.is_available() returned False. "
+            "Falling back to cpu."
+        )
+        print("Warning: CUDA not available — falling back to cpu.")
+    except ImportError:
+        LOGGER.warning(
+            "torch is not installed; cannot verify CUDA. Falling back to cpu."
+        )
+        print("Warning: torch not found — falling back to cpu.")
+    return "cpu"
+
+
+def _build_pipeline(model_path: str | None, device: str = "cpu") -> Pipeline:
     """Build Pipeline, optionally with a YOLO-Seg SegmentationDetector."""
     if model_path:
         from src.segmentation_detector import SegmentationDetector
-        segmentation_detector = SegmentationDetector(model_path)
-        LOGGER.info("YOLO-Seg model loaded: %s", model_path)
-        print(f"YOLO-Seg model: {model_path}")
+        effective_device = _resolve_device(device)
+        segmentation_detector = SegmentationDetector(model_path, device=effective_device)
+        LOGGER.info("YOLO-Seg model loaded: %s (device=%s)", model_path, effective_device)
+        print(f"YOLO-Seg model: {model_path} | device: {effective_device}")
         return Pipeline(segmentation_detector=segmentation_detector)
     return Pipeline()
 
@@ -68,11 +91,12 @@ def _build_pipeline(model_path: str | None) -> Pipeline:
 def run_video_mode(
     output_path: str | None = None,
     model_path: str | None = None,
+    device: str = "cpu",
 ) -> None:
     """Run the pipeline on live webcam video."""
-    LOGGER.debug("Starting video mode. output_path=%s", output_path)
+    LOGGER.debug("Starting video mode. output_path=%s device=%s", output_path, device)
 
-    pipeline = _build_pipeline(model_path)
+    pipeline = _build_pipeline(model_path, device=device)
     visualizer = Visualizer()
     video = VideoProcessor()
     exporter = DataExporter(output_path) if output_path else DataExporter()
@@ -89,6 +113,7 @@ def run_video_mode(
 
     paused = False
     last_result = None
+    window_name = visualizer.WINDOW_NAME
 
     try:
         while True:
@@ -124,12 +149,20 @@ def run_video_mode(
                         (0, 0, 255),
                         2,
                     )
-                    cv2.imshow("Smart Storage — Pipeline Dashboard", display)  # noqa: E501
+                    if not visualizer._window_created:
+                        cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+                        visualizer._window_created = True
+                    cv2.imshow(window_name, display)
 
             key = cv2.waitKey(1) & 0xFF
 
+            # Exit if user presses q or closes the window with the X button
             if key == ord("q"):
                 LOGGER.debug("Quit key pressed.")
+                break
+
+            if cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE) < 1:
+                LOGGER.debug("Window closed by user.")
                 break
 
             if key == ord("s") and last_result is not None:
@@ -173,19 +206,21 @@ def run_image_mode(
     save_outputs: bool = True,
     show_window: bool = True,
     model_path: str | None = None,
+    device: str = "cpu",
 ) -> None:
     """Run the pipeline on a single image file."""
     source_path = Path(source)
 
     LOGGER.debug(
-        "Starting image mode. source=%s output_path=%s save_outputs=%s show_window=%s",
+        "Starting image mode. source=%s output_path=%s save_outputs=%s show_window=%s device=%s",
         source_path,
         output_path,
         save_outputs,
         show_window,
+        device,
     )
 
-    pipeline = _build_pipeline(model_path)
+    pipeline = _build_pipeline(model_path, device=device)
     visualizer = Visualizer()
     exporter = DataExporter(output_path) if output_path else DataExporter()
 
@@ -253,15 +288,17 @@ def run_batch_mode(
     output_path: str | None = None,
     save_outputs: bool = True,
     model_path: str | None = None,
+    device: str = "cpu",
 ) -> None:
     """Run the pipeline on all supported images in a folder."""
     source_dir = Path(source)
 
     LOGGER.debug(
-        "Starting batch mode. source=%s output_path=%s save_outputs=%s",
+        "Starting batch mode. source=%s output_path=%s save_outputs=%s device=%s",
         source_dir,
         output_path,
         save_outputs,
+        device,
     )
 
     if not source_dir.exists() or not source_dir.is_dir():
@@ -282,7 +319,7 @@ def run_batch_mode(
 
     LOGGER.debug("Batch images found: %s", [path.name for path in image_paths])
 
-    pipeline = _build_pipeline(model_path)
+    pipeline = _build_pipeline(model_path, device=device)
     visualizer = Visualizer()
     exporter = DataExporter(output_path) if output_path else DataExporter()
 
@@ -471,6 +508,17 @@ def main() -> None:
     )
 
     parser.add_argument(
+        "--device",
+        type=str,
+        default=None,
+        help=(
+            "Inference device: 'cpu', 'cuda', 'cuda:0', 'mps'. "
+            "When omitted, auto-detects CUDA and falls back to cpu if unavailable. "
+            "Only used when --model is provided."
+        ),
+    )
+
+    parser.add_argument(
         "--debug",
         action="store_true",
         help="Enable debug logging.",
@@ -486,8 +534,20 @@ def main() -> None:
 
     should_show_window = not (args.no_window or args.no_display)
 
+    # Resolve device: explicit arg > auto-detect CUDA > cpu
+    if args.device is not None:
+        effective_device = args.device
+    else:
+        try:
+            import torch
+            effective_device = "cuda" if torch.cuda.is_available() else "cpu"
+        except ImportError:
+            effective_device = "cpu"
+
+    LOGGER.debug("Effective inference device: %s", effective_device)
+
     if args.mode == "video":
-        run_video_mode(args.output, model_path=args.model)
+        run_video_mode(args.output, model_path=args.model, device=effective_device)
 
     elif args.mode == "image":
         run_image_mode(
@@ -496,6 +556,7 @@ def main() -> None:
             save_outputs=not args.no_save_images,
             show_window=should_show_window,
             model_path=args.model,
+            device=effective_device,
         )
 
     elif args.mode == "batch":
@@ -504,6 +565,7 @@ def main() -> None:
             output_path=args.output,
             save_outputs=not args.no_save_images,
             model_path=args.model,
+            device=effective_device,
         )
 
 
