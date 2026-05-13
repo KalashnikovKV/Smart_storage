@@ -1,8 +1,11 @@
 """CSV export module for classification results."""
 
 import os
+from datetime import datetime
 from pathlib import Path
 
+import cv2
+import numpy as np
 import pandas as pd
 
 from src.config import AppConfig
@@ -31,6 +34,7 @@ class DataExporter:
         "color_kmeans",
         "confidence_hsv",
         "confidence_kmeans",
+        "roi_image",
     ]
 
     def __init__(
@@ -40,16 +44,22 @@ class DataExporter:
     ) -> None:
         cfg = config or AppConfig()
         self.output_path = output_path or cfg.csv_output_path
+        self.save_roi_images = cfg.save_roi_images
         Path(self.output_path).parent.mkdir(parents=True, exist_ok=True)
+        self.images_dir = Path(self.output_path).parent / "images"
+        if self.save_roi_images:
+            self.images_dir.mkdir(parents=True, exist_ok=True)
 
     def export(
         self,
         decision: Decision,
         detection: DetectionResult,
         image_name: str = "",
+        roi: np.ndarray | None = None,
     ) -> None:
-        """Write a single classification result to CSV."""
-        row = self._build_row(decision, detection, image_name)
+        """Write a single classification result to CSV and save ROI if enabled."""
+        roi_image_name = self._save_roi(roi) if (roi is not None and self.save_roi_images) else ""
+        row = self._build_row(decision, detection, image_name, roi_image_name)
         self._append_rows([row])
 
     def export_many(
@@ -57,8 +67,9 @@ class DataExporter:
         decisions: list[Decision],
         detections: list[DetectionResult],
         image_name: str = "",
+        original_image: np.ndarray | None = None,
     ) -> None:
-        """Write multiple classification results to CSV."""
+        """Write multiple classification results to CSV, saving one ROI per detection."""
         detection_by_id = {
             detection.object_id: detection
             for detection in detections
@@ -70,16 +81,45 @@ class DataExporter:
             detection = detection_by_id.get(decision.object_id)
 
             if detection is not None:
-                rows.append(self._build_row(decision, detection, image_name))
+                roi_image_name = ""
+                if original_image is not None and self.save_roi_images:
+                    roi = self._extract_roi(original_image, detection.bbox)
+                    roi_image_name = self._save_roi(roi)
+                rows.append(
+                    self._build_row(decision, detection, image_name, roi_image_name)
+                )
 
         if rows:
             self._append_rows(rows)
+
+    def _extract_roi(
+        self,
+        image: np.ndarray,
+        bbox: tuple[int, int, int, int],
+    ) -> np.ndarray:
+        """Crop ROI from image using bbox, clamped to image bounds."""
+        x, y, w, h = bbox
+        img_h, img_w = image.shape[:2]
+        x1 = max(0, x)
+        y1 = max(0, y)
+        x2 = min(img_w, x + w)
+        y2 = min(img_h, y + h)
+        return image[y1:y2, x1:x2]
+
+    def _save_roi(self, roi: np.ndarray) -> str:
+        """Save ROI image to images_dir and return the filename. Empty string on failure."""
+        if roi is None or roi.size == 0:
+            return ""
+        img_name = f"{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}.jpg"
+        cv2.imwrite(str(self.images_dir / img_name), roi)
+        return img_name
 
     def _build_row(
         self,
         decision: Decision,
         detection: DetectionResult,
         image_name: str,
+        roi_image_name: str = "",
     ) -> dict:
         """Build one CSV row."""
         return {
@@ -101,6 +141,7 @@ class DataExporter:
             "color_kmeans": detection.color_kmeans.name,
             "confidence_hsv": round(detection.color_hsv.confidence, 3),
             "confidence_kmeans": round(detection.color_kmeans.confidence, 3),
+            "roi_image": roi_image_name,
         }
 
     def _append_rows(self, rows: list[dict]) -> None:

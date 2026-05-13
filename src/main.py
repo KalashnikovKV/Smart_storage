@@ -345,12 +345,7 @@ def export_result(
     result,
     image_name: str,
 ) -> None:
-    """Export pipeline result to CSV.
-
-    Supports both exporter versions:
-    - export(decision, detection)
-    - export_many(decisions, detections, image_name)
-    """
+    """Export pipeline result to CSV with ROI images."""
     LOGGER.debug("Exporting result for image_name=%s", image_name)
 
     if hasattr(exporter, "export_many"):
@@ -358,6 +353,7 @@ def export_result(
             result.decisions,
             result.detections,
             image_name=image_name,
+            original_image=result.original,
         )
         return
 
