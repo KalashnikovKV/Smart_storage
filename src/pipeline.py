@@ -58,6 +58,25 @@ from src.models import Decision, DetectionResult, PipelineResult
 
 LOGGER = logging.getLogger(__name__)
 
+# Maps raw YOLO class names (from dataset.yaml) to canonical category strings.
+_YOLO_CATEGORY_MAP: dict[str, str] = {
+    "mouse": "Mouse",
+    "keyboard": "Keyboard",
+    "charger": "Charger Adapter",
+    "charger_adapter": "Charger Adapter",
+    "cable": "USB-C Cable",
+    "usb_cable": "USB-C Cable",
+    "usb-c_cable": "USB-C Cable",
+    "headphones": "Headphones",
+    "flash_drive": "Flash Drive",
+    "flashdrive": "Flash Drive",
+    "colored_object": "Colored Object",
+}
+
+
+def _yolo_category(raw: str) -> str:
+    return _YOLO_CATEGORY_MAP.get(raw.lower().replace(" ", "_"), raw.title())
+
 
 class Pipeline:
     """Main CV pipeline: enhance -> segment -> clean -> detect -> decide."""
@@ -66,10 +85,14 @@ class Pipeline:
         self,
         config: AppConfig | None = None,
         classifier: Classifier | None = None,
+        segmentation_detector=None,
     ) -> None:
         self.config = config or AppConfig()
         self.color_detector = ColorDetector(self.config)
         self.classifier = classifier
+        # When set, run() uses YOLO-Seg instead of threshold segmentation.
+        # Accepts a SegmentationDetector instance.
+        self.segmentation_detector = segmentation_detector
         self._current_frame: np.ndarray | None = None  # set during run()
 
     def enhance(self, image: np.ndarray) -> np.ndarray:
@@ -363,13 +386,101 @@ class Pipeline:
         return [self.decide(detection) for detection in detections]
 
     def run(self, image: np.ndarray) -> PipelineResult | None:
-        """Execute the full pipeline."""
+        """Execute the full pipeline.
+
+        When a SegmentationDetector is configured, YOLO-Seg provides
+        class + bbox + mask for each object and ColorDetector runs
+        inside the YOLO mask for accurate color analysis.
+
+        Without a SegmentationDetector the classic threshold-based path
+        (segment → clean → detect → rule-based decide) is used.
+        """
         start = time.time()
 
         enhanced = self.enhance(image)
+        # Always run OpenCV segment/clean for dashboard visualisation.
         mask = self.segment(enhanced)
         cleaned = self.clean(mask)
 
+        if self.segmentation_detector is not None:
+            detections, decisions = self._run_yolo_path(image, enhanced)
+        else:
+            detections, decisions = self._run_rule_based_path(
+                image, enhanced, mask, cleaned,
+            )
+
+        if not detections:
+            return None
+
+        elapsed_ms = (time.time() - start) * 1000
+
+        return PipelineResult(
+            original=image,
+            enhanced=enhanced,
+            mask=mask,
+            cleaned_mask=cleaned,
+            detection=detections[0],
+            decision=decisions[0],
+            detections=detections,
+            decisions=decisions,
+            processing_time_ms=round(elapsed_ms, 1),
+        )
+
+    def _run_yolo_path(
+        self,
+        image: np.ndarray,
+        enhanced: np.ndarray,
+    ) -> tuple[list[DetectionResult], list[Decision]]:
+        """YOLO-Seg path: class + mask from YOLO, color from ColorDetector."""
+        raw_detections = self.segmentation_detector.detect(image)
+
+        detections: list[DetectionResult] = []
+        decisions: list[Decision] = []
+
+        for object_id, raw in enumerate(raw_detections, start=1):
+            yolo_mask: np.ndarray = raw["mask"]
+
+            # Reuse existing geometry+color computation with the YOLO mask.
+            detection = self._build_detection_from_mask(
+                color_image=image,
+                processing_image=enhanced,
+                object_mask=yolo_mask,
+                object_id=object_id,
+            )
+
+            if detection is None:
+                LOGGER.debug(
+                    "YOLO detection %d skipped — mask geometry rejected", object_id,
+                )
+                continue
+
+            category = _yolo_category(raw["category"])
+            conf = raw["confidence"]
+
+            decision = Decision(
+                category=category,
+                confidence=conf,
+                color=detection.primary_color,
+                size=detection.size_category,
+                method_used="yolo",
+                is_unknown=conf < self.config.low_confidence,
+                closest_match="" if conf >= self.config.low_confidence else category,
+                object_id=object_id,
+            )
+
+            detections.append(detection)
+            decisions.append(decision)
+
+        return detections, decisions
+
+    def _run_rule_based_path(
+        self,
+        image: np.ndarray,
+        enhanced: np.ndarray,
+        mask: np.ndarray,
+        cleaned: np.ndarray,
+    ) -> tuple[list[DetectionResult], list[Decision]]:
+        """Classic threshold + rule-based path (original behaviour)."""
         detections = self.detect_all(
             color_image=image,
             processing_image=enhanced,
@@ -384,24 +495,13 @@ class Pipeline:
             )
 
         if not detections:
-            return None
+            return [], []
 
         self._current_frame = image
         decisions = self.decide_all(detections)
         self._current_frame = None
-        elapsed_ms = (time.time() - start) * 1000
 
-        return PipelineResult(
-            original=image,
-            enhanced=enhanced,
-            mask=mask,
-            cleaned_mask=cleaned,
-            detection=detections[0],
-            decision=decisions[0],
-            detections=detections,
-            decisions=decisions,
-            processing_time_ms=round(elapsed_ms, 1),
-        )
+        return detections, decisions
 
     def _guess_closest_category(self, detection: DetectionResult) -> str:
         """Return fallback category hint."""
