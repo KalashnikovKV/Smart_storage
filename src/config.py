@@ -193,6 +193,7 @@ class AppConfig:
     csv_output_path: str = "output/results.csv"
     output_dir: str = "output"
     stages_dir: str = "output/stages"
+    save_roi_images: bool = True
 
     # HSV color ranges
     hsv_ranges: dict = field(default_factory=_default_hsv_ranges)
