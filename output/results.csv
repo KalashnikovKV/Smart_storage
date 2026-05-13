@@ -178,3 +178,6 @@ timestamp,category,color,size_category,confidence,method,area_pixels,aspect_rati
 2026-05-09T20:59:29.873214,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
 2026-05-09T21:00:43.161888,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
 2026-05-10T20:05:14.396289,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
+2026-05-13T17:15:47.162622,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
+2026-05-13T17:16:23.716713,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
+2026-05-13T17:16:58.547724,Image_11.png,1,Mouse,black,medium,0.88,combined,207571,1.68,oval,0.744,0.986,0.836,black,black,1.0,0.653

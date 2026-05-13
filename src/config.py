@@ -10,14 +10,26 @@ from dataclasses import dataclass, field
 
 @dataclass
 class ClassificationRule:
-    """Single classification rule mapping color + size to a category."""
+    """Single classification rule mapping color + size + shape to a category."""
 
     rule_id: str
-    color: str
-    size: str
-    category_ru: str
     category_en: str
+    colors: list  # accepted primary_color values
+    sizes: list   # accepted size_category values
+    shape_hints: list  # accepted shape_category values
     base_confidence: float
+    category_ru: str = ""
+    # Optional hard-limit guards evaluated in Pipeline._score_rule
+    min_aspect_ratio: float = 0.0
+    max_aspect_ratio: float = 999.0
+    min_solidity: float = 0.0
+    max_solidity: float = 1.0
+    min_extent: float = 0.0
+    max_edge_density: float = 1.0
+    min_area_ratio: float = 0.0
+    max_area_ratio: float = 999.0
+    # Circularity guard applied only when shape_category == "rectangular"
+    min_circularity_if_rectangular: float = 0.0
 
 
 def _default_hsv_ranges() -> dict[str, dict[str, tuple[int, int]]]:
@@ -39,16 +51,88 @@ def _default_hsv_ranges() -> dict[str, dict[str, tuple[int, int]]]:
 
 def _default_rules() -> list[ClassificationRule]:
     return [
-        ClassificationRule("R01", "white",  "small",     "Зарядка iPhone",      "iPhone Charger",    0.85),
-        ClassificationRule("R02", "black",  "small",     "Зарядка Android",     "Android Charger",   0.80),
-        ClassificationRule("R03", "black",  "long_thin", "Кабель питания",      "Power Cable",       0.85),
-        ClassificationRule("R04", "white",  "long_thin", "Кабель USB-C",        "USB-C Cable",       0.80),
-        ClassificationRule("R05", "black",  "medium",    "Мышь",                "Mouse",             0.85),
-        ClassificationRule("R06", "white",  "medium",    "Мышь (белая)",        "Mouse (White)",     0.80),
-        ClassificationRule("R07", "black",  "large",     "Клавиатура",          "Keyboard",          0.90),
-        ClassificationRule("R08", "white",  "large",     "Клавиатура (белая)",  "Keyboard (White)",  0.85),
-        ClassificationRule("R09", "gray",   "small",     "Флешка",              "Flash Drive",       0.80),
-        ClassificationRule("R10", "silver", "small",     "Флешка",              "Flash Drive",       0.80),
+        # R01: Keyboard — large dark elongated rectangular object
+        ClassificationRule(
+            rule_id="R01",
+            category_en="Keyboard",
+            category_ru="Клавиатура",
+            colors=["black", "gray", "blue", "silver"],
+            sizes=["large"],
+            shape_hints=["rectangular"],
+            base_confidence=0.90,
+            min_aspect_ratio=1.70,
+            min_area_ratio=0.12,
+            min_extent=0.45,
+            min_solidity=0.60,
+        ),
+        # R02: Mouse — compact dark rounded object
+        ClassificationRule(
+            rule_id="R02",
+            category_en="Mouse",
+            category_ru="Мышь",
+            colors=["black", "gray", "blue"],
+            sizes=["medium", "large"],
+            shape_hints=["oval", "block", "rectangular"],
+            base_confidence=0.88,
+            max_aspect_ratio=2.35,
+            min_solidity=0.58,
+            min_extent=0.28,
+            min_area_ratio=0.02,
+            max_area_ratio=0.32,
+        ),
+        # R03: Charger Adapter — compact light solid block/rect/oval
+        # Rectangular shape requires circularity >= 0.25 to separate from cable hollow
+        ClassificationRule(
+            rule_id="R03",
+            category_en="Charger Adapter",
+            category_ru="Зарядка",
+            colors=["white", "silver", "gray"],
+            sizes=["small", "medium"],
+            shape_hints=["block", "oval", "rectangular"],
+            base_confidence=0.84,
+            max_aspect_ratio=2.20,
+            min_solidity=0.40,
+            min_extent=0.25,
+            max_area_ratio=0.18,
+            max_edge_density=0.18,
+            min_circularity_if_rectangular=0.25,
+        ),
+        # R04: Flash Drive — small compact object in any supported color
+        ClassificationRule(
+            rule_id="R04",
+            category_en="Flash Drive",
+            category_ru="Флешка",
+            colors=["gray", "silver", "black", "green", "blue", "red"],
+            sizes=["small"],
+            shape_hints=["block", "rectangular", "oval", "irregular"],
+            base_confidence=0.76,
+            max_aspect_ratio=3.5,
+            min_extent=0.30,
+        ),
+        # R05: USB-C Cable — elongated or loop-shaped neutral object
+        # Solidity < 0.62 separates cable ring_like from headphones ring_like
+        ClassificationRule(
+            rule_id="R05",
+            category_en="USB-C Cable",
+            category_ru="Кабель USB-C",
+            colors=["white", "silver", "gray", "black"],
+            sizes=["long_thin", "small", "medium"],
+            shape_hints=["irregular", "ring_like", "rectangular", "block"],
+            base_confidence=0.76,
+            max_solidity=0.619,
+        ),
+        # R06: Headphones — medium/large ring-like object with sufficient solidity
+        # Solidity >= 0.62 is the primary separator from cables
+        ClassificationRule(
+            rule_id="R06",
+            category_en="Headphones",
+            category_ru="Наушники",
+            colors=["black", "white", "silver", "gray"],
+            sizes=["medium", "large"],
+            shape_hints=["ring_like", "irregular"],
+            base_confidence=0.78,
+            min_solidity=0.62,
+        ),
     ]
 
 

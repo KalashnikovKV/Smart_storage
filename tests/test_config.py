@@ -23,9 +23,11 @@ def test_appconfig_hsv_ranges_present():
 
 def test_appconfig_rules_are_dataclass_instances():
     cfg = AppConfig()
-    assert len(cfg.rules) == 10
+    assert len(cfg.rules) == 6
     assert all(isinstance(r, ClassificationRule) for r in cfg.rules)
     assert cfg.rules[0].rule_id == "R01"
+    assert all(hasattr(r, "colors") for r in cfg.rules)
+    assert all(hasattr(r, "shape_hints") for r in cfg.rules)
 
 
 def test_to_json_creates_file(tmp_path):
@@ -39,7 +41,7 @@ def test_to_json_creates_file(tmp_path):
     assert data["clahe_clip_limit"] == 2.0
     assert data["clahe_tile_size"] == [8, 8]
     assert "white" in data["hsv_ranges"]
-    assert len(data["rules"]) == 10
+    assert len(data["rules"]) == 6
 
 
 def test_from_json_roundtrip(tmp_path):

@@ -3,14 +3,18 @@
 Pipeline:
 image -> enhance -> segment -> clean -> detect -> decide
 
---- Classification order in decide() ---
+--- Classification via CLASSIFICATION_RULES (config.py) ---
 
-1. Keyboard        — large dark elongated rectangular
-2. Mouse           — compact dark rounded
-3. Charger Adapter — compact light solid block/rect, circ >= 0.25
-4. Flash Drive     — small compact any color
-5. USB-C Cable     — loop/elongated/hollow-coil, neutral color
-6. Headphones      — large/medium ring_like/irregular, solid >= 0.62
+Rules are scored in _score_rule() by matching color / size / shape_hints
+plus optional numeric guards (aspect, solidity, circularity, etc.).
+Adding a new class = one new ClassificationRule entry in AppConfig.rules.
+
+1. Keyboard        — large dark elongated rectangular (R01)
+2. Mouse           — compact dark rounded (R02)
+3. Charger Adapter — compact light solid block/rect, circ >= 0.25 (R03)
+4. Flash Drive     — small compact any color (R04)
+5. USB-C Cable     — loop/elongated/hollow-coil, solidity < 0.62 (R05)
+6. Headphones      — large/medium ring_like/irregular, solidity >= 0.62 (R06)
 7. Colored Object  — chromatic fallback
 8. Unknown Object
 
@@ -49,7 +53,7 @@ import numpy as np
 
 from src.classifier_protocol import Classifier
 from src.color_detector import ColorDetector
-from src.config import AppConfig
+from src.config import AppConfig, ClassificationRule
 from src.models import Decision, DetectionResult, PipelineResult
 
 LOGGER = logging.getLogger(__name__)
@@ -251,7 +255,7 @@ class Pipeline:
         return self._rule_based_decide(detection)
 
     def _rule_based_decide(self, detection: DetectionResult) -> Decision:
-        """Produce final automatic decision using hard-coded rules."""
+        """Produce final decision by scoring all classification rules."""
         color = detection.primary_color
         size = detection.size_category
 
@@ -270,52 +274,31 @@ class Pipeline:
             detection.color_kmeans.confidence,
         )
 
+        chromatic_colors = {
+            "red", "green", "blue", "yellow", "orange", "purple", "brown",
+        }
+
+        best_rule: ClassificationRule | None = None
+        best_score = 0.0
+
+        for rule in self.config.rules:
+            score = self._score_rule(rule, detection, color)
+            if score > best_score:
+                best_score = score
+                best_rule = rule
+
         category = "Unknown Object"
         confidence = 0.0
         is_unknown = False
         closest_match = ""
 
-        chromatic_colors = {
-            "red", "green", "blue", "yellow", "orange", "purple", "brown",
-        }
-
-        is_keyboard    = self._is_keyboard(detection, color)
-        is_mouse       = self._is_mouse(detection, color)
-        is_charger     = self._is_charger_adapter(detection, color)
-        is_flash_drive = self._is_flash_drive(detection, color)
-        is_usb_cable   = self._is_usb_cable(detection, color)
-        is_headphones  = self._is_headphones(detection, color)
-
-        if is_keyboard:
-            category = "Keyboard"
-            confidence = 0.90 * color_confidence
-
-        elif is_mouse:
-            category = "Mouse"
-            confidence = 0.88 * color_confidence
-
-        elif is_charger:
-            category = "Charger Adapter"
-            confidence = 0.84 * color_confidence
-
-        elif is_flash_drive:
-            category = "Flash Drive"
-            confidence = 0.76 * color_confidence
-
-        elif is_usb_cable:
-            category = "USB-C Cable"
-            confidence = 0.76 * color_confidence
-
-        elif is_headphones:
-            category = "Headphones"
-            confidence = 0.78 * color_confidence
-
+        if best_rule is not None:
+            category = best_rule.category_en
+            confidence = best_score * color_confidence
         elif color in chromatic_colors:
             category = "Colored Object"
             confidence = 0.65 * color_confidence
-
         else:
-            category = "Unknown Object"
             confidence = max(0.30 * color_confidence, 0.15)
             is_unknown = True
             closest_match = self._guess_closest_category(detection)
@@ -335,6 +318,45 @@ class Pipeline:
             closest_match=closest_match,
             object_id=getattr(detection, "object_id", 1),
         )
+
+    def _score_rule(
+        self, rule: ClassificationRule, detection: DetectionResult, color: str,
+    ) -> float:
+        """Return matching score for a rule; 0.0 if any hard condition fails."""
+        if color not in rule.colors:
+            return 0.0
+        if detection.size_category not in rule.sizes:
+            return 0.0
+        if detection.shape_category not in rule.shape_hints:
+            return 0.0
+
+        # Hard threshold guards
+        if detection.aspect_ratio < rule.min_aspect_ratio:
+            return 0.0
+        if detection.aspect_ratio > rule.max_aspect_ratio:
+            return 0.0
+        if detection.solidity < rule.min_solidity:
+            return 0.0
+        if detection.solidity > rule.max_solidity:
+            return 0.0
+        if detection.extent < rule.min_extent:
+            return 0.0
+        if detection.edge_density > rule.max_edge_density:
+            return 0.0
+        if detection.area_ratio < rule.min_area_ratio:
+            return 0.0
+        if detection.area_ratio > rule.max_area_ratio:
+            return 0.0
+
+        # Circularity separator: rectangular cable hollow vs charger adapter
+        # Cable hollow: circ≈0.18 (< 0.25);  charger: circ≈0.39 (>= 0.25)
+        if (
+            detection.shape_category == "rectangular"
+            and detection.circularity < rule.min_circularity_if_rectangular
+        ):
+            return 0.0
+
+        return rule.base_confidence
 
     def decide_all(self, detections: list[DetectionResult]) -> list[Decision]:
         """Make decisions for all detections."""
@@ -379,254 +401,6 @@ class Pipeline:
             detections=detections,
             decisions=decisions,
             processing_time_ms=round(elapsed_ms, 1),
-        )
-
-    # ------------------------------------------------------------------
-    # Classification helpers — thresholds calibrated from real debug data
-    # ------------------------------------------------------------------
-
-    def _is_keyboard(self, detection: DetectionResult, color: str) -> bool:
-        """Check whether object looks like a keyboard."""
-        is_keyboard_color = color in {"black", "gray", "blue", "silver"}
-
-        large_rectangular_object = (
-            detection.shape_category == "rectangular"
-            and detection.area_ratio >= 0.12
-            and max(detection.bbox_width_ratio, detection.bbox_height_ratio) >= 0.55
-            and min(detection.bbox_width_ratio, detection.bbox_height_ratio) >= 0.22
-        )
-
-        elongated_object = detection.aspect_ratio >= 1.70
-
-        solid_mask = (
-            detection.extent > 0.45
-            and detection.solidity > 0.60
-        )
-
-        not_mouse_size = detection.area_ratio > 0.12
-
-        return (
-            is_keyboard_color
-            and large_rectangular_object
-            and elongated_object
-            and solid_mask
-            and not_mouse_size
-        )
-
-    def _is_mouse(self, detection: DetectionResult, color: str) -> bool:
-        """Check whether object looks like a mouse."""
-        is_mouse_color = color in {"black", "gray", "blue"}
-
-        compact_bbox = (
-            detection.bbox_width_ratio < 0.78
-            and detection.bbox_height_ratio < 0.82
-        )
-
-        not_keyboard_like = detection.aspect_ratio < 2.35
-
-        rounded_or_compact_shape = detection.shape_category in {
-            "oval", "block", "rectangular",
-        }
-
-        solid_object = (
-            detection.solidity > 0.58
-            and detection.extent > 0.28
-        )
-
-        plausible_area = 0.02 <= detection.area_ratio <= 0.32
-
-        return (
-            is_mouse_color
-            and compact_bbox
-            and not_keyboard_like
-            and rounded_or_compact_shape
-            and solid_object
-            and plausible_area
-        )
-
-    def _is_charger_adapter(self, detection: DetectionResult, color: str) -> bool:
-        """Check whether object looks like a compact charger adapter.
-
-        Calibrated from real data:
-
-        White charger (Image_13):  edge=0.011, solid=0.534, circ=0.132, shape=block
-        Silver charger (Image_6):  edge=0.018, solid=0.851, circ=0.386, shape=rectangular
-        Cable hollow (Image_5):    edge=0.017, solid=0.819, circ=0.181, shape=rectangular
-
-        Previous approach (edge < 0.025 guard) incorrectly rejected both chargers
-        because their edge values are similar to the cable hollow.
-
-        New approach — use circularity to separate cable hollow from charger:
-        - Cable hollow inner circle: circ=0.181 (elongated blob, not circular)
-        - Silver charger:            circ=0.386 (compact block, more circular)
-        - Threshold: circ >= 0.25 → charger (rectangular shape only)
-
-        For shape=block: always allow charger. A cable hollow never produces
-        shape=block — it is a near-circular or rectangular blob.
-
-        For shape=oval: allow charger (some chargers photograph as oval blobs).
-
-        White charger (Image_13) has shape=block AND solid=0.534 (below the old
-        solid > 0.50 threshold with some margin). The solid_shape check now
-        accepts solid > 0.40 to include this case.
-        """
-        is_light = color in {"white", "silver", "gray"}
-
-        compact_block = (
-            detection.aspect_ratio < 2.20
-            and detection.bbox_width_ratio < 0.60
-            and detection.bbox_height_ratio < 0.70
-            and detection.area_ratio < 0.18
-        )
-
-        # shape=block → always a candidate for charger (never cable hollow)
-        # shape=rectangular → only if circularity >= 0.25 (cable hollow has circ=0.181)
-        # shape=oval → allow (some charger photographs look oval)
-        shape_ok = (
-            detection.shape_category == "block"
-            or detection.shape_category == "oval"
-            or (
-                detection.shape_category == "rectangular"
-                and detection.circularity >= 0.25
-            )
-        )
-
-        # Relaxed solid threshold to include white charger (solid=0.534)
-        solid_shape = (
-            detection.extent > 0.25
-            and detection.solidity > 0.40
-        )
-
-        not_loop = detection.shape_category != "ring_like"
-
-        not_too_fragmented = detection.edge_density < 0.18
-
-        return (
-            is_light
-            and compact_block
-            and shape_ok
-            and solid_shape
-            and not_loop
-            and not_too_fragmented
-        )
-
-    def _is_flash_drive(self, detection: DetectionResult, color: str) -> bool:
-        """Check whether object looks like a small flash drive."""
-        return (
-            color in {"gray", "silver", "black", "green", "blue", "red"}
-            and detection.size_category == "small"
-            and detection.aspect_ratio < 3.5
-            and detection.extent > 0.30
-        )
-
-    def _is_usb_cable(self, detection: DetectionResult, color: str) -> bool:
-        """Check whether object looks like a USB-C cable.
-
-        Calibrated from real data:
-
-        Cable hollow (Image_5): edge=0.017, solid=0.819, circ=0.181, shape=rectangular
-          → Caught by: hollow_rectangular_coil (shape=rectangular AND circ < 0.25)
-
-        Cable ring_like (other images): solid < 0.62
-          → Caught by: ring_like_cable
-
-        NOT cable — chargers pass through _is_charger_adapter() first in decide()
-        so they never reach this check.
-
-        NOT cable — headphones have solid >= 0.62 (both 0.640 and 0.729).
-        """
-        is_cable_color = color in {"white", "silver", "gray", "black"}
-
-        if not is_cable_color:
-            return False
-
-        # Solid large dark keyboard-like rectangle → not a cable
-        solid_large_rectangle = (
-            detection.shape_category == "rectangular"
-            and detection.area_ratio >= 0.12
-            and detection.extent > 0.45
-            and detection.solidity > 0.60
-            and detection.edge_density < 0.05
-        )
-
-        if solid_large_rectangle:
-            return False
-
-        # Signal 1: straight elongated cable
-        elongated_shape = (
-            detection.size_category == "long_thin"
-            or detection.aspect_ratio >= 2.4
-        )
-
-        # Signal 2: hollow rectangular coil mask
-        # Calibrated: cable hollow circ=0.181 (< 0.25)
-        # Silver charger circ=0.386 (>= 0.25) → NOT caught here → goes to charger
-        hollow_rectangular_coil = (
-            detection.shape_category in {"rectangular", "block"}
-            and detection.circularity < 0.25
-            and detection.area_ratio < 0.10
-            and detection.edge_density < 0.025
-        )
-
-        # Signal 3: ring_like shape with LOW solidity
-        # Calibrated: headphones solid=0.640 and 0.729 (both >= 0.62)
-        # Cable ring_like masks are more fragmented → solid < 0.62
-        ring_like_cable = (
-            detection.shape_category in {"ring_like", "irregular"}
-            and detection.solidity < 0.62
-        )
-
-        # Signal 4: fragmented strand structure
-        fragmented_strand = (
-            detection.edge_density >= 0.09
-            and detection.solidity < 0.55
-        )
-
-        return (
-            elongated_shape
-            or hollow_rectangular_coil
-            or ring_like_cable
-            or fragmented_strand
-        )
-
-    def _is_headphones(self, detection: DetectionResult, color: str) -> bool:
-        """Check whether object looks like headphones.
-
-        Calibrated from real data:
-        - Big headphones:   solid=0.640, edge=0.076, area=0.207, ring_like
-        - Small headphones: solid=0.729, edge=0.060, area=0.122, ring_like
-
-        Both have solid >= 0.62. Primary separator from cables.
-        """
-        headphones_colors = {"black", "white", "silver", "gray"}
-
-        if color not in headphones_colors:
-            return False
-
-        complex_shape = (
-            detection.shape_category in {"irregular", "ring_like", "block"}
-            or detection.edge_density >= 0.060
-            or detection.solidity < 0.82
-        )
-
-        not_keyboard_like = not (
-            color in {"black", "gray", "blue"}
-            and detection.aspect_ratio >= 2.35
-            and detection.extent > 0.42
-            and detection.solidity > 0.65
-        )
-
-        not_charger_like = not self._is_charger_adapter(detection, color)
-
-        # Primary separator from cables: solid >= 0.62
-        solid_enough_for_headphones = detection.solidity >= 0.62
-
-        return (
-            detection.size_category in {"medium", "large"}
-            and complex_shape
-            and not_keyboard_like
-            and not_charger_like
-            and solid_enough_for_headphones
         )
 
     def _guess_closest_category(self, detection: DetectionResult) -> str:
