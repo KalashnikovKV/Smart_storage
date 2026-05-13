@@ -6,6 +6,10 @@ Computer Vision pipeline for automatic classification of IT peripherals by color
 Image → Enhance → Segment → Clean → Detect → Decision
 ```
 
+Two modes of operation:
+- **Rule-based** — works out of the box, no model needed
+- **YOLO-Seg** — uses a trained YOLO-Seg model for accurate instance segmentation
+
 ## Requirements
 
 - Python 3.12+
@@ -21,35 +25,82 @@ uv sync
 
 ### Optional dependency groups
 
-Install only what you need — groups are independent of each other:
-
 | Group | What it installs | Command |
 |-------|-----------------|---------|
-| `ml-tabular` | LightGBM, joblib, matplotlib, albumentations | `uv sync --group ml-tabular` |
-| `ml-cnn` | PyTorch, torchvision, timm, albumentations, **Ultralytics YOLO** | `uv sync --group ml-cnn` |
+| `yolo` | Ultralytics YOLO (for YOLO-Seg mode) | `uv sync --group yolo` |
 | `notebook` | Jupyter, matplotlib, seaborn | `uv sync --group notebook` |
 | `dev` | pytest, httpx | `uv sync --group dev` |
 
-Multiple groups can be combined:
+> `uv sync` without `--group` installs only core dependencies (OpenCV, NumPy, scikit-learn).
 
-```bash
-uv sync --group ml-cnn --group notebook
-```
-
-> **Note:** `uv sync` without `--group` installs only core dependencies and does **not** pull in torch or any ML libraries.
+---
 
 ## Usage
 
-### Webcam mode (real-time)
+### Quick start — rule-based mode (no model needed)
 
 ```bash
-uv run python -m src.main --mode video
+# Webcam
+./run.sh --mode video
+
+# Single image
+./run.sh --mode image --source test_images/Image.jpeg
+
+# Batch folder
+./run.sh --mode batch --source test_images/
 ```
 
-Place one object on a plain white or black background in front of the camera.  
-The dashboard shows all 6 pipeline stages simultaneously.
+Or without the script:
 
-**Controls:**
+```bash
+uv run python -m src.main --mode image --source test_images/Image.jpeg
+```
+
+---
+
+### YOLO-Seg mode (requires trained model)
+
+First install YOLO dependencies:
+
+```bash
+uv sync --group yolo
+```
+
+Then run with `--model`:
+
+```bash
+# Webcam
+./run.sh --mode video --model models/yolo_segmentation_best.pt
+
+# Single image
+./run.sh --mode image --source test_images/Image.jpeg --model models/yolo_segmentation_best.pt
+
+# Batch
+./run.sh --mode batch --source test_images/ --model models/yolo_segmentation_best.pt
+```
+
+In YOLO-Seg mode the pipeline uses:
+- YOLO-Seg for object detection and segmentation (class + bbox + mask)
+- OpenCV HSV/K-means for color detection **inside the YOLO mask**
+- Mask area for size estimation
+
+---
+
+### All CLI arguments
+
+| Argument | Description | Default |
+|----------|-------------|---------|
+| `--mode` | `video`, `image`, or `batch` | `video` |
+| `--source` | Image path (image mode) or folder path (batch mode) | — |
+| `--model` | Path to YOLO-Seg weights `.pt` | None (rule-based) |
+| `--output` | CSV output path | `output/results.csv` |
+| `--no-save-images` | Do not save pipeline stage images | off |
+| `--no-display` | Run without OpenCV window (headless) | off |
+| `--debug` | Enable debug logging | off |
+
+---
+
+### Controls (video mode)
 
 | Key | Action |
 |-----|--------|
@@ -58,26 +109,7 @@ The dashboard shows all 6 pipeline stages simultaneously.
 | `p` | Pause / resume |
 | `q` | Quit |
 
-### Image mode (single file)
-
-```bash
-uv run python -m src.main --mode image --source test_images/Image.jpeg
-```
-
-Result is printed to console and saved to `output/results.csv` automatically.
-
-### Custom CSV output path
-
-```bash
-uv run python -m src.main --mode image --source photo.jpg --output my_results.csv
-```
-
-## Tips for best results
-
-- Use a **plain white or black background** — the segmentation works best on solid backgrounds
-- Place **one object at a time** in the frame
-- Ensure **good lighting** — avoid shadows on the object
-- Dark objects → white background; light objects → dark background
+---
 
 ## Output
 
@@ -90,25 +122,57 @@ Each run appends a row to `output/results.csv`:
 | color | Dominant color |
 | size_category | small / medium / large / long_thin |
 | confidence | 0.0 – 1.0 |
-| method | hsv / kmeans / combined |
+| method_used | `yolo` / `combined` / `hsv` / `kmeans` |
 | color_hsv | HSV method color name |
 | color_kmeans | K-means method color name |
+
+Pipeline stage images are saved to `output/stages/` on each run.
+
+---
 
 ## Categories
 
 | Category | Color | Size |
 |----------|-------|------|
-| iPhone Charger | white | small |
-| Android Charger | black | small |
-| USB-C Cable | white | long_thin |
-| Power Cable | black | long_thin |
-| Mouse | black / blue | medium |
-| Keyboard | black / gray | large |
-| Flash Drive | gray / silver | small |
-| MacBook Charger | white | medium (compact) |
+| Mouse | black / gray / blue | medium |
+| Keyboard | black / gray / silver | large |
+| Charger Adapter | white / silver / gray | small / medium |
+| USB-C Cable | white / gray / black | long_thin / medium |
+| Headphones | black / white / silver | medium / large |
+| Flash Drive | gray / silver / black | small |
+| Colored Object | any chromatic color | any |
+
+---
 
 ## Run tests
 
 ```bash
 uv run pytest tests/ -v
+```
+
+---
+
+## Training a YOLO-Seg model
+
+See [aidlc-docs/ml-roadmap.md](aidlc-docs/ml-roadmap.md) for the full ML roadmap.
+
+Quick start:
+
+```bash
+# 1. Collect labeled images
+./run.sh --mode video   # press 's' to save frames
+
+# 2. Annotate polygon masks in Roboflow or CVAT, export as YOLOv8 Segmentation
+
+# 3. Organize dataset
+uv run python scripts/build_dataset.py
+
+# 4. Train
+uv run python scripts/train_yolo.py \
+    --data dataset/dataset.yaml \
+    --model yolo11n-seg.pt \
+    --epochs 100
+
+# 5. Run with trained model
+./run.sh --mode video --model models/yolo_segmentation_best.pt
 ```

@@ -54,11 +54,25 @@ def configure_logging(debug: bool) -> None:
     )
 
 
-def run_video_mode(output_path: str | None = None) -> None:
+def _build_pipeline(model_path: str | None) -> Pipeline:
+    """Build Pipeline, optionally with a YOLO-Seg SegmentationDetector."""
+    if model_path:
+        from src.segmentation_detector import SegmentationDetector
+        segmentation_detector = SegmentationDetector(model_path)
+        LOGGER.info("YOLO-Seg model loaded: %s", model_path)
+        print(f"YOLO-Seg model: {model_path}")
+        return Pipeline(segmentation_detector=segmentation_detector)
+    return Pipeline()
+
+
+def run_video_mode(
+    output_path: str | None = None,
+    model_path: str | None = None,
+) -> None:
     """Run the pipeline on live webcam video."""
     LOGGER.debug("Starting video mode. output_path=%s", output_path)
 
-    pipeline = Pipeline()
+    pipeline = _build_pipeline(model_path)
     visualizer = Visualizer()
     video = VideoProcessor()
     exporter = DataExporter(output_path) if output_path else DataExporter()
@@ -158,6 +172,7 @@ def run_image_mode(
     output_path: str | None = None,
     save_outputs: bool = True,
     show_window: bool = True,
+    model_path: str | None = None,
 ) -> None:
     """Run the pipeline on a single image file."""
     source_path = Path(source)
@@ -170,7 +185,7 @@ def run_image_mode(
         show_window,
     )
 
-    pipeline = Pipeline()
+    pipeline = _build_pipeline(model_path)
     visualizer = Visualizer()
     exporter = DataExporter(output_path) if output_path else DataExporter()
 
@@ -237,6 +252,7 @@ def run_batch_mode(
     source: str,
     output_path: str | None = None,
     save_outputs: bool = True,
+    model_path: str | None = None,
 ) -> None:
     """Run the pipeline on all supported images in a folder."""
     source_dir = Path(source)
@@ -266,7 +282,7 @@ def run_batch_mode(
 
     LOGGER.debug("Batch images found: %s", [path.name for path in image_paths])
 
-    pipeline = Pipeline()
+    pipeline = _build_pipeline(model_path)
     visualizer = Visualizer()
     exporter = DataExporter(output_path) if output_path else DataExporter()
 
@@ -443,6 +459,18 @@ def main() -> None:
     )
 
     parser.add_argument(
+        "--model",
+        type=str,
+        default=None,
+        help=(
+            "Path to YOLO-Seg weights (.pt). "
+            "When provided, YOLO-Seg is used for detection and segmentation "
+            "instead of the built-in threshold pipeline. "
+            "Example: --model models/yolo_segmentation_best.pt"
+        ),
+    )
+
+    parser.add_argument(
         "--debug",
         action="store_true",
         help="Enable debug logging.",
@@ -459,7 +487,7 @@ def main() -> None:
     should_show_window = not (args.no_window or args.no_display)
 
     if args.mode == "video":
-        run_video_mode(args.output)
+        run_video_mode(args.output, model_path=args.model)
 
     elif args.mode == "image":
         run_image_mode(
@@ -467,6 +495,7 @@ def main() -> None:
             output_path=args.output,
             save_outputs=not args.no_save_images,
             show_window=should_show_window,
+            model_path=args.model,
         )
 
     elif args.mode == "batch":
@@ -474,6 +503,7 @@ def main() -> None:
             source=args.source,
             output_path=args.output,
             save_outputs=not args.no_save_images,
+            model_path=args.model,
         )
 
 
