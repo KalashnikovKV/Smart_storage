@@ -138,7 +138,8 @@ smart-storage/
 |   +-- data_exporter.py
 |   +-- config.py
 |   +-- models.py
-+-- test_images/
++-- training/test_images/
++-- training/test_video/
 +-- output/
 +-- requirements.txt
 +-- README.md

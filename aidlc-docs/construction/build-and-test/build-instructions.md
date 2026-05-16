@@ -52,10 +52,10 @@ cp ~/Downloads/yolo11n-seg.pt models/
 uv run python -m src.main --mode video
 
 # Single image
-uv run python -m src.main --mode image --source test_images/Image_1.jpeg
+uv run python -m src.main --mode image --source training/test_images/Image_1.jpeg
 
 # Batch folder
-uv run python -m src.main --mode batch --source test_images/
+uv run python -m src.main --mode batch --source training/test_images/
 ```
 
 ### YOLO-Seg mode
@@ -70,10 +70,10 @@ uv run python -m src.main --mode video --model models/yolo11n-seg.pt
 uv run python -m src.main --mode video --model models/yolo11n-seg.pt --device cuda
 
 # Single image
-uv run python -m src.main --mode image --source test_images/Image_1.jpeg --model models/yolo11n-seg.pt
+uv run python -m src.main --mode image --source training/test_images/Image_1.jpeg --model models/yolo11n-seg.pt
 
 # Batch
-uv run python -m src.main --mode batch --source test_images/ --model models/yolo11n-seg.pt
+uv run python -m src.main --mode batch --source training/test_images/ --model models/yolo11n-seg.pt
 ```
 
 ### All CLI arguments
@@ -167,7 +167,7 @@ brew install uv
 ### OpenCV: no display / `cannot connect to X server`
 ```bash
 # Use headless mode:
-uv run python -m src.main --mode image --source test_images/Image_1.jpeg --no-display
+uv run python -m src.main --mode image --source training/test_images/Image_1.jpeg --no-display
 # Or replace opencv-python with opencv-python-headless in pyproject.toml
 ```
 
@@ -176,7 +176,7 @@ uv run python -m src.main --mode image --source test_images/Image_1.jpeg --no-di
 # Test camera directly:
 uv run python -c "import cv2; cap=cv2.VideoCapture(0); print(cap.isOpened()); ret,f=cap.read(); print(f.shape if ret else 'FAILED')"
 # Fallback to image mode:
-uv run python -m src.main --mode image --source test_images/Image_1.jpeg
+uv run python -m src.main --mode image --source training/test_images/Image_1.jpeg
 ```
 
 ### NNPACK warnings on startup

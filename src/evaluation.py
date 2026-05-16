@@ -3,8 +3,6 @@
 Usage:
     uv run python -m src.evaluation
 
-    uv run python -m src.evaluation --csv output/labels.csv
-
     uv run python -m src.evaluation --csv output/results.csv
 """
 
@@ -17,7 +15,7 @@ from pathlib import Path
 from src.app.data_exporter import EvaluationTracker
 
 
-DEFAULT_EVALUATION_CSV = "output/labels.csv"
+DEFAULT_EVALUATION_CSV = "output/results.csv"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -54,7 +52,7 @@ def main() -> None:
         print(f"Error: CSV file not found: {csv_path}", file=sys.stderr)
         print(
             "\nCreate labeled data first, for example:\n"
-            "  uv run python -m src.main --mode label --source test_images/Image.jpeg\n"
+            "  uv run python -m src.main --mode label --source training/test_images/Image.jpeg\n"
             "\nOr pass an existing CSV explicitly:\n"
             "  uv run python -m src.evaluation --csv output/results.csv",
             file=sys.stderr,

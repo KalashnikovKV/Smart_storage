@@ -2216,6 +2216,7 @@ dependencies = [
     { name = "opencv-python" },
     { name = "pandas" },
     { name = "python-multipart" },
+    { name = "pyyaml" },
     { name = "scikit-learn" },
     { name = "uvicorn", extra = ["standard"] },
 ]
@@ -2245,6 +2246,7 @@ requires-dist = [
     { name = "opencv-python", specifier = ">=4.9,<4.12" },
     { name = "pandas", specifier = ">=2.2,<2.3" },
     { name = "python-multipart", specifier = ">=0.0.9,<1.0" },
+    { name = "pyyaml", specifier = ">=6.0,<7.0" },
     { name = "scikit-learn", specifier = ">=1.4,<1.6" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.29,<1.0" },
 ]

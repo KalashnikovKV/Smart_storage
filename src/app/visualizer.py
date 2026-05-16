@@ -162,14 +162,33 @@ class Visualizer:
         """Block until a key is pressed or the user closes the window."""
         while self.is_window_open():
             self.show_pipeline(result)
-            key = cv2.waitKey(30)
-            if not self.is_window_open():
-                self.close_window()
-                raise WindowClosed()
-            if key != -1:
+            if self._wait_key_or_window_closed(self.WINDOW_NAME):
                 return
         self.close_window()
         raise WindowClosed()
+
+    def wait_until_dismissed(
+        self,
+        window_name: str,
+        frame: np.ndarray | None = None,
+    ) -> None:
+        """Block until a key is pressed or the user closes *window_name*."""
+        while True:
+            if frame is not None:
+                cv2.imshow(window_name, frame)
+            if self._wait_key_or_window_closed(window_name):
+                return
+
+    @staticmethod
+    def _wait_key_or_window_closed(window_name: str) -> bool:
+        """Process GUI events; return True on key press or window close."""
+        key = cv2.waitKey(30)
+        try:
+            if cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE) < 1:
+                raise WindowClosed()
+        except cv2.error:
+            raise WindowClosed()
+        return key != -1
 
     def _draw_detection_on_image(
         self,

@@ -298,7 +298,7 @@ class EvaluationTracker:
         if total == 0:
             print("\nNo labeled rows found.")
             print("Use label mode first, for example:")
-            print("  uv run python -m src.main --mode label --source test_images/Image.jpeg")
+            print("  uv run python -m src.main --mode label --source training/test_images/Image.jpeg")
             return
 
         print("\nConfusion matrix")

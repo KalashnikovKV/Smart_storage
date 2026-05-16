@@ -33,6 +33,20 @@ uv sync
 
 > `uv sync` without `--group` installs only core dependencies (OpenCV, NumPy, scikit-learn).
 
+### Local data (not in git)
+
+Photos, videos, pipeline outputs, and trained weights stay on your machine:
+
+| Path | Put here |
+|------|----------|
+| `training/test_images/` | Your `.jpg` / `.png` for batch, label, inference |
+| `training/test_video/` | Your `.mov` / `.mp4` for `--mode label --source …` |
+| `output/` | `results.csv` (predictions + `ground_truth`) in git; ROI and `stages/` masks stay local |
+| `dataset/` | Built by `training/build_dataset.py` for YOLO training |
+| `models/` | Downloaded or trained `.pt` weights (e.g. `yolo11n-seg.pt`) |
+
+After clone, copy your files into `training/test_images/` (folders are empty except `.gitkeep`).
+
 ---
 
 ## Usage
@@ -44,16 +58,21 @@ uv sync
 ./run.sh --mode video
 
 # Single image
-./run.sh --mode image --source test_images/Image.jpeg
+./run.sh --mode image --source training/test_images/Image.jpeg
 
-# Batch folder
-./run.sh --mode batch --source test_images/
+# Batch folder (predictions + masks for YOLO dataset)
+./run.sh --mode batch --source training/test_images/
+
+# Manual labeling (ground_truth) — disputed images only
+./run.sh --mode label --source training/test_images/Image.jpeg
 ```
+
+`image` = quick preview (window, no console prompt). `label` = confirm/override class → `ground_truth` in `output/results.csv`.
 
 Or without the script:
 
 ```bash
-uv run python -m src.main --mode image --source test_images/Image.jpeg
+uv run python -m src.main --mode image --source training/test_images/Image.jpeg
 ```
 
 ---
@@ -76,10 +95,10 @@ uv run python -m src.main --mode video --model models/yolo11n-seg.pt --device cp
 uv run python -m src.main --mode video --model models/yolo11n-seg.pt --device cuda
 
 # Single image
-uv run python -m src.main --mode image --source test_images/Image_1.jpeg --model models/yolo11n-seg.pt
+uv run python -m src.main --mode image --source training/test_images/Image_1.jpeg --model models/yolo11n-seg.pt
 
 # Batch
-uv run python -m src.main --mode batch --source test_images/ --model models/yolo11n-seg.pt
+uv run python -m src.main --mode batch --source training/test_images/ --model models/yolo11n-seg.pt
 ```
 
 In YOLO-Seg mode the pipeline uses:
@@ -93,7 +112,7 @@ In YOLO-Seg mode the pipeline uses:
 
 | Argument | Description | Default |
 |----------|-------------|---------|
-| `--mode` | `video`, `image`, or `batch` | `video` |
+| `--mode` | `video`, `image`, `batch`, or `label` | `video` |
 | `--source` | Image path (image mode) or folder path (batch mode) | — |
 | `--model` | Path to YOLO-Seg weights `.pt` | None (rule-based) |
 | `--device` | Inference device: `cpu`, `cuda`, `cuda:0`, `mps` | auto-detect |
@@ -166,20 +185,23 @@ See [aidlc-docs/ml-roadmap.md](aidlc-docs/ml-roadmap.md) for the full ML roadmap
 Quick start:
 
 ```bash
-# 1. Collect labeled images
-./run.sh --mode video   # press 's' to save frames
+# 1. Batch — predictions + cleaned_mask artifacts
+./run.sh --mode batch --source training/test_images/
 
-# 2. Annotate polygon masks in Roboflow or CVAT, export as YOLOv8 Segmentation
+# 2. Label — only for images you want to correct (writes ground_truth to output/results.csv)
+./run.sh --mode label --source training/test_images/Image.jpeg
 
-# 3. Organize dataset
-uv run python scripts/build_dataset.py
+# 3. Build YOLO-Seg dataset (reads output/results.csv + output/stages/)
+uv run python training/build_dataset.py --clean
 
 # 4. Train
-uv run python scripts/train_yolo.py \
+uv run python training/train_yolo.py \
     --data dataset/dataset.yaml \
     --model yolo11n-seg.pt \
     --epochs 100
 
 # 5. Run with trained model
-./run.sh --mode video --model models/yolo_segmentation_best.pt
+./run.sh --mode image --source training/test_images/Image.jpeg --model runs/segment/smart_storage/weights/best.pt
 ```
+
+For precise polygon masks use Roboflow or CVAT (YOLOv8 Segmentation export) instead of auto masks from `cleaned_mask`.

@@ -54,7 +54,7 @@
 cd smart-storage
 uv sync
 # Image mode:
-uv run python -m src.main --mode image --source test_images/your_photo.jpg
+uv run python -m src.main --mode image --source training/test_images/your_photo.jpg
 # Video mode:
 uv run python -m src.main --mode video
 ```
