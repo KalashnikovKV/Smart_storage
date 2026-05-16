@@ -1,6 +1,6 @@
 """Application I/O and UI: camera, visualization, CSV export, labeling."""
 
-from src.app.data_exporter import DataExporter
+from src.app.data_exporter import DataExporter, EvaluationTracker
 from src.app.labeling import (
     LABEL_CLASS_BY_KEY,
     LABEL_MENU_LINES,
@@ -13,6 +13,7 @@ from src.app.visualizer import Visualizer, WindowClosed
 
 __all__ = [
     "DataExporter",
+    "EvaluationTracker",
     "LABEL_CLASS_BY_KEY",
     "LABEL_MENU_LINES",
     "VideoProcessor",
