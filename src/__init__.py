@@ -1,5 +1,5 @@
 # Smart Storage — IT Peripheral Recognition System
 
-from src.classifier_protocol import Classifier
+from src.decision.protocol import Classifier
 
 __all__ = ["Classifier"]

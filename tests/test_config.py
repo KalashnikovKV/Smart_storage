@@ -83,7 +83,7 @@ def test_pipeline_uses_appconfig():
 
 def test_color_detector_uses_appconfig():
     """ColorDetector should use the passed AppConfig's hsv_ranges."""
-    from src.color_detector import ColorDetector
+    from src.detect.color import ColorDetector
 
     cfg = AppConfig()
     detector = ColorDetector(cfg)

@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.data_exporter import DataExporter
+from src.app.data_exporter import DataExporter
 from src.models import ColorResult, Decision, DetectionResult
 
 
@@ -139,6 +139,32 @@ def test_export_many_without_original_image_leaves_roi_empty(
     assert "roi_image" in df.columns
     roi_val = df.iloc[0]["roi_image"]
     assert roi_val != roi_val or roi_val == ""
+
+
+def test_export_writes_ground_truth_column(tmp_csv, sample_decision, sample_detection):
+    exporter = DataExporter(output_path=tmp_csv)
+    exporter.export(
+        sample_decision,
+        sample_detection,
+        ground_truth="Flash Drive",
+    )
+    df = pd.read_csv(tmp_csv)
+    assert "ground_truth" in df.columns
+    assert df.iloc[0]["ground_truth"] == "Flash Drive"
+    assert pd.isna(df.iloc[0]["ground_truth"]) is False
+
+
+def test_export_many_writes_ground_truth(tmp_csv, sample_decision, sample_detection, sample_image):
+    exporter = DataExporter(output_path=tmp_csv)
+    exporter.export_many(
+        [sample_decision],
+        [sample_detection],
+        image_name="test.jpg",
+        original_image=sample_image,
+        ground_truth="Mouse",
+    )
+    df = pd.read_csv(tmp_csv)
+    assert df.iloc[0]["ground_truth"] == "Mouse"
 
 
 def test_export_does_not_save_roi_when_disabled(tmp_path, sample_decision, sample_detection, sample_image):

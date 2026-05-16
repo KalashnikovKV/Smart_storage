@@ -3,9 +3,9 @@
 import numpy as np
 import pytest
 
-from src.classifier_protocol import Classifier
+from src.decision.protocol import Classifier
+from src.decision.rule_based import RuleBasedClassifier
 from src.models import ColorResult, Decision, DetectionResult
-from src.rule_based_classifier import RuleBasedClassifier
 
 
 # ---------------------------------------------------------------------------

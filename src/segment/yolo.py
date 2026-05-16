@@ -12,7 +12,7 @@ import cv2
 import numpy as np
 
 from src.models import YOLODetection
-from src.segmenter_protocol import Segmenter  # noqa: F401 — satisfies Protocol
+from src.segment.protocol import Segmenter  # noqa: F401 — satisfies Protocol
 
 LOGGER = logging.getLogger(__name__)
 

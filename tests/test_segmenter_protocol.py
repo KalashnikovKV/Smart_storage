@@ -9,8 +9,8 @@ import numpy as np
 import pytest
 
 from src.models import YOLODetection
-from src.segmenter_protocol import Segmenter
-from src.yolo_segmenter import YOLOSegmenter, _parse_results
+from src.segment.protocol import Segmenter
+from src.segment.yolo import YOLOSegmenter, _parse_results
 
 
 def _make_yolo_result(

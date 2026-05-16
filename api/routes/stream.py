@@ -21,7 +21,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 from api.schemas import DecisionOut, DetectionOut, ColorResultOut, StreamFrame
 from src.pipeline import Pipeline
-from src.video_processor import VideoProcessor
+from src.app.video_processor import VideoProcessor
 
 logger = logging.getLogger(__name__)
 router = APIRouter()

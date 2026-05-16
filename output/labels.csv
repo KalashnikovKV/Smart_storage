@@ -1,0 +1,4 @@
+timestamp,image_name,object_id,category,color,size_category,confidence,method,area_pixels,aspect_ratio,shape_category,circularity,solidity,extent,color_hsv,color_kmeans,confidence_hsv,confidence_kmeans,roi_image,ground_truth
+2026-05-16T15:44:56.906007,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_154522_337105.jpg,Charger Adapter
+2026-05-16T15:48:44.805199,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_154850_889120.jpg,Charger Adapter
+2026-05-16T16:07:05.120335,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_160709_396726.jpg,Charger Adapter

@@ -10,7 +10,7 @@ from fastapi import APIRouter, HTTPException, Query, UploadFile
 
 from api.schemas import AnalyzeResponse, ArtifactsOut, DetectionOut, DecisionOut, ColorResultOut
 from src.pipeline import Pipeline
-from src.visualizer import Visualizer
+from src.app.visualizer import Visualizer
 
 router = APIRouter()
 
