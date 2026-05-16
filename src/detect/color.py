@@ -146,8 +146,7 @@ class ColorDetector:
         labels, counts = np.unique(kmeans.labels_, return_counts=True)
         dominant_label = labels[np.argmax(counts)]
         dominant_center = kmeans.cluster_centers_[dominant_label].astype(np.uint8)
-        dominant_count = int(np.max(counts))
-        
+
         # Convert BGR center to HSV for color naming
         bgr_pixel = dominant_center.reshape(1, 1, 3)
         hsv_pixel = cv2.cvtColor(bgr_pixel, cv2.COLOR_BGR2HSV)[0, 0]
@@ -159,6 +158,7 @@ class ColorDetector:
             int(dominant_center[0]),
         )
 
+        dominant_count = int(np.max(counts))
         confidence = dominant_count / len(pixels)
 
         return ColorResult(

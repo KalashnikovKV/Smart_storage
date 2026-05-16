@@ -19,6 +19,12 @@ Usage:
 
     uv run python -m src.main --mode batch --source "test_images" --no-display
 
+    uv run python -m src.main --mode label
+
+    uv run python -m src.main --mode label --source "test_images/Image.jpeg"
+
+    uv run python -m src.main --mode label --source "test_images/Image.jpeg" --no-display
+
     uv run python -m src.main --mode batch --source "test_images" --output "output/results.csv"
 
 Controls in video mode:
@@ -35,13 +41,18 @@ from pathlib import Path
 
 import cv2
 
-from src.data_exporter import DataExporter
+from src.app import (
+    DataExporter,
+    VideoProcessor,
+    Visualizer,
+    WindowClosed,
+    prompt_ground_truth,
+)
 from src.pipeline import Pipeline
-from src.video_processor import VideoProcessor
-from src.visualizer import Visualizer
 
 
 SUPPORTED_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
+DEFAULT_LABEL_CSV = "output/labels.csv"
 
 LOGGER = logging.getLogger(__name__)
 
@@ -84,7 +95,7 @@ def _resolve_device(requested: str) -> str:
 def _build_pipeline(model_path: str | None, device: str = "cpu") -> Pipeline:
     """Build Pipeline, optionally with a YOLO-Seg segmenter."""
     if model_path:
-        from src.yolo_segmenter import YOLOSegmenter
+        from src.segment.yolo import YOLOSegmenter
         effective_device = _resolve_device(device)
         segmenter = YOLOSegmenter(model_path, device=effective_device)
         LOGGER.info("YOLO-Seg model loaded: %s (device=%s)", model_path, effective_device)
@@ -402,9 +413,14 @@ def export_result(
     exporter: DataExporter,
     result,
     image_name: str,
+    ground_truth: str = "",
 ) -> None:
     """Export pipeline result to CSV with ROI images."""
-    LOGGER.debug("Exporting result for image_name=%s", image_name)
+    LOGGER.debug(
+        "Exporting result for image_name=%s ground_truth=%s",
+        image_name,
+        ground_truth or "(empty)",
+    )
 
     if hasattr(exporter, "export_many"):
         exporter.export_many(
@@ -412,10 +428,285 @@ def export_result(
             result.detections,
             image_name=image_name,
             original_image=result.original,
+            ground_truth=ground_truth,
         )
         return
 
-    exporter.export(result.decision, result.detection)
+    roi = None
+    if exporter.save_roi_images and result.original is not None:
+        roi = exporter._extract_roi(result.original, result.detection.bbox)
+
+    exporter.export(
+        result.decision,
+        result.detection,
+        image_name=image_name,
+        roi=roi,
+        ground_truth=ground_truth,
+    )
+
+
+def _label_csv_path(output_path: str | None) -> str:
+    return output_path or DEFAULT_LABEL_CSV
+
+
+def _label_and_export(
+    exporter: DataExporter,
+    result,
+    image_name: str,
+    show_window: bool = False,
+    visualizer: Visualizer | None = None,
+) -> str:
+    """Prompt for ground truth, export labeled sample, return chosen class."""
+    pump = None
+    if show_window and visualizer is not None:
+        pump = lambda: visualizer.pump_events(result)
+
+    try:
+        ground_truth = prompt_ground_truth(
+            result.decision.category,
+            result.decision.confidence,
+            pump=pump,
+        )
+    except WindowClosed:
+        if visualizer is not None:
+            visualizer.close_window()
+        raise
+
+    export_result(
+        exporter=exporter,
+        result=result,
+        image_name=image_name,
+        ground_truth=ground_truth,
+    )
+    return ground_truth
+
+
+def run_label_image_mode(
+    source: str,
+    output_path: str | None = None,
+    show_window: bool = True,
+    model_path: str | None = None,
+    device: str = "cpu",
+) -> None:
+    """Label a single image: pipeline prediction + interactive ground-truth prompt."""
+    source_path = Path(source)
+    csv_path = _label_csv_path(output_path)
+
+    LOGGER.debug(
+        "Starting label image mode. source=%s csv=%s show_window=%s",
+        source_path,
+        csv_path,
+        show_window,
+    )
+
+    pipeline = _build_pipeline(model_path, device=device)
+    visualizer = Visualizer()
+    exporter = DataExporter(csv_path)
+
+    image = cv2.imread(str(source_path))
+    if image is None:
+        LOGGER.error("Could not read image: %s", source)
+        print(f"Error: Could not read image '{source}'.")
+        sys.exit(1)
+
+    print(f"Smart Storage — Label Mode (image): {source_path.name}")
+    print(f"Labels CSV: {csv_path}")
+    print("-" * 50)
+
+    result = pipeline.run(image)
+    if result is None:
+        print("No object detected — nothing to label.")
+        if show_window:
+            cv2.namedWindow("Smart Storage — No Detection", cv2.WINDOW_NORMAL)
+            cv2.imshow("Smart Storage — No Detection", image)
+            print("Press any key in the OpenCV window to close...")
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+        sys.exit(1)
+
+    print_result(result)
+
+    if show_window:
+        visualizer.show_pipeline(result)
+        cv2.waitKey(1)
+        print("Review the prediction in the OpenCV window, then answer in the terminal.")
+
+    try:
+        ground_truth = _label_and_export(
+            exporter,
+            result,
+            source_path.name,
+            show_window=show_window,
+            visualizer=visualizer,
+        )
+    except WindowClosed:
+        cv2.destroyAllWindows()
+        print("Окно закрыто — выход без сохранения.")
+        return
+
+    print(f"Saved ground_truth={ground_truth!r} → {csv_path}")
+    if exporter.save_roi_images:
+        print(f"ROI image → {exporter.images_dir}/")
+
+    if show_window and visualizer.is_window_open():
+        print("Press any key in the OpenCV window to close (or click X)...")
+        try:
+            visualizer.wait_until_key_or_close(result)
+        except WindowClosed:
+            pass
+    cv2.destroyAllWindows()
+
+
+def _capture_and_label_webcam_sample(
+    pipeline: Pipeline,
+    video: VideoProcessor,
+    exporter: DataExporter,
+    sample_index: int,
+    csv_path: str,
+    show_window: bool = False,
+    visualizer: Visualizer | None = None,
+) -> bool:
+    """Capture one webcam frame, label it, and export. Returns True if a sample was saved."""
+    frame = video.get_frame()
+    if frame is None:
+        print("Warning: Failed to capture frame.")
+        return False
+
+    result = pipeline.run(frame)
+    if result is None:
+        print("No object detected — adjust the scene and try again.")
+        return False
+
+    print_result(result)
+
+    if show_window and visualizer is not None:
+        visualizer.show_pipeline(result)
+        cv2.waitKey(1)
+
+    try:
+        ground_truth = _label_and_export(
+            exporter,
+            result,
+            f"webcam_{sample_index:04d}",
+            show_window=show_window,
+            visualizer=visualizer,
+        )
+    except WindowClosed:
+        if visualizer is not None:
+            visualizer.close_window()
+        raise
+
+    print(f"Saved ground_truth={ground_truth!r} → {csv_path}")
+    if exporter.save_roi_images:
+        print(f"ROI image → {exporter.images_dir}/")
+    return True
+
+
+def run_label_video_mode(
+    output_path: str | None = None,
+    show_window: bool = True,
+    model_path: str | None = None,
+    device: str = "cpu",
+) -> None:
+    """Label from webcam: capture with 'c', confirm or correct class, save ROI + CSV."""
+    csv_path = _label_csv_path(output_path)
+    pipeline = _build_pipeline(model_path, device=device)
+    visualizer = Visualizer()
+    exporter = DataExporter(csv_path)
+    video = VideoProcessor()
+
+    if not video.start():
+        LOGGER.error("Could not open webcam for label mode.")
+        print("Error: Could not open webcam. Check camera connection.")
+        print("Tip: Use --mode label --source <image path> for file-based labeling.")
+        sys.exit(1)
+
+    print("Smart Storage — Label Mode (webcam)")
+    print(f"Labels CSV: {csv_path}")
+    if show_window:
+        print("Controls: c=capture & label, q=quit")
+    else:
+        print("Headless: type c + Enter to capture & label, q + Enter to quit")
+    print("-" * 50)
+
+    window_name = visualizer.WINDOW_NAME
+    sample_index = 0
+
+    try:
+        if not show_window:
+            while True:
+                line = input("> ").strip().lower()
+                if line in {"q", "quit"}:
+                    break
+                if line not in {"c", "capture"}:
+                    continue
+                if _capture_and_label_webcam_sample(
+                    pipeline,
+                    video,
+                    exporter,
+                    sample_index,
+                    csv_path,
+                    show_window=False,
+                    visualizer=None,
+                ):
+                    sample_index += 1
+        else:
+            while True:
+                frame = video.get_frame()
+                if frame is not None:
+                    result = pipeline.run(frame)
+                    if result is not None:
+                        visualizer.show_pipeline(result)
+                    else:
+                        display = frame.copy()
+                        cv2.putText(
+                            display,
+                            "No object detected",
+                            (10, 30),
+                            cv2.FONT_HERSHEY_SIMPLEX,
+                            0.7,
+                            (0, 0, 255),
+                            2,
+                        )
+                        if not visualizer._window_created:
+                            cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+                            visualizer._window_created = True
+                        cv2.imshow(window_name, display)
+
+                key = cv2.waitKey(1) & 0xFF
+
+                if key == ord("q"):
+                    break
+
+                if visualizer._window_created and not visualizer.is_window_open():
+                    break
+
+                if key == ord("c"):
+                    try:
+                        if _capture_and_label_webcam_sample(
+                            pipeline,
+                            video,
+                            exporter,
+                            sample_index,
+                            csv_path,
+                            show_window=True,
+                            visualizer=visualizer,
+                        ):
+                            sample_index += 1
+                            print("Ready for next capture (press 'c').")
+                    except WindowClosed:
+                        break
+
+    except WindowClosed:
+        pass
+    except KeyboardInterrupt:
+        LOGGER.debug("Label video mode interrupted.")
+
+    finally:
+        video.stop()
+        if show_window:
+            cv2.destroyAllWindows()
+        print("Label mode stopped.")
 
 
 def save_pipeline_outputs(
@@ -463,9 +754,9 @@ def main() -> None:
 
     parser.add_argument(
         "--mode",
-        choices=["video", "image", "batch"],
+        choices=["video", "image", "batch", "label"],
         default="video",
-        help="Processing mode: video, image or batch.",
+        help="Processing mode: video, image, batch, or label (dataset collection).",
     )
 
     parser.add_argument(
@@ -574,6 +865,23 @@ def main() -> None:
             model_path=args.model,
             device=effective_device,
         )
+
+    elif args.mode == "label":
+        if args.source is not None:
+            run_label_image_mode(
+                source=args.source,
+                output_path=args.output,
+                show_window=should_show_window,
+                model_path=args.model,
+                device=effective_device,
+            )
+        else:
+            run_label_video_mode(
+                output_path=args.output,
+                show_window=should_show_window,
+                model_path=args.model,
+                device=effective_device,
+            )
 
 
 if __name__ == "__main__":

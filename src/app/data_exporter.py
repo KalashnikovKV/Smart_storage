@@ -35,6 +35,7 @@ class DataExporter:
         "confidence_hsv",
         "confidence_kmeans",
         "roi_image",
+        "ground_truth",
     ]
 
     def __init__(
@@ -56,10 +57,17 @@ class DataExporter:
         detection: DetectionResult,
         image_name: str = "",
         roi: np.ndarray | None = None,
+        ground_truth: str = "",
     ) -> None:
         """Write a single classification result to CSV and save ROI if enabled."""
         roi_image_name = self._save_roi(roi) if (roi is not None and self.save_roi_images) else ""
-        row = self._build_row(decision, detection, image_name, roi_image_name)
+        row = self._build_row(
+            decision,
+            detection,
+            image_name,
+            roi_image_name,
+            ground_truth=ground_truth,
+        )
         self._append_rows([row])
 
     def export_many(
@@ -68,6 +76,7 @@ class DataExporter:
         detections: list[DetectionResult],
         image_name: str = "",
         original_image: np.ndarray | None = None,
+        ground_truth: str = "",
     ) -> None:
         """Write multiple classification results to CSV, saving one ROI per detection."""
         detection_by_id = {
@@ -86,7 +95,13 @@ class DataExporter:
                     roi = self._extract_roi(original_image, detection.bbox)
                     roi_image_name = self._save_roi(roi)
                 rows.append(
-                    self._build_row(decision, detection, image_name, roi_image_name)
+                    self._build_row(
+                        decision,
+                        detection,
+                        image_name,
+                        roi_image_name,
+                        ground_truth=ground_truth,
+                    )
                 )
 
         if rows:
@@ -120,6 +135,7 @@ class DataExporter:
         detection: DetectionResult,
         image_name: str,
         roi_image_name: str = "",
+        ground_truth: str = "",
     ) -> dict:
         """Build one CSV row."""
         return {
@@ -142,6 +158,7 @@ class DataExporter:
             "confidence_hsv": round(detection.color_hsv.confidence, 3),
             "confidence_kmeans": round(detection.color_kmeans.confidence, 3),
             "roi_image": roi_image_name,
+            "ground_truth": ground_truth,
         }
 
     def _append_rows(self, rows: list[dict]) -> None:

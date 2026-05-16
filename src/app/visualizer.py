@@ -9,6 +9,10 @@ from src.config import AppConfig
 from src.models import DetectionResult, PipelineResult
 
 
+class WindowClosed(Exception):
+    """Raised when the user closes the OpenCV window."""
+
+
 class Visualizer:
     """Displays and saves pipeline results."""
 
@@ -122,6 +126,50 @@ class Visualizer:
             cv2.resizeWindow(self.WINDOW_NAME, w, h)
             self._window_created = True
         cv2.imshow(self.WINDOW_NAME, dashboard)
+
+    def is_window_open(self) -> bool:
+        """Return False after the user closes the window with the title-bar X button."""
+        if not self._window_created:
+            return False
+        try:
+            return cv2.getWindowProperty(self.WINDOW_NAME, cv2.WND_PROP_VISIBLE) >= 1
+        except cv2.error:
+            return False
+
+    def close_window(self) -> None:
+        """Destroy the dashboard window and reset internal state."""
+        if self._window_created:
+            try:
+                cv2.destroyWindow(self.WINDOW_NAME)
+            except cv2.error:
+                pass
+            self._window_created = False
+
+    def _raise_if_window_closed(self) -> None:
+        if not self.is_window_open():
+            self.close_window()
+            raise WindowClosed()
+
+    def pump_events(self, result: PipelineResult, delay_ms: int = 30) -> int:
+        """Redraw the dashboard and process OpenCV GUI events (use while terminal blocks)."""
+        self._raise_if_window_closed()
+        self.show_pipeline(result)
+        key = cv2.waitKey(delay_ms) & 0xFF
+        self._raise_if_window_closed()
+        return key
+
+    def wait_until_key_or_close(self, result: PipelineResult) -> None:
+        """Block until a key is pressed or the user closes the window."""
+        while self.is_window_open():
+            self.show_pipeline(result)
+            key = cv2.waitKey(30)
+            if not self.is_window_open():
+                self.close_window()
+                raise WindowClosed()
+            if key != -1:
+                return
+        self.close_window()
+        raise WindowClosed()
 
     def _draw_detection_on_image(
         self,

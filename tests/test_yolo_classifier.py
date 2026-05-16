@@ -11,7 +11,7 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 import pytest
 
-from src.classifier_protocol import Classifier
+from src.decision.protocol import Classifier
 from src.classifiers.yolo_classifier import (
     YOLOClassifier,
     _classify_size,
