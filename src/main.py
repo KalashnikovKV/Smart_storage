@@ -7,25 +7,27 @@ Usage:
 
     uv run python -m src.main --mode video --debug
 
-    uv run python -m src.main --mode image --source "test_images/Image.jpeg"
+    uv run python -m src.main --mode image --source "training/test_images/Image.jpeg"
 
-    uv run python -m src.main --mode image --source "test_images/Image.jpeg" --no-window
+    uv run python -m src.main --mode image --source "training/test_images/Image.jpeg" --no-window
 
-    uv run python -m src.main --mode image --source "test_images/Image.jpeg" --no-display
+    uv run python -m src.main --mode image --source "training/test_images/Image.jpeg" --no-display
 
-    uv run python -m src.main --mode image --source "test_images/Image.jpeg" --debug
+    uv run python -m src.main --mode image --source "training/test_images/Image.jpeg" --debug
 
-    uv run python -m src.main --mode batch --source "test_images"
+    uv run python -m src.main --mode batch --source "training/test_images"
 
-    uv run python -m src.main --mode batch --source "test_images" --no-display
+    uv run python -m src.main --mode batch --source "training/test_images" --no-display
 
     uv run python -m src.main --mode label
 
-    uv run python -m src.main --mode label --source "test_images/Image.jpeg"
+    uv run python -m src.main --mode label --source "training/test_images/Image.jpeg"
 
-    uv run python -m src.main --mode label --source "test_images/Image.jpeg" --no-display
+    uv run python -m src.main --mode label --source "training/test_video/Video_1.MOV"
 
-    uv run python -m src.main --mode batch --source "test_images" --output "output/results.csv"
+    uv run python -m src.main --mode label --source "training/test_images/Image.jpeg" --no-display
+
+    uv run python -m src.main --mode batch --source "training/test_images" --output "output/results.csv"
 
 Controls in video mode:
     q - quit
@@ -40,6 +42,7 @@ import sys
 from pathlib import Path
 
 import cv2
+import numpy as np
 
 from src.app import (
     DataExporter,
@@ -48,11 +51,12 @@ from src.app import (
     WindowClosed,
     prompt_ground_truth,
 )
+from src.app.video_processor import SUPPORTED_VIDEO_EXTENSIONS, is_video_file
 from src.pipeline import Pipeline
 
 
 SUPPORTED_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
-DEFAULT_LABEL_CSV = "output/labels.csv"
+DEFAULT_CSV_PATH = "output/results.csv"
 
 LOGGER = logging.getLogger(__name__)
 
@@ -259,10 +263,14 @@ def run_image_mode(
         print("No object detected in the image.")
 
         if show_window:
-            cv2.namedWindow("Smart Storage — No Detection", cv2.WINDOW_NORMAL)
-            cv2.imshow("Smart Storage — No Detection", image)
-            print("\nPress any key in the OpenCV window to close...")
-            cv2.waitKey(0)
+            no_det_window = "Smart Storage — No Detection"
+            cv2.namedWindow(no_det_window, cv2.WINDOW_NORMAL)
+            cv2.imshow(no_det_window, image)
+            print("\nPress any key in the OpenCV window to close (or click X)...")
+            try:
+                Visualizer().wait_until_dismissed(no_det_window, image)
+            except WindowClosed:
+                pass
             cv2.destroyAllWindows()
 
         return
@@ -276,6 +284,13 @@ def run_image_mode(
 
     print_result(result)
 
+    if save_outputs:
+        save_pipeline_outputs(
+            visualizer=visualizer,
+            result=result,
+            base_name=source_path.stem,
+        )
+
     export_result(
         exporter=exporter,
         result=result,
@@ -284,18 +299,14 @@ def run_image_mode(
     LOGGER.debug("Image result exported to CSV: %s", exporter.output_path)
     print(f"\nResult saved to CSV: {exporter.output_path}")
 
-    if save_outputs:
-        save_pipeline_outputs(
-            visualizer=visualizer,
-            result=result,
-            base_name=source_path.stem,
-        )
-
     if show_window:
         visualizer.show_pipeline(result)
-        print("\nPress any key in the OpenCV window to close...")
-        cv2.waitKey(1)   # force initial render
-        cv2.waitKey(0)
+        print("\nPress any key in the OpenCV window to close (or click X)...")
+        cv2.waitKey(1)  # force initial render
+        try:
+            visualizer.wait_until_key_or_close(result)
+        except WindowClosed:
+            pass
         cv2.destroyAllWindows()
 
 
@@ -445,8 +456,9 @@ def export_result(
     )
 
 
-def _label_csv_path(output_path: str | None) -> str:
-    return output_path or DEFAULT_LABEL_CSV
+def _resolve_csv_path(output_path: str | None) -> str:
+    """Default CSV for all modes (predictions and ground_truth)."""
+    return output_path or DEFAULT_CSV_PATH
 
 
 def _label_and_export(
@@ -490,7 +502,7 @@ def run_label_image_mode(
 ) -> None:
     """Label a single image: pipeline prediction + interactive ground-truth prompt."""
     source_path = Path(source)
-    csv_path = _label_csv_path(output_path)
+    csv_path = _resolve_csv_path(output_path)
 
     LOGGER.debug(
         "Starting label image mode. source=%s csv=%s show_window=%s",
@@ -510,17 +522,21 @@ def run_label_image_mode(
         sys.exit(1)
 
     print(f"Smart Storage — Label Mode (image): {source_path.name}")
-    print(f"Labels CSV: {csv_path}")
+    print(f"CSV: {csv_path}")
     print("-" * 50)
 
     result = pipeline.run(image)
     if result is None:
         print("No object detected — nothing to label.")
         if show_window:
-            cv2.namedWindow("Smart Storage — No Detection", cv2.WINDOW_NORMAL)
-            cv2.imshow("Smart Storage — No Detection", image)
-            print("Press any key in the OpenCV window to close...")
-            cv2.waitKey(0)
+            no_det_window = "Smart Storage — No Detection"
+            cv2.namedWindow(no_det_window, cv2.WINDOW_NORMAL)
+            cv2.imshow(no_det_window, image)
+            print("Press any key in the OpenCV window to close (or click X)...")
+            try:
+                Visualizer().wait_until_dismissed(no_det_window, image)
+            except WindowClosed:
+                pass
             cv2.destroyAllWindows()
         sys.exit(1)
 
@@ -557,17 +573,19 @@ def run_label_image_mode(
     cv2.destroyAllWindows()
 
 
-def _capture_and_label_webcam_sample(
+def _capture_and_label_video_sample(
     pipeline: Pipeline,
     video: VideoProcessor,
     exporter: DataExporter,
-    sample_index: int,
+    image_name: str,
     csv_path: str,
     show_window: bool = False,
     visualizer: Visualizer | None = None,
+    frame: np.ndarray | None = None,
 ) -> bool:
-    """Capture one webcam frame, label it, and export. Returns True if a sample was saved."""
-    frame = video.get_frame()
+    """Capture one video frame, label it, and export. Returns True if a sample was saved."""
+    if frame is None:
+        frame = video.get_frame()
     if frame is None:
         print("Warning: Failed to capture frame.")
         return False
@@ -587,7 +605,7 @@ def _capture_and_label_webcam_sample(
         ground_truth = _label_and_export(
             exporter,
             result,
-            f"webcam_{sample_index:04d}",
+            image_name,
             show_window=show_window,
             visualizer=visualizer,
         )
@@ -602,35 +620,23 @@ def _capture_and_label_webcam_sample(
     return True
 
 
-def run_label_video_mode(
-    output_path: str | None = None,
-    show_window: bool = True,
-    model_path: str | None = None,
-    device: str = "cpu",
+def _run_label_video_capture_loop(
+    video: VideoProcessor,
+    *,
+    sample_prefix: str,
+    output_path: str | None,
+    show_window: bool,
+    model_path: str | None,
+    device: str,
 ) -> None:
-    """Label from webcam: capture with 'c', confirm or correct class, save ROI + CSV."""
-    csv_path = _label_csv_path(output_path)
+    """Shared interactive loop for webcam and video-file labeling."""
+    csv_path = _resolve_csv_path(output_path)
     pipeline = _build_pipeline(model_path, device=device)
     visualizer = Visualizer()
     exporter = DataExporter(csv_path)
-    video = VideoProcessor()
-
-    if not video.start():
-        LOGGER.error("Could not open webcam for label mode.")
-        print("Error: Could not open webcam. Check camera connection.")
-        print("Tip: Use --mode label --source <image path> for file-based labeling.")
-        sys.exit(1)
-
-    print("Smart Storage — Label Mode (webcam)")
-    print(f"Labels CSV: {csv_path}")
-    if show_window:
-        print("Controls: c=capture & label, q=quit")
-    else:
-        print("Headless: type c + Enter to capture & label, q + Enter to quit")
-    print("-" * 50)
-
     window_name = visualizer.WINDOW_NAME
     sample_index = 0
+    last_frame: np.ndarray | None = None
 
     try:
         if not show_window:
@@ -640,11 +646,11 @@ def run_label_video_mode(
                     break
                 if line not in {"c", "capture"}:
                     continue
-                if _capture_and_label_webcam_sample(
+                if _capture_and_label_video_sample(
                     pipeline,
                     video,
                     exporter,
-                    sample_index,
+                    f"{sample_prefix}_{sample_index:04d}",
                     csv_path,
                     show_window=False,
                     visualizer=None,
@@ -654,6 +660,7 @@ def run_label_video_mode(
             while True:
                 frame = video.get_frame()
                 if frame is not None:
+                    last_frame = frame
                     result = pipeline.run(frame)
                     if result is not None:
                         visualizer.show_pipeline(result)
@@ -683,14 +690,15 @@ def run_label_video_mode(
 
                 if key == ord("c"):
                     try:
-                        if _capture_and_label_webcam_sample(
+                        if _capture_and_label_video_sample(
                             pipeline,
                             video,
                             exporter,
-                            sample_index,
+                            f"{sample_prefix}_{sample_index:04d}",
                             csv_path,
                             show_window=True,
                             visualizer=visualizer,
+                            frame=last_frame,
                         ):
                             sample_index += 1
                             print("Ready for next capture (press 'c').")
@@ -700,8 +708,94 @@ def run_label_video_mode(
     except WindowClosed:
         pass
     except KeyboardInterrupt:
-        LOGGER.debug("Label video mode interrupted.")
+        LOGGER.debug("Label video capture loop interrupted.")
 
+
+def run_label_video_mode(
+    output_path: str | None = None,
+    show_window: bool = True,
+    model_path: str | None = None,
+    device: str = "cpu",
+) -> None:
+    """Label from webcam: capture with 'c', confirm or correct class, save ROI + CSV."""
+    csv_path = _resolve_csv_path(output_path)
+    video = VideoProcessor()
+
+    if not video.start():
+        LOGGER.error("Could not open webcam for label mode.")
+        print("Error: Could not open webcam. Check camera connection.")
+        print("Tip: Use --mode label --source <image or video path> for file-based labeling.")
+        sys.exit(1)
+
+    print("Smart Storage — Label Mode (webcam)")
+    print(f"CSV: {csv_path}")
+    if show_window:
+        print("Controls: c=capture & label, q=quit")
+    else:
+        print("Headless: type c + Enter to capture & label, q + Enter to quit")
+    print("-" * 50)
+
+    try:
+        _run_label_video_capture_loop(
+            video,
+            sample_prefix="webcam",
+            output_path=output_path,
+            show_window=show_window,
+            model_path=model_path,
+            device=device,
+        )
+    finally:
+        video.stop()
+        if show_window:
+            cv2.destroyAllWindows()
+        print("Label mode stopped.")
+
+
+def run_label_video_file_mode(
+    source: str,
+    output_path: str | None = None,
+    show_window: bool = True,
+    model_path: str | None = None,
+    device: str = "cpu",
+) -> None:
+    """Label from a video file: preview playback, c=capture frame and label."""
+    source_path = Path(source)
+    csv_path = _resolve_csv_path(output_path)
+
+    if not source_path.is_file():
+        LOGGER.error("Video file not found: %s", source)
+        print(f"Error: Video file not found: '{source}'.")
+        sys.exit(1)
+
+    if source_path.suffix.lower() not in SUPPORTED_VIDEO_EXTENSIONS:
+        supported = ", ".join(sorted(SUPPORTED_VIDEO_EXTENSIONS))
+        print(f"Error: Unsupported video format '{source_path.suffix}'.")
+        print(f"Supported: {supported}")
+        sys.exit(1)
+
+    video = VideoProcessor(source=str(source_path))
+    if not video.start():
+        LOGGER.error("Could not open video file: %s", source)
+        print(f"Error: Could not open video '{source}'.")
+        sys.exit(1)
+
+    print(f"Smart Storage — Label Mode (video): {source_path.name}")
+    print(f"CSV: {csv_path}")
+    if show_window:
+        print("Controls: c=capture & label current frame, q=quit")
+    else:
+        print("Headless: type c + Enter to capture & label, q + Enter to quit")
+    print("-" * 50)
+
+    try:
+        _run_label_video_capture_loop(
+            video,
+            sample_prefix=source_path.stem,
+            output_path=output_path,
+            show_window=show_window,
+            model_path=model_path,
+            device=device,
+        )
     finally:
         video.stop()
         if show_window:
@@ -763,7 +857,10 @@ def main() -> None:
         "--source",
         type=str,
         default=None,
-        help="Image path for image mode or folder path for batch mode.",
+        help=(
+            "Path for --mode: image/label (file), batch (folder), "
+            "label (image or video: .mov, .mp4, …)."
+        ),
     )
 
     parser.add_argument(
@@ -867,8 +964,15 @@ def main() -> None:
         )
 
     elif args.mode == "label":
-        if args.source is not None:
-            run_label_image_mode(
+        if args.source is None:
+            run_label_video_mode(
+                output_path=args.output,
+                show_window=should_show_window,
+                model_path=args.model,
+                device=effective_device,
+            )
+        elif is_video_file(args.source):
+            run_label_video_file_mode(
                 source=args.source,
                 output_path=args.output,
                 show_window=should_show_window,
@@ -876,7 +980,8 @@ def main() -> None:
                 device=effective_device,
             )
         else:
-            run_label_video_mode(
+            run_label_image_mode(
+                source=args.source,
                 output_path=args.output,
                 show_window=should_show_window,
                 model_path=args.model,

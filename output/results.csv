@@ -187,3 +187,22 @@ timestamp,category,color,size_category,confidence,method,area_pixels,aspect_rati
 2026-05-13T19:17:45.196467,Image_1.jpeg,1,Remote,black,large,0.885,yolo,882724,3.57,rectangular,0.51,0.985,0.939,black,black,0.962,0.803,20260513_191745_196695.jpg
 2026-05-16T14:43:38.964845,Image_11.png,1,Mouse,black,medium,0.451,yolo,241682,1.49,oval,0.702,0.992,0.825,black,black,1.0,0.699,20260516_144338_964969.jpg
 2026-05-16T14:47:18.132918,Image_11.png,1,Mouse,black,medium,0.451,yolo,241682,1.49,oval,0.702,0.992,0.825,black,black,1.0,0.699,20260516_144718_133113.jpg
+2026-05-16T18:09:18.660994,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_180918_661185.jpg,
+2026-05-16T18:12:31.807001,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_181231_807201.jpg,
+2026-05-16T18:17:16.810718,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_181726_536731.jpg,Charger Adapter
+2026-05-16T18:22:24.723696,Image.jpeg,1,Mouse,black,large,0.756,combined,715193,1.15,oval,0.786,0.987,0.67,black,black,0.859,0.58,20260516_182224_723766.jpg,
+2026-05-16T18:22:37.776086,Image_1.jpeg,1,Keyboard,black,large,0.874,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788,20260516_182237_776447.jpg,
+2026-05-16T18:22:40.862677,Image_11.png,1,Mouse,black,medium,0.88,combined,207571,1.68,oval,0.744,0.986,0.836,black,black,1.0,0.653,20260516_182240_865191.jpg,
+2026-05-16T18:22:43.591422,Image_12.png,1,Keyboard,black,large,0.84,combined,549070,3.14,rectangular,0.169,0.947,0.919,black,black,0.934,0.607,20260516_182243_591485.jpg,
+2026-05-16T18:22:45.396390,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803,20260516_182245_396447.jpg,
+2026-05-16T18:23:09.131238,Image_16.png,1,Unknown Object,silver,large,0.16,combined,268189,1.03,irregular,0.025,0.281,0.272,silver,silver,0.534,0.471,20260516_182309_131297.jpg,
+2026-05-16T18:23:10.227466,Image_17.png,1,Colored Object,green,medium,0.468,combined,122406,2.71,rectangular,0.604,0.973,0.893,green,green,0.721,0.531,20260516_182310_227522.jpg,
+2026-05-16T18:23:14.748565,Image_19.png,1,Mouse,black,large,0.639,combined,375940,1.37,oval,0.83,0.992,0.835,black,black,0.726,0.405,20260516_182314_748622.jpg,
+2026-05-16T18:23:27.916445,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583,20260516_182327_916516.jpg,
+2026-05-16T18:23:30.817857,Image_3.png,1,Keyboard,black,large,0.857,combined,550297,3.25,rectangular,0.483,0.978,0.956,black,black,0.952,0.829,20260516_182330_818876.jpg,
+2026-05-16T18:23:54.957179,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367,20260516_182354_957242.jpg,
+2026-05-16T18:24:26.340639,Image_5.jpeg,1,Unknown Object,white,medium,0.217,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724,20260516_182426_340707.jpg,
+2026-05-16T18:24:44.048908,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_182444_050462.jpg,
+2026-05-16T18:43:51.802893,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_184351_977860.jpg,
+2026-05-16T18:44:19.088710,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_184419_255097.jpg,
+2026-05-16T18:44:48.141024,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_184448_306595.jpg,

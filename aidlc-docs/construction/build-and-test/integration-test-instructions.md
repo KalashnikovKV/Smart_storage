@@ -6,11 +6,11 @@ Test the full pipeline end-to-end with real images to verify all components work
 ## Scenario 1: Full Pipeline on Test Image
 
 ### Setup
-Place a test image in `test_images/` (e.g., a photo of a white iPhone charger on a black background).
+Place a test image in `training/test_images/` (e.g., a photo of a white iPhone charger on a black background).
 
 ### Test Steps
 ```bash
-uv run python -m src.main --mode image --source test_images/charger_white.jpg --output output/test_results.csv
+uv run python -m src.main --mode image --source training/test_images/charger_white.jpg --output output/test_results.csv
 ```
 
 ### Expected Results
@@ -25,8 +25,8 @@ uv run python -m src.main --mode image --source test_images/charger_white.jpg --
 ### Test Steps
 ```bash
 # Process multiple images
-uv run python -m src.main --mode image --source test_images/mouse_black.jpg --output output/test_results.csv
-uv run python -m src.main --mode image --source test_images/cable_black.jpg --output output/test_results.csv
+uv run python -m src.main --mode image --source training/test_images/mouse_black.jpg --output output/test_results.csv
+uv run python -m src.main --mode image --source training/test_images/cable_black.jpg --output output/test_results.csv
 ```
 
 ### Expected Results

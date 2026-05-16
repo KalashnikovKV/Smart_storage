@@ -4,7 +4,7 @@
 - **Workspace Root**: `smart-storage/`
 - **Application Code**: `smart-storage/src/`
 - **Tests**: `smart-storage/tests/`
-- **Test Images**: `smart-storage/test_images/`
+- **Test Images**: `smart-storage/training/test_images/`
 - **Output**: `smart-storage/output/`
 
 ---
@@ -14,7 +14,7 @@
 - [x] 1.2 Create `src/__init__.py`
 - [x] 1.3 Create `tests/__init__.py`
 - [x] 1.4 Create `output/.gitkeep`
-- [x] 1.5 Create `test_images/.gitkeep`
+- [x] 1.5 Create `training/test_images/.gitkeep`
 
 ## Step 2: Data Models
 - [x] 2.1 Create `src/models.py` — ColorResult, DetectionResult, Decision, PipelineResult dataclasses
