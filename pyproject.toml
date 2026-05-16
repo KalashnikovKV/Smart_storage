@@ -21,6 +21,8 @@ dev = [
 
 yolo = [
     "ultralytics>=8.2",
+    "torch>=2.2",
+    "torchvision>=0.17",
 ]
 
 notebook = [
@@ -34,3 +36,14 @@ pythonpath = ["."]
 
 [tool.uv]
 package = false
+
+# CPU-only PyTorch for YOLO mode (no libcudnn/CUDA required).
+# For GPU inference see aidlc-docs/construction/build-and-test/build-instructions.md
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
