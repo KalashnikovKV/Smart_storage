@@ -68,23 +68,28 @@ def _resolve_device(requested: str) -> str:
             "Falling back to cpu."
         )
         print("Warning: CUDA not available — falling back to cpu.")
-    except ImportError:
+    except (ImportError, OSError) as exc:
         LOGGER.warning(
-            "torch is not installed; cannot verify CUDA. Falling back to cpu."
+            "torch unavailable (%s); cannot verify CUDA. Falling back to cpu.",
+            exc,
         )
-        print("Warning: torch not found — falling back to cpu.")
+        print(
+            "Warning: PyTorch failed to load — falling back to cpu. "
+            "If you need YOLO, run: uv sync --group yolo  "
+            "(installs CPU-only torch; see build-instructions.md for CUDA)."
+        )
     return "cpu"
 
 
 def _build_pipeline(model_path: str | None, device: str = "cpu") -> Pipeline:
-    """Build Pipeline, optionally with a YOLO-Seg SegmentationDetector."""
+    """Build Pipeline, optionally with a YOLO-Seg segmenter."""
     if model_path:
-        from src.segmentation_detector import SegmentationDetector
+        from src.yolo_segmenter import YOLOSegmenter
         effective_device = _resolve_device(device)
-        segmentation_detector = SegmentationDetector(model_path, device=effective_device)
+        segmenter = YOLOSegmenter(model_path, device=effective_device)
         LOGGER.info("YOLO-Seg model loaded: %s (device=%s)", model_path, effective_device)
         print(f"YOLO-Seg model: {model_path} | device: {effective_device}")
-        return Pipeline(segmentation_detector=segmentation_detector)
+        return Pipeline(segmenter=segmenter)
     return Pipeline()
 
 
@@ -537,11 +542,13 @@ def main() -> None:
     # Resolve device: explicit arg > auto-detect CUDA > cpu
     if args.device is not None:
         effective_device = args.device
+    elif args.model is None:
+        effective_device = "cpu"
     else:
         try:
             import torch
             effective_device = "cuda" if torch.cuda.is_available() else "cpu"
-        except ImportError:
+        except (ImportError, OSError):
             effective_device = "cpu"
 
     LOGGER.debug("Effective inference device: %s", effective_device)

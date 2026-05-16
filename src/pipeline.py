@@ -55,6 +55,7 @@ from src.classifier_protocol import Classifier
 from src.color_detector import ColorDetector
 from src.config import AppConfig, ClassificationRule
 from src.models import Decision, DetectionResult, PipelineResult
+from src.segmenter_protocol import Segmenter
 
 LOGGER = logging.getLogger(__name__)
 
@@ -85,14 +86,13 @@ class Pipeline:
         self,
         config: AppConfig | None = None,
         classifier: Classifier | None = None,
-        segmentation_detector=None,
+        segmenter: Segmenter | None = None,
     ) -> None:
         self.config = config or AppConfig()
         self.color_detector = ColorDetector(self.config)
         self.classifier = classifier
-        # When set, run() uses YOLO-Seg instead of threshold segmentation.
-        # Accepts a SegmentationDetector instance.
-        self.segmentation_detector = segmentation_detector
+        # When set, run() uses YOLO-Seg; class comes from YOLO, color from ColorDetector.
+        self.segmenter = segmenter
         self._current_frame: np.ndarray | None = None  # set during run()
 
     def enhance(self, image: np.ndarray) -> np.ndarray:
@@ -388,11 +388,11 @@ class Pipeline:
     def run(self, image: np.ndarray) -> PipelineResult | None:
         """Execute the full pipeline.
 
-        When a SegmentationDetector is configured, YOLO-Seg provides
+        When a Segmenter (e.g. YOLOSegmenter) is configured, YOLO-Seg provides
         class + bbox + mask for each object and ColorDetector runs
-        inside the YOLO mask for accurate color analysis.
+        inside the YOLO mask. Pipeline.decide() is not called.
 
-        Without a SegmentationDetector the classic threshold-based path
+        Without a segmenter the classic threshold-based path
         (segment → clean → detect → rule-based decide) is used.
         """
         start = time.time()
@@ -402,7 +402,7 @@ class Pipeline:
         mask = self.segment(enhanced)
         cleaned = self.clean(mask)
 
-        if self.segmentation_detector is not None:
+        if self.segmenter is not None:
             detections, decisions = self._run_yolo_path(image, enhanced)
         else:
             detections, decisions = self._run_rule_based_path(
@@ -432,19 +432,16 @@ class Pipeline:
         enhanced: np.ndarray,
     ) -> tuple[list[DetectionResult], list[Decision]]:
         """YOLO-Seg path: class + mask from YOLO, color from ColorDetector."""
-        raw_detections = self.segmentation_detector.detect(image)
+        yolo_detections = self.segmenter.segment(image)
 
         detections: list[DetectionResult] = []
         decisions: list[Decision] = []
 
-        for object_id, raw in enumerate(raw_detections, start=1):
-            yolo_mask: np.ndarray = raw["mask"]
-
-            # Reuse existing geometry+color computation with the YOLO mask.
+        for object_id, yolo_det in enumerate(yolo_detections, start=1):
             detection = self._build_detection_from_mask(
                 color_image=image,
                 processing_image=enhanced,
-                object_mask=yolo_mask,
+                object_mask=yolo_det.mask,
                 object_id=object_id,
             )
 
@@ -454,24 +451,34 @@ class Pipeline:
                 )
                 continue
 
-            category = _yolo_category(raw["category"])
-            conf = raw["confidence"]
+            category = _yolo_category(yolo_det.class_name)
+            conf = yolo_det.confidence
 
-            decision = Decision(
-                category=category,
-                confidence=conf,
-                color=detection.primary_color,
-                size=detection.size_category,
-                method_used="yolo",
-                is_unknown=conf < self.config.low_confidence,
-                closest_match="" if conf >= self.config.low_confidence else category,
-                object_id=object_id,
+            decisions.append(
+                self._decision_from_yolo(detection, category, conf, object_id)
             )
-
             detections.append(detection)
-            decisions.append(decision)
 
         return detections, decisions
+
+    def _decision_from_yolo(
+        self,
+        detection: DetectionResult,
+        category: str,
+        conf: float,
+        object_id: int,
+    ) -> Decision:
+        """Build Decision from YOLO class — Pipeline.decide() is not used."""
+        return Decision(
+            category=category,
+            confidence=conf,
+            color=detection.primary_color,
+            size=detection.size_category,
+            method_used="yolo",
+            is_unknown=conf < self.config.low_confidence,
+            closest_match="" if conf >= self.config.low_confidence else category,
+            object_id=object_id,
+        )
 
     def _run_rule_based_path(
         self,
