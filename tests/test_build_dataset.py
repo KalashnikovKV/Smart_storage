@@ -31,9 +31,17 @@ def white_mask():
 
 def test_category_to_slug_maps_known_classes():
     assert category_to_slug("Mouse") == "mouse"
-    assert category_to_slug("Charger Adapter") == "charger_adapter"
-    assert category_to_slug("USB-C Cable") == "usb_cable"
+    assert category_to_slug("Charger Adapter") == "charger"
+    assert category_to_slug("USB-C Cable") == "cable"
+    assert category_to_slug("iPhone Charger") == "charger"
     assert category_to_slug("Unknown Object") is None
+
+
+def test_normalise_slug_maps_legacy_aliases():
+    from training.build_dataset import normalise_slug
+
+    assert normalise_slug("charger_adapter") == "charger"
+    assert normalise_slug("usb_cable") == "cable"
 
 
 def test_mask_to_polygon_returns_normalized_points(white_mask):
@@ -78,11 +86,14 @@ def test_deduplicate_prefers_ground_truth_row():
 
 def test_build_dataset_yaml_names(tmp_path):
     output_dir = tmp_path / "dataset"
-    yaml_path = build_dataset_yaml(output_dir, ["mouse", "keyboard"])
+    yaml_path = build_dataset_yaml(output_dir, YOLO_CLASS_NAMES)
     data = yaml.safe_load(yaml_path.read_text(encoding="utf-8"))
     assert data["train"] == "images/train"
     assert data["val"] == "images/val"
     assert data["names"][0] == "mouse"
+    assert data["names"][2] == "charger"
+    assert data["names"][3] == "cable"
+    assert len(data["names"]) == 7
 
 
 def test_end_to_end_dataset_build(tmp_path):
@@ -153,3 +164,58 @@ def test_end_to_end_dataset_build(tmp_path):
 def test_all_category_slugs_are_listed():
     for slug in set(CATEGORY_TO_SLUG.values()):
         assert slug in YOLO_CLASS_NAMES
+
+
+def test_load_csv_rows_handles_mixed_legacy_and_extended(tmp_path):
+    from training.build_dataset import load_csv_rows
+
+    csv_path = tmp_path / "results.csv"
+    csv_path.write_text(
+        "timestamp,category,color,size_category,confidence,method,area_pixels,aspect_ratio,color_hsv,color_kmeans,confidence_hsv,confidence_kmeans\n"
+        "2026-04-24T13:54:03,Mouse,black,large,0.364,combined,716791,1.15,blue,black,0.353,0.405\n"
+        "2026-05-02T20:41:29,Image_1.jpeg,1,USB-C Cable,black,large,0.738,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788\n",
+        encoding="utf-8",
+    )
+    df = load_csv_rows(csv_path)
+    assert len(df) == 2
+    assert df.iloc[0]["category"] == "Mouse"
+    assert df.iloc[0]["image_name"] == ""
+    assert df.iloc[1]["image_name"] == "Image_1.jpeg"
+    assert df.iloc[1]["category"] == "USB-C Cable"
+
+
+def test_import_yolo_export(tmp_path):
+    from training.build_dataset import import_yolo_export
+
+    export_root = tmp_path / "roboflow"
+    train_images = export_root / "train" / "images"
+    train_labels = export_root / "train" / "labels"
+    val_images = export_root / "valid" / "images"
+    val_labels = export_root / "valid" / "labels"
+    for directory in (train_images, train_labels, val_images, val_labels):
+        directory.mkdir(parents=True)
+
+    image = np.zeros((80, 80, 3), dtype=np.uint8)
+    image[20:60, 20:60] = 255
+    cv2.imwrite(str(train_images / "a.jpg"), image)
+    cv2.imwrite(str(val_images / "b.jpg"), image)
+
+    (train_labels / "a.txt").write_text(
+        "0 0.25 0.25 0.75 0.25 0.75 0.75 0.25 0.75\n",
+        encoding="utf-8",
+    )
+    (val_labels / "b.txt").write_text(
+        "2 0.25 0.25 0.75 0.25 0.75 0.75 0.25 0.75\n",
+        encoding="utf-8",
+    )
+    (export_root / "data.yaml").write_text(
+        "names:\n  0: mouse\n  2: charger\n",
+        encoding="utf-8",
+    )
+
+    output_dir = tmp_path / "dataset"
+    train_counts, val_counts = import_yolo_export(export_root, output_dir)
+    assert train_counts["mouse"] == 1
+    assert val_counts["charger"] == 1
+    assert (output_dir / "images" / "train" / "a.jpg").is_file()
+    assert (output_dir / "labels" / "val" / "b.txt").read_text(encoding="utf-8").startswith("2 ")

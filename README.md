@@ -29,7 +29,7 @@ uv sync
 |-------|-----------------|---------|
 | `yolo` | Ultralytics YOLO (for YOLO-Seg mode) | `uv sync --group yolo` |
 | `notebook` | Jupyter, matplotlib, seaborn | `uv sync --group notebook` |
-| `dev` | pytest, httpx | `uv sync --group dev` |
+| `dev` | pytest | `uv sync --group dev` |
 
 > `uv sync` without `--group` installs only core dependencies (OpenCV, NumPy, scikit-learn).
 
@@ -49,6 +49,20 @@ After clone, copy your files into `training/test_images/` (folders are empty exc
 
 ---
 
+## Project structure
+
+```
+src/
+├── pipeline/     # 5 CV stages (enhance → segment → clean → detect → decide)
+├── ml/           # YOLO-Seg backend (--model)
+├── modes/        # CLI: video, image, batch, label
+└── app/          # GUI, CSV export, labeling
+scripts/          # build_dataset.py, train_yolo.py wrappers
+training/         # dataset builder, YOLO trainer, test media
+```
+
+---
+
 ## Usage
 
 ### Quick start — rule-based mode (no model needed)
@@ -57,8 +71,11 @@ After clone, copy your files into `training/test_images/` (folders are empty exc
 # Webcam
 ./run.sh --mode video
 
-# Single image
-./run.sh --mode image --source training/test_images/Image.jpeg
+# Single image — rule-based demo
+./run.sh --mode image --source training/test_images/Image_6.jpeg --no-display
+
+# Single image — YOLO demo
+./run.sh --mode image --source training/test_images/Image_2.jpeg --model models/yolo11n-seg.pt --device cpu --no-display
 
 # Batch folder (predictions + masks for YOLO dataset)
 ./run.sh --mode batch --source training/test_images/
@@ -134,6 +151,7 @@ In YOLO-Seg mode the pipeline uses:
 | `s` | Save current result to CSV |
 | `c` | Freeze current frame |
 | `p` | Pause / resume |
+| `space` | Pause / resume (label mode with video file or webcam) |
 
 ---
 
@@ -192,10 +210,13 @@ Quick start:
 ./run.sh --mode label --source training/test_images/Image.jpeg
 
 # 3. Build YOLO-Seg dataset (reads output/results.csv + output/stages/)
-uv run python training/build_dataset.py --clean
+uv run python scripts/build_dataset.py --clean
+
+# Or import Roboflow/CVAT YOLOv8 Segmentation export:
+uv run python scripts/build_dataset.py --import-from path/to/export --clean
 
 # 4. Train
-uv run python training/train_yolo.py \
+uv run python scripts/train_yolo.py \
     --data dataset/dataset.yaml \
     --model yolo11n-seg.pt \
     --epochs 100

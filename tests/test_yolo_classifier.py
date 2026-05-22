@@ -11,14 +11,14 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 import pytest
 
-from src.decision.protocol import Classifier
-from src.classifiers.yolo_classifier import (
+from src.ml.yolo_classifier import (
     YOLOClassifier,
     _classify_size,
     _compute_geometry,
     _extract_yolo_mask,
     _normalise_category,
 )
+from src.pipeline.protocols import Classifier
 from src.config import AppConfig
 from src.models import Decision, DetectionResult
 
@@ -187,7 +187,7 @@ class TestYOLOClassifierProtocol:
     """YOLOClassifier must satisfy the Classifier Protocol at runtime."""
 
     def _make_classifier(self) -> YOLOClassifier:
-        with patch("src.classifiers.yolo_classifier.YOLOClassifier.__init__", return_value=None):
+        with patch("src.ml.yolo_classifier.YOLOClassifier.__init__", return_value=None):
             obj = YOLOClassifier.__new__(YOLOClassifier)
             obj.model = MagicMock()
             obj.device = "cpu"
@@ -216,7 +216,7 @@ class TestYOLOClassifierProtocol:
 
 class TestClassify:
     def _make_classifier(self, yolo_result=None) -> YOLOClassifier:
-        with patch("src.classifiers.yolo_classifier.YOLOClassifier.__init__", return_value=None):
+        with patch("src.ml.yolo_classifier.YOLOClassifier.__init__", return_value=None):
             obj = YOLOClassifier.__new__(YOLOClassifier)
             obj.device = "cpu"
             obj.conf_threshold = 0.35
@@ -295,7 +295,7 @@ class TestClassify:
 
 class TestDetectAndClassify:
     def _make_classifier(self, image_shape=(480, 640)) -> tuple[YOLOClassifier, MagicMock]:
-        with patch("src.classifiers.yolo_classifier.YOLOClassifier.__init__", return_value=None):
+        with patch("src.ml.yolo_classifier.YOLOClassifier.__init__", return_value=None):
             obj = YOLOClassifier.__new__(YOLOClassifier)
             obj.device = "cpu"
             obj.conf_threshold = 0.35

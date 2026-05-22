@@ -170,6 +170,26 @@ class AppConfig:
     min_object_ratio: float = 0.002
     max_object_ratio: float = 0.70
     max_objects: int = 8
+    min_component_area_ratio: float = 0.0015
+
+    # Color-distance segmentation (LAB space)
+    color_distance_sigma: float = 2.8
+    color_distance_min_delta: float = 14.0
+    color_distance_soft_sigma: float = 1.4
+
+    # In-contour refinement (multi-color objects on dark backgrounds)
+    min_saturation: int = 35
+    brightness_delta: int = 28
+    min_detection_extent: float = 0.20
+
+    # Shadow suppression inside object masks
+    shadow_bg_distance_ratio: float = 0.90
+    shadow_l_delta: float = 12.0
+    shadow_max_saturation: float = 48.0
+    shadow_bg_l_margin: float = 10.0
+    shadow_min_keep_ratio: float = 0.28
+    shadow_min_core_distance: float = 10.0
+    shadow_core_dilate_iterations: int = 2
 
     # Size thresholds
     small_max_ratio: float = 0.025

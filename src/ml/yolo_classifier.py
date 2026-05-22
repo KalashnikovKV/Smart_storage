@@ -19,34 +19,19 @@ import cv2
 import numpy as np
 
 from src.config import AppConfig
-from src.decision.protocol import Classifier  # noqa: F401 — satisfies Protocol
-from src.detect.color import ColorDetector
+from src.ml.yolo_category import yolo_category
+from src.pipeline.detect_color import ColorDetector
+from src.pipeline.protocols import Classifier  # noqa: F401 — satisfies Protocol
 from src.models import Decision, DetectionResult
 
 LOGGER = logging.getLogger(__name__)
-
-# Maps YOLO training class names → canonical app category strings.
-# Keys must match names used in dataset.yaml exactly (lowercase).
-_CLASS_NAME_MAP: dict[str, str] = {
-    "mouse": "Mouse",
-    "keyboard": "Keyboard",
-    "charger": "Charger Adapter",
-    "charger_adapter": "Charger Adapter",
-    "cable": "USB-C Cable",
-    "usb_cable": "USB-C Cable",
-    "usb-c_cable": "USB-C Cable",
-    "headphones": "Headphones",
-    "flash_drive": "Flash Drive",
-    "flashdrive": "Flash Drive",
-    "colored_object": "Colored Object",
-}
 
 _LOW_CONF = 0.25
 
 
 def _normalise_category(raw: str) -> str:
     """Map a raw YOLO class name to the canonical category string."""
-    return _CLASS_NAME_MAP.get(raw.lower().replace(" ", "_"), raw.title())
+    return yolo_category(raw)
 
 
 def _extract_yolo_mask(

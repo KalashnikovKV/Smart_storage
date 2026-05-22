@@ -3,8 +3,8 @@
 import numpy as np
 import pytest
 
-from src.decision.protocol import Classifier
-from src.decision.rule_based import RuleBasedClassifier
+from src.pipeline.decide import RuleBasedClassifier
+from src.pipeline.protocols import Classifier
 from src.models import ColorResult, Decision, DetectionResult
 
 

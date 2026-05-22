@@ -206,3 +206,14 @@ timestamp,category,color,size_category,confidence,method,area_pixels,aspect_rati
 2026-05-16T18:43:51.802893,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_184351_977860.jpg,
 2026-05-16T18:44:19.088710,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_184419_255097.jpg,
 2026-05-16T18:44:48.141024,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260516_184448_306595.jpg,
+2026-05-22T20:49:13.210597,Image_1.jpeg,1,Keyboard,black,large,0.874,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788,20260522_204913_382594.jpg,
+2026-05-22T20:50:03.899605,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260522_205004_070943.jpg,
+2026-05-22T20:53:48.772035,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260522_205348_936223.jpg,
+2026-05-22T21:08:38.358533,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260522_210838_527760.jpg,
+2026-05-22T21:09:31.630434,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423,20260522_210931_795537.jpg,
+2026-05-22T21:15:30.923523,Video_1_0000,1,Unknown Object,black,large,0.176,combined,85332,1.17,irregular,0.042,0.252,0.225,black,black,0.587,0.454,20260522_211543_246500.jpg,Mouse
+2026-05-22T21:15:58.424733,Video_1_0001,1,Unknown Object,black,large,0.222,combined,198473,1.56,irregular,0.072,0.446,0.332,black,black,0.741,0.503,20260522_211603_642375.jpg,Mouse
+2026-05-22T21:29:19.756098,Image_6.jpeg,1,Charger Adapter,silver,medium,0.645,combined,164738,1.52,rectangular,0.39,0.853,0.634,silver,silver,0.768,0.423,20260522_212919_941591.jpg,
+2026-05-22T21:30:26.379257,Image_6.jpeg,1,Charger Adapter,silver,medium,0.645,combined,164738,1.52,rectangular,0.39,0.853,0.634,silver,silver,0.768,0.423,20260522_213026_575868.jpg,
+2026-05-22T22:24:03.670853,Image_7.jpeg,1,Mouse,black,medium,0.869,combined,203620,1.26,oval,0.75,0.975,0.685,black,black,0.988,0.795,20260522_222403_855949.jpg,
+2026-05-22T22:24:29.216228,Image_7.jpeg,1,Mouse,black,medium,0.869,combined,203620,1.26,oval,0.75,0.975,0.685,black,black,0.988,0.795,20260522_222429_402553.jpg,

@@ -11,8 +11,10 @@ import logging
 import cv2
 import numpy as np
 
+from src.config import AppConfig
+from src.ml.yolo_category import yolo_category
 from src.models import YOLODetection
-from src.segment.protocol import Segmenter  # noqa: F401 — satisfies Protocol
+from src.pipeline.protocols import Segmenter  # noqa: F401 — satisfies Protocol
 
 LOGGER = logging.getLogger(__name__)
 
