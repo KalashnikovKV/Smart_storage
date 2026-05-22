@@ -3,6 +3,7 @@
 
 Usage:
     uv run python training/train_yolo.py --validate-only --data dataset/dataset.yaml
+    uv run python scripts/train_yolo.py --validate-only --data dataset/dataset.yaml
     uv sync --group yolo
     uv run python training/train_yolo.py --data dataset/dataset.yaml --model yolo11n-seg.pt --epochs 100
 """

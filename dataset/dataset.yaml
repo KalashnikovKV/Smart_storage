@@ -1,0 +1,11 @@
+path: .
+train: images/train
+val: images/val
+names:
+  0: mouse
+  1: keyboard
+  2: charger
+  3: cable
+  4: headphones
+  5: flash_drive
+  6: colored_object

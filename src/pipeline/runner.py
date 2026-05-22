@@ -50,19 +50,18 @@ import time
 
 import numpy as np
 
-from src.clean.cleaner import MaskCleaner
-from src.clean.mask_ops import MaskOps
 from src.config import AppConfig
-from src.decision.protocol import Classifier
-from src.decision.rule_based import RuleBasedDecisionEngine
-from src.decision.yolo_category import yolo_category
-from src.detect.color import ColorDetector
-from src.detect.from_mask import ObjectMaskDetector
-from src.enhance.ops import enhance as enhance_image
-from src.image.validate import is_valid_bgr_uint8
+from src.ml.yolo_category import yolo_category
 from src.models import Decision, DetectionResult, PipelineResult
-from src.segment.protocol import Segmenter
-from src.segment.threshold import ThresholdSegmenter
+from src.pipeline.cleaner import MaskCleaner
+from src.pipeline.decide import RuleBasedDecisionEngine
+from src.pipeline.detect_color import ColorDetector
+from src.pipeline.detect_object import ObjectMaskDetector
+from src.pipeline.enhance import enhance as enhance_image
+from src.pipeline.mask_ops import MaskOps
+from src.pipeline.protocols import Classifier, Segmenter
+from src.pipeline.segment import ThresholdSegmenter
+from src.pipeline.validate import is_valid_bgr_uint8
 
 LOGGER = logging.getLogger(__name__)
 
@@ -116,20 +115,32 @@ class Pipeline:
         processing_image: np.ndarray,
         mask: np.ndarray,
     ) -> list[DetectionResult]:
-        """Detect the main foreground object."""
-        object_mask = self._object_detector.build_final_object_mask(mask)
-
-        if object_mask is None:
-            return []
-
-        detection = self._object_detector.build_detection_from_mask(
+        """Detect every foreground object in *mask* (multi-contour rule-based path)."""
+        return self._object_detector.detect_all_from_mask(
             color_image=color_image,
             processing_image=processing_image,
-            object_mask=object_mask,
-            object_id=1,
+            mask=mask,
         )
 
-        return [detection] if detection is not None else []
+    def debug_contours_overlay(
+        self,
+        image: np.ndarray,
+        mask: np.ndarray,
+    ) -> np.ndarray:
+        """Return *image* with numbered bounding boxes for all scored contours."""
+        return self.mask_ops.draw_contours_debug(
+            image,
+            mask,
+            max_objects=self.config.max_objects,
+        )
+
+    def get_object_masks(
+        self,
+        mask: np.ndarray,
+        color_image: np.ndarray | None = None,
+    ) -> list[np.ndarray]:
+        """Return one binary mask per foreground object."""
+        return self._object_detector.build_all_object_masks(mask, color_image)
 
     def _extract_roi(self, detection: DetectionResult) -> np.ndarray | None:
         """Crop the bounding-box region from the current frame for ML classifiers."""

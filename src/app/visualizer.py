@@ -22,6 +22,16 @@ class Visualizer:
     BOX_COLOR = (0, 255, 0) # Green
     TEXT_COLOR = (255, 255, 255) # White
     TEXT_BG = (0, 0, 0) # Black background for text
+    OBJECT_COLORS = (
+        (0, 255, 255),
+        (255, 128, 0),
+        (0, 200, 255),
+        (255, 0, 255),
+        (0, 255, 128),
+        (128, 128, 255),
+        (255, 255, 0),
+        (180, 105, 255),
+    )
     PANEL_SIZE = (480, 360)   # Width x Height for each panel
     WINDOW_NAME = "Smart Storage — Pipeline Dashboard"
 
@@ -52,6 +62,111 @@ class Visualizer:
             self._draw_detection_on_image(output, detection, decision)
 
         return output
+
+    def build_colored_object_masks(
+        self,
+        object_masks: list[np.ndarray],
+        detections: list[DetectionResult] | None = None,
+        decisions: list | None = None,
+    ) -> np.ndarray:
+        """Render per-object binary masks as a single color-coded BGR image."""
+        if not object_masks:
+            return np.zeros((480, 640, 3), dtype=np.uint8)
+
+        height, width = object_masks[0].shape[:2]
+        canvas = np.zeros((height, width, 3), dtype=np.uint8)
+
+        decision_by_id = {
+            decision.object_id: decision
+            for decision in (decisions or [])
+        }
+
+        for index, mask in enumerate(object_masks, start=1):
+            color = self.OBJECT_COLORS[(index - 1) % len(self.OBJECT_COLORS)]
+            canvas[mask > 0] = color
+
+            moments = cv2.moments(mask)
+            if moments["m00"] <= 0:
+                continue
+
+            center_x = int(moments["m10"] / moments["m00"])
+            center_y = int(moments["m01"] / moments["m00"])
+            object_id = index
+            if detections and index <= len(detections):
+                object_id = detections[index - 1].object_id
+
+            decision = decision_by_id.get(object_id)
+            label = f"#{object_id}: {decision.category}" if decision else f"#{object_id}"
+
+            cv2.putText(
+                canvas,
+                label,
+                (max(center_x - 60, 4), max(center_y, 24)),
+                self.FONT,
+                0.55,
+                (255, 255, 255),
+                2,
+                cv2.LINE_AA,
+            )
+
+        return canvas
+
+    def create_mask_placeholder(self, height: int, width: int) -> np.ndarray:
+        """Empty right panel shown before the user analyzes a frame."""
+        panel = np.full((height, width, 3), 28, dtype=np.uint8)
+        lines = ("Object Masks", "", "Press 'a' on a", "paused frame to", "build masks")
+        y = height // 2 - len(lines) * 16
+
+        for line in lines:
+            text_size = cv2.getTextSize(line, self.FONT, 0.65, 1)[0]
+            x = max((width - text_size[0]) // 2, 8)
+            cv2.putText(
+                panel,
+                line,
+                (x, y),
+                self.FONT,
+                0.65,
+                (180, 180, 180),
+                1,
+                cv2.LINE_AA,
+            )
+            y += 32
+
+        return panel
+
+    def create_video_side_by_side(
+        self,
+        frame: np.ndarray,
+        mask_panel: np.ndarray,
+        *,
+        left_title: str = "Video",
+        right_title: str = "Object Masks",
+        status_line: str = "",
+    ) -> np.ndarray:
+        """Combine the video frame and mask panel into one wide image."""
+        left = frame.copy()
+        right = mask_panel.copy()
+
+        left_height, left_width = left.shape[:2]
+        right_height, right_width = right.shape[:2]
+
+        if right_height != left_height:
+            scale = left_height / right_height
+            right = cv2.resize(
+                right,
+                (max(1, int(right_width * scale)), left_height),
+                interpolation=cv2.INTER_NEAREST,
+            )
+
+        combined = np.hstack([left, right])
+        titled = self._add_split_titles(
+            combined,
+            left_width=left_width,
+            left_title=left_title,
+            right_title=right_title,
+            status_line=status_line,
+        )
+        return titled
 
     def create_dashboard(self, result: PipelineResult) -> np.ndarray:
         """Create a 2x3 dashboard with all pipeline stages."""
@@ -101,6 +216,7 @@ class Visualizer:
             "mask": stages_dir / "mask",
             "cleaned_mask": stages_dir / "cleaned_mask",
             "detection": stages_dir / "detection",
+            "contours": stages_dir / "contours",
             "dashboard": stages_dir / "dashboard",
         }
 
@@ -115,6 +231,7 @@ class Visualizer:
         cv2.imwrite(str(folders["mask"] / f"{base_name}_mask.jpg"), result.mask)
         cv2.imwrite(str(folders["cleaned_mask"] / f"{base_name}_cleaned_mask.jpg"), result.cleaned_mask)
         cv2.imwrite(str(folders["detection"] / f"{base_name}_detection.jpg"), detection_image)
+        cv2.imwrite(str(folders["contours"] / f"{base_name}_contours.jpg"), detection_image)
         cv2.imwrite(str(folders["dashboard"] / f"{base_name}_dashboard.jpg"), dashboard)
 
     def show_pipeline(self, result: PipelineResult) -> None:
@@ -196,10 +313,14 @@ class Visualizer:
         detection: DetectionResult,
         decision=None,
     ) -> None:
-        """Draw bounding box and label directly on image."""
+        """Draw contour, bounding box and label directly on image."""
         x, y, w, h = detection.bbox
+        color = self.OBJECT_COLORS[(detection.object_id - 1) % len(self.OBJECT_COLORS)]
 
-        cv2.rectangle(image, (x, y), (x + w, y + h), self.BOX_COLOR, 2)
+        if detection.contour is not None and len(detection.contour) > 0:
+            cv2.drawContours(image, [detection.contour], -1, color, 2)
+
+        cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
 
         if decision is None:
             label = (
@@ -237,7 +358,7 @@ class Visualizer:
             (label_x + 4, label_y + label_size[1] + 6),
             self.FONT,
             self.FONT_SCALE,
-            self.TEXT_COLOR,
+            color,
             self.FONT_THICKNESS,
         )
 
@@ -340,6 +461,55 @@ class Visualizer:
         )
 
         return np.vstack([title_bar, panel])
+
+    def _add_split_titles(
+        self,
+        image: np.ndarray,
+        *,
+        left_width: int,
+        left_title: str,
+        right_title: str,
+        status_line: str = "",
+    ) -> np.ndarray:
+        """Add title bars for a side-by-side video + mask view."""
+        _, width = image.shape[:2]
+        title_height = 48 if status_line else 28
+        title_bar = np.zeros((title_height, width, 3), dtype=np.uint8)
+
+        cv2.putText(
+            title_bar,
+            left_title,
+            (8, 20),
+            self.FONT,
+            0.55,
+            (0, 255, 255),
+            1,
+            cv2.LINE_AA,
+        )
+        cv2.putText(
+            title_bar,
+            right_title,
+            (left_width + 8, 20),
+            self.FONT,
+            0.55,
+            (0, 255, 255),
+            1,
+            cv2.LINE_AA,
+        )
+
+        if status_line:
+            cv2.putText(
+                title_bar,
+                status_line,
+                (8, 40),
+                self.FONT,
+                0.45,
+                (0, 220, 0),
+                1,
+                cv2.LINE_AA,
+            )
+
+        return np.vstack([title_bar, image])
 
     def _safe(self, text: str) -> str:
         """Make text safe for OpenCV rendering."""

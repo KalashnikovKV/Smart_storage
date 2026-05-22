@@ -228,7 +228,9 @@ training/test_video/**
 output/**
 !output/.gitkeep
 !output/results.csv
-dataset/
+dataset/**
+!dataset/dataset.yaml
+!dataset/**/.gitkeep
 runs/
 models/*.pt
 !models/.gitkeep

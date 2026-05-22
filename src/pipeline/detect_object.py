@@ -3,9 +3,9 @@
 import cv2
 import numpy as np
 
-from src.clean.mask_ops import MaskOps
 from src.config import AppConfig
-from src.detect.color import ColorDetector
+from src.pipeline.detect_color import ColorDetector
+from src.pipeline.mask_ops import MaskOps
 from src.models import DetectionResult
 
 
@@ -22,32 +22,72 @@ class ObjectMaskDetector:
         self.mask_ops = mask_ops
         self.color_detector = color_detector
 
-    def build_final_object_mask(self, mask: np.ndarray) -> np.ndarray | None:
+    def _prepare_binary_mask(self, mask: np.ndarray) -> np.ndarray:
+        """Normalize mask to uint8 binary and remove border-connected artifacts."""
         binary = np.where(mask > 0, 255, 0).astype(np.uint8)
-        binary = self.mask_ops.remove_border_connected_components(binary)
+        return self.mask_ops.remove_border_connected_components(binary)
 
-        contours, _ = cv2.findContours(
-            binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE,
+    def build_object_mask_for_contour(
+        self,
+        binary: np.ndarray,
+        contour: np.ndarray,
+        color_image: np.ndarray | None = None,
+    ) -> np.ndarray:
+        """Build a single-object mask clipped to the cleaned foreground."""
+        return self.mask_ops.extract_object_mask_from_contour(
+            binary,
+            contour,
+            color_image=color_image,
         )
 
-        if not contours:
-            return None
-
-        main_contour = self.mask_ops.find_best_contour(binary)
-
-        if main_contour is None:
-            return None
-
-        result = self.mask_ops.preserve_nearby_object_parts(
-            source_mask=binary,
-            main_contour=main_contour,
+    def build_all_object_masks(
+        self,
+        mask: np.ndarray,
+        color_image: np.ndarray | None = None,
+    ) -> list[np.ndarray]:
+        """Build one binary mask per detected foreground object."""
+        binary = self._prepare_binary_mask(mask)
+        contours = self.mask_ops.find_object_contours(
+            binary,
+            max_objects=self.config.max_objects,
         )
 
-        if int(np.sum(result > 0)) == 0:
-            result = np.zeros_like(binary)
-            cv2.drawContours(result, [main_contour], -1, 255, cv2.FILLED)
+        object_masks: list[np.ndarray] = []
+        for contour in contours:
+            object_masks.append(
+                self.build_object_mask_for_contour(binary, contour, color_image),
+            )
 
-        return result
+        return object_masks
+
+    def build_final_object_mask(self, mask: np.ndarray) -> np.ndarray | None:
+        """Build a mask for the single best-scoring object (legacy helper)."""
+        object_masks = self.build_all_object_masks(mask)
+        return object_masks[0] if object_masks else None
+
+    def detect_all_from_mask(
+        self,
+        color_image: np.ndarray,
+        processing_image: np.ndarray,
+        mask: np.ndarray,
+    ) -> list[DetectionResult]:
+        """Detect and classify every foreground object in *mask*."""
+        detections: list[DetectionResult] = []
+
+        for object_id, object_mask in enumerate(
+            self.build_all_object_masks(mask, color_image),
+            start=1,
+        ):
+            detection = self.build_detection_from_mask(
+                color_image=color_image,
+                processing_image=processing_image,
+                object_mask=object_mask,
+                object_id=object_id,
+            )
+            if detection is not None:
+                detections.append(detection)
+
+        return detections
 
     def build_detection_from_mask(
         self,
@@ -93,18 +133,19 @@ class ObjectMaskDetector:
         if not contours:
             return None
 
-        contour_points = np.vstack(contours)
-        display_contour = cv2.convexHull(contour_points)
+        main_contour = max(contours, key=cv2.contourArea)
+        display_contour = main_contour
+        contour_points = main_contour.reshape(-1, 2)
         aspect_ratio = max(w, h) / max(min(w, h), 1)
 
-        perimeter = sum(cv2.arcLength(c, True) for c in contours)
+        perimeter = cv2.arcLength(main_contour, True)
         circularity = (
             (4 * np.pi * area_pixels) / (perimeter * perimeter)
             if perimeter > 0
             else 0.0
         )
 
-        hull = cv2.convexHull(contour_points)
+        hull = cv2.convexHull(main_contour)
         hull_area = cv2.contourArea(hull)
         solidity = area_pixels / hull_area if hull_area > 0 else 0.0
 
@@ -119,6 +160,10 @@ class ObjectMaskDetector:
             aspect_ratio=aspect_ratio,
             edge_density=edge_density,
         )
+
+        if extent < self.config.min_detection_extent:
+            if shape_category not in {"ring_like", "irregular"}:
+                return None
 
         size_category, size_confidence = self._classify_visual_size(
             area_ratio=area_ratio,

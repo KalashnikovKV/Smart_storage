@@ -8,9 +8,9 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 import pytest
 
+from src.ml.yolo_segmenter import YOLOSegmenter, _parse_results
 from src.models import YOLODetection
-from src.segment.protocol import Segmenter
-from src.segment.yolo import YOLOSegmenter, _parse_results
+from src.pipeline.protocols import Segmenter
 
 
 def _make_yolo_result(
