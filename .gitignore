@@ -242,3 +242,12 @@ models/*.pt
 /.cursor/logs/
 /.cursor/extensions/
 /.cursor
+
+# Large media/archive files
+*.MOV
+*.mov
+*.mp4
+*.MP4
+*.avi
+*.AVI
+*.zip
