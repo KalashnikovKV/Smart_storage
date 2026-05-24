@@ -271,8 +271,6 @@ class TestClassify:
         empty_result.boxes.__len__ = lambda: 0
         clf = self._make_classifier()
         clf.model.return_value = [empty_result]
-        detection = _make_detection()
-        roi = np.ones((80, 100, 3), dtype=np.uint8)
 
         # Override model to return empty boxes
         clf.model = MagicMock(return_value=[empty_result])

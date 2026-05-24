@@ -235,6 +235,10 @@ runs/
 models/*.pt
 !models/.gitkeep
 
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
 # Cursor IDE — keep shared rules and plans, ignore user-specific data
 /.cursor/settings.json
 /.cursor/globalStorage/

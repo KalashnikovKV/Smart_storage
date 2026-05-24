@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-import sys
 
 from src.app.data_exporter import DataExporter
 from src.config import AppConfig

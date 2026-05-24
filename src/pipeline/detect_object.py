@@ -135,7 +135,6 @@ class ObjectMaskDetector:
 
         main_contour = max(contours, key=cv2.contourArea)
         display_contour = main_contour
-        contour_points = main_contour.reshape(-1, 2)
         aspect_ratio = max(w, h) / max(min(w, h), 1)
 
         perimeter = cv2.arcLength(main_contour, True)

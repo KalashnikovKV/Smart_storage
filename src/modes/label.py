@@ -10,7 +10,7 @@ import cv2
 import numpy as np
 
 from src.app import DataExporter, VideoProcessor, Visualizer, WindowClosed, prompt_ground_truth
-from src.app.video_processor import SUPPORTED_VIDEO_EXTENSIONS, is_video_file
+from src.app.video_processor import SUPPORTED_VIDEO_EXTENSIONS
 from src.modes.common import (
     build_pipeline,
     export_result,
