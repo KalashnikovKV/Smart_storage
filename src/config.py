@@ -211,7 +211,7 @@ class AppConfig:
 
     # YOLO inference
     device: str = "cpu"              # "cpu", "cuda", "cuda:0", "mps" (Apple Silicon)
-    yolo_weights: str = "models/yolo_seg_best.pt"
+    yolo_weights: str = "models/smart_storage_final_best.pt"
     yolo_conf_threshold: float = 0.5
     yolo_iou_threshold: float = 0.45
 

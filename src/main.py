@@ -5,15 +5,7 @@ from __future__ import annotations
 import argparse
 import logging
 
-from src.app.video_processor import is_video_file
-from src.modes import (
-    run_batch_mode,
-    run_image_mode,
-    run_label_image_mode,
-    run_label_video_file_mode,
-    run_label_video_mode,
-    run_video_mode,
-)
+from src.modes import run_batch_mode, run_image_mode, run_video_mode
 from src.modes.common import configure_logging
 
 LOGGER = logging.getLogger(__name__)
@@ -27,9 +19,9 @@ def main() -> None:
 
     parser.add_argument(
         "--mode",
-        choices=["video", "image", "batch", "label"],
+        choices=["video", "image", "batch"],
         default="video",
-        help="Processing mode: video, image, batch, or label (dataset collection).",
+        help="Processing mode: video, image, or batch.",
     )
 
     parser.add_argument(
@@ -37,9 +29,8 @@ def main() -> None:
         type=str,
         default=None,
         help=(
-            "Path for --mode: image/label (file), batch (folder), "
-            "video (webcam if omitted, or .mov/.mp4 file), "
-            "label (image or video: .mov, .mp4, …)."
+            "Path for --mode image (file), batch (folder), "
+            "or video (webcam if omitted, or .mov/.mp4 file)."
         ),
     )
 
@@ -113,6 +104,25 @@ def main() -> None:
         help="Maximum objects to detect per frame (default: 8).",
     )
 
+    parser.add_argument(
+        "--yolo-prefer",
+        type=str,
+        default=None,
+        help=(
+            "Comma-separated YOLO class names to prioritize in video mode "
+            "(e.g. headphones). When matches exist, other classes are ignored."
+        ),
+    )
+
+    parser.add_argument(
+        "--yolo-prefer-strict",
+        action="store_true",
+        help=(
+            "With --yolo-prefer: return no detections when preferred classes "
+            "are absent instead of falling back to other classes."
+        ),
+    )
+
     args = parser.parse_args()
 
     configure_logging(args.debug)
@@ -137,6 +147,14 @@ def main() -> None:
 
     LOGGER.debug("Effective inference device: %s", effective_device)
 
+    yolo_prefer = None
+    if args.yolo_prefer:
+        yolo_prefer = [
+            name.strip()
+            for name in args.yolo_prefer.split(",")
+            if name.strip()
+        ]
+
     if args.mode == "video":
         run_video_mode(
             output_path=args.output,
@@ -144,6 +162,8 @@ def main() -> None:
             device=effective_device,
             source=args.source,
             max_objects=args.max_objects,
+            yolo_prefer=yolo_prefer,
+            yolo_prefer_strict=args.yolo_prefer_strict,
         )
 
     elif args.mode == "image":
@@ -166,31 +186,6 @@ def main() -> None:
             model_path=args.model,
             device=effective_device,
         )
-
-    elif args.mode == "label":
-        if args.source is None:
-            run_label_video_mode(
-                output_path=args.output,
-                show_window=should_show_window,
-                model_path=args.model,
-                device=effective_device,
-            )
-        elif is_video_file(args.source):
-            run_label_video_file_mode(
-                source=args.source,
-                output_path=args.output,
-                show_window=should_show_window,
-                model_path=args.model,
-                device=effective_device,
-            )
-        else:
-            run_label_image_mode(
-                source=args.source,
-                output_path=args.output,
-                show_window=should_show_window,
-                model_path=args.model,
-                device=effective_device,
-            )
 
 
 if __name__ == "__main__":

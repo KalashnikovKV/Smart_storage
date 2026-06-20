@@ -41,7 +41,7 @@ if str(_ROOT) not in sys.path:
 from src.app.data_exporter import DataExporter
 from src.config import AppConfig
 
-# YOLO training class slugs — must match dataset.yaml and yolo_classifier._CLASS_NAME_MAP keys.
+# YOLO training class slugs — must match dataset.yaml names.
 YOLO_CLASS_NAMES: list[str] = [
     "mouse",
     "keyboard",
@@ -252,11 +252,19 @@ def deduplicate_rows(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def find_source_image(image_name: str, search_dirs: list[Path]) -> Path | None:
-    """Locate a source frame by file name across search directories."""
+    """Locate a source frame by relative key or file name across search directories."""
     if not image_name or image_name == "webcam_frame":
         return None
 
-    name = Path(image_name).name
+    normalized = Path(image_name.replace("\\", "/"))
+    for directory in search_dirs:
+        if not directory.is_dir():
+            continue
+        relative = directory / normalized
+        if relative.is_file():
+            return relative
+
+    name = normalized.name
     for directory in search_dirs:
         if not directory.is_dir():
             continue
@@ -274,7 +282,9 @@ def find_cleaned_mask(image_name: str, stages_dir: Path) -> Path | None:
     if not image_name:
         return None
 
-    stem = Path(image_name).stem
+    from src.modes.common import stage_output_stem
+
+    stem = stage_output_stem(image_name)
     mask_path = stages_dir / "cleaned_mask" / f"{stem}_cleaned_mask.jpg"
     if mask_path.is_file():
         return mask_path

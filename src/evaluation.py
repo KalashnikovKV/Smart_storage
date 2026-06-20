@@ -51,8 +51,8 @@ def main() -> None:
     except FileNotFoundError:
         print(f"Error: CSV file not found: {csv_path}", file=sys.stderr)
         print(
-            "\nCreate labeled data first, for example:\n"
-            "  uv run python -m src.main --mode label --source training/test_images/Image.jpeg\n"
+            "\nCSV not found. Run batch mode first, for example:\n"
+            "  ./run_yolo_batch.sh training/test_images/mouse\n"
             "\nOr pass an existing CSV explicitly:\n"
             "  uv run python -m src.evaluation --csv output/results.csv",
             file=sys.stderr,

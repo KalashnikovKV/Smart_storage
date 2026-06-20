@@ -199,3 +199,32 @@ def test_remove_shadow_from_mask(pipeline):
     assert cleaned_area < int(np.sum(mask > 0))
     assert cleaned_area >= int(object_only_area * 0.75)
     assert int(np.sum(cleaned[70:111, 100:151] > 0)) < int(np.sum(mask[70:111, 100:151] > 0) * 0.35)
+
+
+def test_yolo_path_dashboard_uses_yolo_masks_not_threshold():
+    """YOLO mode should expose YOLO instance masks on dashboard panels 3-4."""
+    from src.models import YOLODetection
+
+    image = np.full((480, 640, 3), 255, dtype=np.uint8)
+    yolo_mask = np.zeros((480, 640), dtype=np.uint8)
+    yolo_mask[180:260, 250:350] = 255
+
+    class FakeSegmenter:
+        def segment(self, _image: np.ndarray) -> list[YOLODetection]:
+            return [
+                YOLODetection(
+                    class_name="mouse",
+                    bbox=(250, 180, 100, 80),
+                    mask=yolo_mask,
+                    confidence=0.95,
+                ),
+            ]
+
+    pipeline = Pipeline(segmenter=FakeSegmenter())
+    result = pipeline.run(image)
+
+    assert result is not None
+    assert np.array_equal(result.mask, yolo_mask)
+    assert np.array_equal(result.cleaned_mask, yolo_mask)
+    assert len(result.detections) == 1
+    assert result.decision.method_used == "yolo"

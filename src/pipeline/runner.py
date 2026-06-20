@@ -52,7 +52,8 @@ import numpy as np
 
 from src.config import AppConfig
 from src.ml.yolo_category import yolo_category
-from src.models import Decision, DetectionResult, PipelineResult
+from src.ml.yolo_segmenter import combine_instance_masks
+from src.models import Decision, DetectionResult, PipelineResult, YOLODetection
 from src.pipeline.cleaner import MaskCleaner
 from src.pipeline.decide import RuleBasedDecisionEngine
 from src.pipeline.detect_color import ColorDetector
@@ -177,12 +178,20 @@ class Pipeline:
         start = time.time()
 
         enhanced = self.enhance(image)
-        mask = self.segment(enhanced)
-        cleaned = self.clean(mask)
 
         if self.segmenter is not None:
-            detections, decisions = self._run_yolo_path(image, enhanced)
+            yolo_detections = self.segmenter.segment(image)
+            detections, decisions = self._run_yolo_path(
+                image,
+                enhanced,
+                yolo_detections,
+            )
+            yolo_mask = combine_instance_masks(yolo_detections, image.shape[:2])
+            mask = yolo_mask
+            cleaned = yolo_mask.copy()
         else:
+            mask = self.segment(enhanced)
+            cleaned = self.clean(mask)
             detections, decisions = self._run_rule_based_path(
                 image, enhanced, mask, cleaned,
             )
@@ -208,10 +217,9 @@ class Pipeline:
         self,
         image: np.ndarray,
         enhanced: np.ndarray,
+        yolo_detections: list[YOLODetection],
     ) -> tuple[list[DetectionResult], list[Decision]]:
         """YOLO-Seg path: class + mask from YOLO, color from ColorDetector."""
-        yolo_detections = self.segmenter.segment(image)
-
         detections: list[DetectionResult] = []
         decisions: list[Decision] = []
 
@@ -224,8 +232,15 @@ class Pipeline:
             )
 
             if detection is None:
+                detection = self._object_detector.build_detection_from_yolo(
+                    color_image=image,
+                    yolo_det=yolo_det,
+                    object_id=object_id,
+                )
+
+            if detection is None:
                 LOGGER.debug(
-                    "YOLO detection %d skipped — mask geometry rejected", object_id,
+                    "YOLO detection %d skipped — empty mask", object_id,
                 )
                 continue
 

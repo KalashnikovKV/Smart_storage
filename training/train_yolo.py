@@ -118,6 +118,25 @@ def validate_dataset(data_yaml: Path) -> tuple[int, int]:
     return image_count, label_count
 
 
+def _apply_thread_limit(threads: int | None) -> None:
+    """Cap BLAS/OpenMP and PyTorch thread pools (reduces CPU load on shared hosts)."""
+    if threads is None or threads <= 0:
+        return
+    import os
+
+    import torch
+
+    for key in (
+        "OMP_NUM_THREADS",
+        "MKL_NUM_THREADS",
+        "OPENBLAS_NUM_THREADS",
+        "NUMEXPR_NUM_THREADS",
+        "VECLIB_MAXIMUM_THREADS",
+    ):
+        os.environ[key] = str(threads)
+    torch.set_num_threads(threads)
+
+
 def train(
     data_yaml: Path,
     model: str,
@@ -127,6 +146,10 @@ def train(
     device: str,
     project: str,
     name: str,
+    *,
+    workers: int = 0,
+    threads: int | None = None,
+    resume: bool = False,
 ) -> Path:
     """Run Ultralytics YOLO-Seg training."""
     try:
@@ -135,6 +158,8 @@ def train(
         raise ImportError(
             "ultralytics is not installed. Run: uv sync --group yolo",
         ) from exc
+
+    _apply_thread_limit(threads)
 
     yolo = YOLO(model)
     results = yolo.train(
@@ -146,6 +171,9 @@ def train(
         project=project,
         name=name,
         task="segment",
+        workers=workers,
+        plots=False,
+        resume=resume,
     )
     return Path(results.save_dir)
 
@@ -158,6 +186,23 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--imgsz", type=int, default=640, help="Training image size.")
     parser.add_argument("--batch", type=int, default=8, help="Batch size.")
     parser.add_argument("--device", default="cpu", help="Device: cpu, cuda, cuda:0, mps.")
+    parser.add_argument(
+        "--threads",
+        type=int,
+        default=None,
+        help="Limit OpenMP/PyTorch threads (e.g. 8 on a 40-thread host).",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=0,
+        help="DataLoader worker processes (0 = main process only, lowest CPU spike).",
+    )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume from last.pt in the run directory (use with --model path/to/last.pt).",
+    )
     parser.add_argument("--project", default="runs/segment", help="Ultralytics project directory.")
     parser.add_argument("--name", default="smart_storage", help="Run name inside project.")
     parser.add_argument(
@@ -200,6 +245,9 @@ def main(argv: list[str] | None = None) -> int:
             device=args.device,
             project=args.project,
             name=args.name,
+            workers=args.workers,
+            threads=args.threads,
+            resume=args.resume,
         )
     except ImportError as exc:
         print(exc)

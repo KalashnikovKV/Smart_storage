@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 
 from src.config import AppConfig
-from src.models import DetectionResult, PipelineResult
+from src.models import Decision, DetectionResult, PipelineResult
 
 
 class WindowClosed(Exception):
@@ -81,8 +81,8 @@ class Visualizer:
             for decision in (decisions or [])
         }
 
-        for index, mask in enumerate(object_masks, start=1):
-            color = self.OBJECT_COLORS[(index - 1) % len(self.OBJECT_COLORS)]
+        for index, mask in enumerate(object_masks):
+            color = self.OBJECT_COLORS[index % len(self.OBJECT_COLORS)]
             canvas[mask > 0] = color
 
             moments = cv2.moments(mask)
@@ -91,9 +91,11 @@ class Visualizer:
 
             center_x = int(moments["m10"] / moments["m00"])
             center_y = int(moments["m01"] / moments["m00"])
-            object_id = index
-            if detections and index <= len(detections):
-                object_id = detections[index - 1].object_id
+
+            if detections and index < len(detections):
+                object_id = detections[index].object_id
+            else:
+                object_id = index + 1
 
             decision = decision_by_id.get(object_id)
             label = f"#{object_id}: {decision.category}" if decision else f"#{object_id}"
@@ -111,10 +113,14 @@ class Visualizer:
 
         return canvas
 
-    def create_mask_placeholder(self, height: int, width: int) -> np.ndarray:
-        """Empty right panel shown before the user analyzes a frame."""
+    def create_panel_placeholder(
+        self,
+        height: int,
+        width: int,
+        lines: tuple[str, ...],
+    ) -> np.ndarray:
+        """Empty panel with centered hint text."""
         panel = np.full((height, width, 3), 28, dtype=np.uint8)
-        lines = ("Object Masks", "", "Press 'a' on a", "paused frame to", "build masks")
         y = height // 2 - len(lines) * 16
 
         for line in lines:
@@ -133,6 +139,74 @@ class Visualizer:
             y += 32
 
         return panel
+
+    def create_mask_placeholder(self, height: int, width: int) -> np.ndarray:
+        """Empty mask panel shown before analysis completes."""
+        return self.create_panel_placeholder(
+            height,
+            width,
+            ("Object Masks", "", "Segmentation masks", "appear after", "analysis"),
+        )
+
+    def create_contour_placeholder(self, height: int, width: int) -> np.ndarray:
+        """Empty contour panel shown before analysis completes."""
+        return self.create_panel_placeholder(
+            height,
+            width,
+            ("Contours", "", "Object outline on", "camera feed"),
+        )
+
+    def build_detection_panel(
+        self,
+        frame: np.ndarray,
+        result: PipelineResult,
+    ) -> np.ndarray:
+        """Render the live frame with bounding boxes and category labels."""
+        return self.draw_all_detections(frame, result)
+
+    def build_contour_overlay_panel(
+        self,
+        frame: np.ndarray,
+        result: PipelineResult,
+    ) -> np.ndarray:
+        """Draw object contours and labels on top of the camera frame."""
+        output = frame.copy()
+        decision_by_id = {
+            decision.object_id: decision
+            for decision in result.decisions
+        }
+
+        for detection in result.detections:
+            decision = decision_by_id.get(detection.object_id)
+            color = self.OBJECT_COLORS[(detection.object_id - 1) % len(self.OBJECT_COLORS)]
+
+            if detection.contour is not None and len(detection.contour) > 0:
+                cv2.drawContours(output, [detection.contour], -1, color, 2)
+
+            if decision is None:
+                label = (
+                    f"#{detection.object_id}: "
+                    f"{detection.primary_color}, {detection.size_category}"
+                )
+            else:
+                label = (
+                    f"#{detection.object_id}: {decision.category} | "
+                    f"{decision.confidence:.0%}"
+                )
+
+            label_x, label_y = detection.bbox[0], max(detection.bbox[1] - 8, 20)
+            cv2.putText(
+                output,
+                self._ascii_safe(label),
+                (label_x, label_y),
+                self.FONT,
+                self.FONT_SCALE,
+                color,
+                self.FONT_THICKNESS,
+                cv2.LINE_AA,
+            )
+
+        return output
 
     def create_video_side_by_side(
         self,
@@ -168,6 +242,33 @@ class Visualizer:
         )
         return titled
 
+    def create_video_triple_view(
+        self,
+        frame: np.ndarray,
+        mask_panel: np.ndarray,
+        contour_panel: np.ndarray,
+        *,
+        left_title: str = "Video",
+        center_title: str = "Object Masks",
+        right_title: str = "Contours",
+        status_line: str = "",
+    ) -> np.ndarray:
+        """Combine camera feed, mask, and contour overlay into one wide image."""
+        target_height = frame.shape[0]
+        left = frame.copy()
+        center = self._match_panel_height(mask_panel, target_height)
+        right = self._match_panel_height(contour_panel, target_height)
+
+        combined = np.hstack([left, center, right])
+        return self._add_triple_titles(
+            combined,
+            column_widths=[left.shape[1], center.shape[1], right.shape[1]],
+            left_title=left_title,
+            center_title=center_title,
+            right_title=right_title,
+            status_line=status_line,
+        )
+
     def create_dashboard(self, result: PipelineResult) -> np.ndarray:
         """Create a 2x3 dashboard with all pipeline stages."""
         panel_width, panel_height = self.PANEL_SIZE
@@ -189,6 +290,12 @@ class Visualizer:
         # Create a blank panel for the decision text
         decision_panel = np.zeros((panel_height, panel_width, 3), dtype=np.uint8)
         self._draw_decision_text(decision_panel, result)
+        object_count = len(self._paired_objects(result))
+        decision_title = (
+            "6. Decision"
+            if object_count <= 1
+            else f"6. Decision ({object_count} objects)"
+        )
         # Combine panels into a 2x3 grid
         panels = [
             ("1. Original", original),
@@ -196,7 +303,7 @@ class Visualizer:
             ("3. Segmentation", mask_bgr),
             ("4. Cleaned Mask", cleaned_bgr),
             ("5. Detection", detection_panel),
-            ("6. Decision", decision_panel),
+            (decision_title, decision_panel),
         ]
 
         labeled_panels = [self._add_title(panel, title) for title, panel in panels]
@@ -205,6 +312,77 @@ class Visualizer:
         row2 = np.hstack(labeled_panels[3:])
 
         return np.vstack([row1, row2])
+
+    def create_mask_review_dashboard(
+        self,
+        *,
+        original: np.ndarray,
+        enhanced: np.ndarray,
+        mask: np.ndarray,
+        cleaned_mask: np.ndarray,
+        raw_overlay: np.ndarray,
+        cleaned_overlay: np.ndarray,
+        contour_overlay: np.ndarray,
+        detection_panel: np.ndarray,
+        metrics_lines: list[str],
+        status_line: str = "",
+        panel_size: tuple[int, int] = (400, 300),
+    ) -> np.ndarray:
+        """Eight-panel view for interactive mask/contour review (2 rows x 4 cols)."""
+        panel_width, panel_height = panel_size
+
+        def panel(image: np.ndarray, title: str) -> np.ndarray:
+            if len(image.shape) == 2:
+                image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+            fitted = self._resize_with_padding(image, (panel_width, panel_height))
+            return self._add_title(fitted, title)
+
+        row1 = np.hstack([
+            panel(original, "1. Original"),
+            panel(enhanced, "2. Enhanced"),
+            panel(raw_overlay, "3. Raw overlay"),
+            panel(cleaned_overlay, "4. Cleaned overlay"),
+        ])
+        row2 = np.hstack([
+            panel(mask, "5. Raw mask"),
+            panel(cleaned_mask, "6. Cleaned mask"),
+            panel(contour_overlay, "7. Contours"),
+            panel(detection_panel, "8. Detection"),
+        ])
+        grid = np.vstack([row1, row2])
+
+        metrics_panel = np.zeros((120, grid.shape[1], 3), dtype=np.uint8)
+        y = 22
+        for line in metrics_lines[:4]:
+            cv2.putText(
+                metrics_panel,
+                self._safe(line),
+                (8, y),
+                self.FONT,
+                0.5,
+                (200, 200, 200),
+                1,
+                cv2.LINE_AA,
+            )
+            y += 24
+
+        footer = np.zeros((36, grid.shape[1], 3), dtype=np.uint8)
+        hint = (
+            "n/Space=next  p=prev  m=bad mask  c=bad contours  b=both  o=OK  "
+            "s=save  q=quit"
+        )
+        cv2.putText(
+            footer,
+            self._safe(status_line or hint),
+            (8, 24),
+            self.FONT,
+            0.45,
+            (0, 255, 255),
+            1,
+            cv2.LINE_AA,
+        )
+
+        return np.vstack([grid, metrics_panel, footer])
 
     def save_pipeline_outputs(self, result: PipelineResult, base_name: str) -> None:
         """Save all required output images for one test image."""
@@ -362,48 +540,172 @@ class Visualizer:
             self.FONT_THICKNESS,
         )
 
+    def _paired_objects(
+        self, result: PipelineResult,
+    ) -> list[tuple[Decision, DetectionResult]]:
+        """Align each decision with its detection by object_id."""
+        decisions = result.decisions or [result.decision]
+        detection_by_id = {
+            detection.object_id: detection
+            for detection in result.detections
+        }
+
+        pairs: list[tuple[Decision, DetectionResult]] = []
+        for decision in decisions:
+            detection = detection_by_id.get(decision.object_id, result.detection)
+            pairs.append((decision, detection))
+        return pairs
+
+    @staticmethod
+    def _ascii_safe(text: str) -> str:
+        """Encode to ASCII-safe text for OpenCV rendering."""
+        return text.encode("ascii", errors="replace").decode("ascii")
+
     def _draw_decision_text(
         self, panel: np.ndarray, result: PipelineResult
     ) -> None:
-        """Draw decision text on the decision panel."""
-        d = result.decision
-        det = result.detection
+        """Draw decision text for one or many detected objects."""
+        pairs = self._paired_objects(result)
+        if len(pairs) == 1:
+            self._draw_single_object_decision(
+                panel,
+                pairs[0][0],
+                pairs[0][1],
+                result.processing_time_ms,
+            )
+            return
 
-        # Encode to ASCII-safe for OpenCV (replace non-ASCII with '?')
-        def safe(text: str) -> str:
-            return text.encode("ascii", errors="replace").decode("ascii")
+        self._draw_multi_object_decision(panel, pairs, result.processing_time_ms)
 
-        conf_pct = f"{d.confidence * 100:.0f}%"
+    def _draw_single_object_decision(
+        self,
+        panel: np.ndarray,
+        decision: Decision,
+        detection: DetectionResult,
+        processing_time_ms: float,
+    ) -> None:
+        """Full detail block for a single detected object."""
+        safe = self._ascii_safe
+        conf_pct = f"{decision.confidence * 100:.0f}%"
 
-        if d.is_unknown:
+        if decision.is_unknown:
             line1 = "Unknown Object"
-            closest = safe(d.closest_match) if d.closest_match else "N/A"
+            closest = safe(decision.closest_match) if decision.closest_match else "N/A"
             line2 = f"Closest: {closest}"
         else:
-            line1 = safe(d.category)
+            line1 = safe(decision.category)
             line2 = f"Confidence: {conf_pct}"
 
         rows = [
-            (line1,                                                 0.75, (0, 255, 0),    2),
-            (line2,                                                 0.60, self.TEXT_COLOR, 1),
-            (f"Color: {d.color}",                                   0.55, self.TEXT_COLOR, 1),
-            (f"Size: {d.size}",                                     0.55, self.TEXT_COLOR, 1),
-            (f"Area: {det.area_ratio * 100:.1f}% of frame",         0.50, self.TEXT_COLOR, 1),
-            (f"BBox: {det.bbox_width_ratio*100:.0f}% x {det.bbox_height_ratio*100:.0f}%",
-                                                                    0.50, self.TEXT_COLOR, 1),
-            (f"Time: {result.processing_time_ms:.0f} ms",           0.55, (0, 200, 200),  1),
-            (f"Shape: {det.shape_category}",                        0.50, (200, 150, 0),  1),
-            (f"HSV:    {det.color_hsv.name} ({det.color_hsv.confidence:.0%})",
-                                                                    0.48, (200, 200, 0),  1),
-            (f"KMeans: {det.color_kmeans.name} ({det.color_kmeans.confidence:.0%})",
-                                                                    0.48, (200, 200, 0),  1),
+            (line1, 0.75, (0, 255, 0), 2),
+            (line2, 0.60, self.TEXT_COLOR, 1),
+            (f"Color: {decision.color}", 0.55, self.TEXT_COLOR, 1),
+            (f"Size: {decision.size}", 0.55, self.TEXT_COLOR, 1),
+            (f"Area: {detection.area_ratio * 100:.1f}% of frame", 0.50, self.TEXT_COLOR, 1),
+            (
+                f"BBox: {detection.bbox_width_ratio * 100:.0f}% x "
+                f"{detection.bbox_height_ratio * 100:.0f}%",
+                0.50,
+                self.TEXT_COLOR,
+                1,
+            ),
+            (f"Time: {processing_time_ms:.0f} ms", 0.55, (0, 200, 200), 1),
+            (f"Shape: {detection.shape_category}", 0.50, (200, 150, 0), 1),
+            (
+                f"HSV:    {detection.color_hsv.name} "
+                f"({detection.color_hsv.confidence:.0%})",
+                0.48,
+                (200, 200, 0),
+                1,
+            ),
+            (
+                f"KMeans: {detection.color_kmeans.name} "
+                f"({detection.color_kmeans.confidence:.0%})",
+                0.48,
+                (200, 200, 0),
+                1,
+            ),
         ]
+        self._draw_text_rows(panel, rows, start_y=32, line_spacing=28)
 
-        y = 32
+    def _draw_multi_object_decision(
+        self,
+        panel: np.ndarray,
+        pairs: list[tuple[Decision, DetectionResult]],
+        processing_time_ms: float,
+    ) -> None:
+        """Compact per-object blocks when multiple objects are present."""
+        safe = self._ascii_safe
+        scale = 0.46 if len(pairs) > 4 else 0.50
+        y = 28
+
+        for decision, detection in pairs:
+            if decision.is_unknown:
+                headline = (
+                    f"#{decision.object_id} Unknown "
+                    f"(closest: {safe(decision.closest_match or 'N/A')})"
+                )
+            else:
+                headline = (
+                    f"#{decision.object_id} {safe(decision.category)} "
+                    f"{decision.confidence:.0%}"
+                )
+
+            detail = (
+                f"{decision.color} | {decision.size} | "
+                f"{detection.shape_category or 'n/a'}"
+            )
+            metrics = (
+                f"area {detection.area_ratio * 100:.1f}%  "
+                f"HSV {detection.color_hsv.name}  "
+                f"KM {detection.color_kmeans.name}"
+            )
+
+            y = self._draw_text_rows(
+                panel,
+                [
+                    (headline, scale + 0.05, (0, 255, 0), 2),
+                    (detail, scale, self.TEXT_COLOR, 1),
+                    (metrics, scale - 0.04, (180, 180, 180), 1),
+                ],
+                start_y=y,
+                line_spacing=22,
+            )
+            y += 8
+
+        self._draw_text_rows(
+            panel,
+            [(f"Time: {processing_time_ms:.0f} ms", 0.48, (0, 200, 200), 1)],
+            start_y=min(y, panel.shape[0] - 12),
+            line_spacing=22,
+        )
+
+    def _draw_text_rows(
+        self,
+        panel: np.ndarray,
+        rows: list[tuple[str, float, tuple[int, int, int], int]],
+        *,
+        start_y: int,
+        line_spacing: int,
+    ) -> int:
+        """Render text rows and return the next Y position."""
+        y = start_y
         for text, scale, color, thickness in rows:
-            cv2.putText(panel, text, (12, y), self.FONT, scale, color, thickness)
-            line_h = int(cv2.getTextSize(text, self.FONT, scale, thickness)[0][1] * 2.2)
-            y += max(line_h, 28)
+            safe_text = self._ascii_safe(text)
+            cv2.putText(
+                panel,
+                safe_text,
+                (12, y),
+                self.FONT,
+                scale,
+                color,
+                thickness,
+            )
+            line_h = int(
+                cv2.getTextSize(safe_text, self.FONT, scale, thickness)[0][1] * 2.0
+            )
+            y += max(line_h, line_spacing)
+        return y
     def _resize_with_padding(
         self,
         image: np.ndarray,
@@ -490,6 +792,83 @@ class Visualizer:
             title_bar,
             right_title,
             (left_width + 8, 20),
+            self.FONT,
+            0.55,
+            (0, 255, 255),
+            1,
+            cv2.LINE_AA,
+        )
+
+        if status_line:
+            cv2.putText(
+                title_bar,
+                status_line,
+                (8, 40),
+                self.FONT,
+                0.45,
+                (0, 220, 0),
+                1,
+                cv2.LINE_AA,
+            )
+
+        return np.vstack([title_bar, image])
+
+    def _match_panel_height(self, panel: np.ndarray, target_height: int) -> np.ndarray:
+        """Resize *panel* height to *target_height* while preserving aspect ratio."""
+        panel_height, panel_width = panel.shape[:2]
+        if panel_height == target_height:
+            return panel.copy()
+
+        scale = target_height / panel_height
+        return cv2.resize(
+            panel,
+            (max(1, int(panel_width * scale)), target_height),
+            interpolation=cv2.INTER_NEAREST,
+        )
+
+    def _add_triple_titles(
+        self,
+        image: np.ndarray,
+        *,
+        column_widths: list[int],
+        left_title: str,
+        center_title: str,
+        right_title: str,
+        status_line: str = "",
+    ) -> np.ndarray:
+        """Add title bars for a three-column video view."""
+        _, width = image.shape[:2]
+        left_width, center_width, _right_width = column_widths
+        center_x = left_width
+        right_x = left_width + center_width
+
+        title_height = 48 if status_line else 28
+        title_bar = np.zeros((title_height, width, 3), dtype=np.uint8)
+
+        cv2.putText(
+            title_bar,
+            left_title,
+            (8, 20),
+            self.FONT,
+            0.55,
+            (0, 255, 255),
+            1,
+            cv2.LINE_AA,
+        )
+        cv2.putText(
+            title_bar,
+            center_title,
+            (center_x + 8, 20),
+            self.FONT,
+            0.55,
+            (0, 255, 255),
+            1,
+            cv2.LINE_AA,
+        )
+        cv2.putText(
+            title_bar,
+            right_title,
+            (right_x + 8, 20),
             self.FONT,
             0.55,
             (0, 255, 255),

@@ -6,7 +6,7 @@ import numpy as np
 from src.config import AppConfig
 from src.pipeline.detect_color import ColorDetector
 from src.pipeline.mask_ops import MaskOps
-from src.models import DetectionResult
+from src.models import DetectionResult, YOLODetection
 
 
 class ObjectMaskDetector:
@@ -187,6 +187,90 @@ class ObjectMaskDetector:
             extent=round(extent, 3),
             shape_category=shape_category,
             contour=display_contour,
+            object_id=object_id,
+            edge_density=round(edge_density, 3),
+            area_ratio=round(area_ratio, 4),
+            bbox_width_ratio=round(bbox_width_ratio, 4),
+            bbox_height_ratio=round(bbox_height_ratio, 4),
+            visual_size_label=size_category,
+            size_confidence=round(size_confidence, 3),
+        )
+
+    def build_detection_from_yolo(
+        self,
+        color_image: np.ndarray,
+        yolo_det: YOLODetection,
+        object_id: int,
+    ) -> DetectionResult | None:
+        """Build DetectionResult from a YOLO mask, skipping strict geometry guards."""
+        object_mask = self._prepare_binary_mask(yolo_det.mask)
+        object_pixels = object_mask > 0
+        area_pixels = int(np.sum(object_pixels))
+
+        if area_pixels <= 0:
+            return None
+
+        image_height, image_width = color_image.shape[:2]
+        frame_area = image_height * image_width
+        area_ratio = area_pixels / frame_area
+
+        x, y, w, h = yolo_det.bbox
+        bbox_width_ratio = w / image_width
+        bbox_height_ratio = h / image_height
+        aspect_ratio = max(w, h) / max(min(w, h), 1)
+
+        contours, _ = cv2.findContours(
+            object_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE,
+        )
+        main_contour = max(contours, key=cv2.contourArea) if contours else None
+
+        perimeter = (
+            cv2.arcLength(main_contour, True) if main_contour is not None else 0.0
+        )
+        circularity = (
+            (4 * np.pi * area_pixels) / (perimeter * perimeter)
+            if perimeter > 0
+            else 0.0
+        )
+
+        hull = cv2.convexHull(main_contour) if main_contour is not None else None
+        hull_area = cv2.contourArea(hull) if hull is not None else 0.0
+        solidity = area_pixels / hull_area if hull_area > 0 else 0.0
+
+        bbox_area = w * h
+        extent = area_pixels / bbox_area if bbox_area > 0 else 0.0
+        edge_density = self._calculate_edge_density(color_image, object_mask)
+
+        shape_category = self._classify_shape(
+            circularity=circularity,
+            solidity=solidity,
+            extent=extent,
+            aspect_ratio=aspect_ratio,
+            edge_density=edge_density,
+        )
+        size_category, size_confidence = self._classify_visual_size(
+            area_ratio=area_ratio,
+            bbox_width_ratio=bbox_width_ratio,
+            bbox_height_ratio=bbox_height_ratio,
+            aspect_ratio=aspect_ratio,
+            shape_category=shape_category,
+        )
+
+        color_result = self.color_detector.detect(color_image, object_mask)
+
+        return DetectionResult(
+            bbox=(x, y, w, h),
+            color_hsv=color_result["hsv"],
+            color_kmeans=color_result["kmeans"],
+            primary_color=color_result["primary_color"],
+            size_category=size_category,
+            area_pixels=area_pixels,
+            aspect_ratio=round(aspect_ratio, 2),
+            circularity=round(circularity, 3),
+            solidity=round(solidity, 3),
+            extent=round(extent, 3),
+            shape_category=shape_category,
+            contour=main_contour,
             object_id=object_id,
             edge_density=round(edge_density, 3),
             area_ratio=round(area_ratio, 4),
