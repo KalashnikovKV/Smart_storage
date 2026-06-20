@@ -232,7 +232,6 @@ dataset/**
 !dataset/dataset.yaml
 !dataset/**/.gitkeep
 runs/
-models/*.pt
 !models/.gitkeep
 
 # Cursor IDE — keep shared rules and plans, ignore user-specific data

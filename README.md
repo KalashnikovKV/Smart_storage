@@ -6,223 +6,195 @@ Computer Vision pipeline for automatic classification of IT peripherals by color
 Image → Enhance → Segment → Clean → Detect → Decision
 ```
 
-Two modes of operation:
-- **Rule-based** — works out of the box, no model needed
-- **YOLO-Seg** — uses a trained YOLO-Seg model for accurate instance segmentation
+Two inference modes:
+
+- **Rule-based** — threshold segmentation + rules R01–R06 (no model file)
+- **YOLO-Seg** — trained instance segmentation on your custom Roboflow dataset
+
+---
 
 ## Requirements
 
 - Python 3.12+
-- [uv](https://docs.astral.sh/uv/getting-started/installation/) package manager
-
-## Installation
-
-```bash
-git clone <repo-url>
-cd smart-storage
-uv sync
-```
-
-### Optional dependency groups
-
-| Group | What it installs | Command |
-|-------|-----------------|---------|
-| `yolo` | Ultralytics YOLO (for YOLO-Seg mode) | `uv sync --group yolo` |
-| `notebook` | Jupyter, matplotlib, seaborn | `uv sync --group notebook` |
-| `dev` | pytest | `uv sync --group dev` |
-
-> `uv sync` without `--group` installs only core dependencies (OpenCV, NumPy, scikit-learn).
-
-### Local data (not in git)
-
-Photos, videos, pipeline outputs, and trained weights stay on your machine:
-
-| Path | Put here |
-|------|----------|
-| `training/test_images/` | Your `.jpg` / `.png` for batch, label, inference |
-| `training/test_video/` | Your `.mov` / `.mp4` for `--mode label --source …` |
-| `output/` | `results.csv` (predictions + `ground_truth`) in git; ROI and `stages/` masks stay local |
-| `dataset/` | Built by `training/build_dataset.py` for YOLO training |
-| `models/` | Downloaded or trained `.pt` weights (e.g. `yolo11n-seg.pt`) |
-
-After clone, copy your files into `training/test_images/` (folders are empty except `.gitkeep`).
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)
 
 ---
 
-## Project structure
+## First-time setup
+
+```bash
+cd smart-storage
+uv sync                  # core CV stack
+uv sync --group yolo     # YOLO inference + training
+uv sync --group dev      # pytest (optional)
+```
+
+Trained model (after training):
+
+```
+runs/segment/runs/segment/smart_storage_final/weights/best.pt
+```
+
+Override paths/devices for wrapper scripts:
+
+```bash
+export SMART_STORAGE_MODEL=runs/segment/runs/segment/smart_storage_final/weights/best.pt
+export SMART_STORAGE_DEVICE=cuda    # or cpu
+export SMART_STORAGE_EPOCHS=50
+```
+
+---
+
+## Quick start (wrapper scripts)
+
+All scripts run from the project root. Defaults use sample photos under `training/test_images/`.
+
+| Script | What it does |
+|--------|----------------|
+| `./run_rule_image.sh [photo]` | Rule-based — one image, OpenCV dashboard |
+| `./run_yolo_image.sh [photo]` | YOLO — one image, your `best.pt`, GPU |
+| `./run_rule_batch.sh [folder]` | Rule-based — all images in folder |
+| `./run_yolo_batch.sh [folder]` | YOLO — batch on folder |
+| `./run_rule_video.sh [file]` | Rule-based — webcam or video file |
+| `./run_yolo_video.sh [file]` | YOLO — webcam or video file |
+| `./run_import_roboflow.sh <export-dir>` | Import Roboflow YOLOv8-Seg export → `dataset/` |
+| `./run_validate_dataset.sh` | Check `dataset/` layout and labels |
+| `./run_train_yolo.sh` | Train YOLO-Seg on `dataset/` |
+| `./run_tests.sh` | Run pytest |
+| `./run.sh …` | Low-level CLI (all flags) |
+
+Examples:
+
+```bash
+./run_rule_image.sh training/test_images/Charger_Adapter/Image_43.jpg
+./run_yolo_image.sh training/test_images/Charger_Adapter/Image_43.jpg
+./run_yolo_batch.sh dataset/images/val
+./run_yolo_video.sh training/test_video/Video_10.MOV
+```
+
+---
+
+## Workflow: Roboflow → train → run
+
+Annotation is done in **Roboflow** (app.roboflow.com), not in this repo.
+
+```bash
+# 1. Export YOLOv8 Segmentation from Roboflow, then import:
+./run_import_roboflow.sh "path/to/roboflow-export"
+
+# 2. Validate dataset/
+./run_validate_dataset.sh
+
+# 3. Train (starts from models/yolo11n-seg.pt backbone)
+./run_train_yolo.sh
+
+# 4. Inference with trained weights
+./run_yolo_image.sh training/test_images/mouse/some_photo.jpg
+```
+
+Comparison metrics and report assets (rule vs YOLO) are already in:
+
+- `output/comparison_val_summary.txt`
+- `output/comparison_test_images_summary.txt`
+- `docs/comparison-report/` (not modified by this README)
+
+---
+
+## Low-level CLI (`./run.sh`)
+
+Same as `uv run python -m src.main`:
+
+```bash
+./run.sh --mode image --source training/test_images/Charger_Adapter/Image_43.jpg
+./run.sh --mode image --source training/test_images/Charger_Adapter/Image_43.jpg \
+  --model runs/segment/runs/segment/smart_storage_final/weights/best.pt \
+  --device cuda
+./run.sh --mode batch --source training/test_images/mouse
+./run.sh --mode video --source training/test_video/Video_10.MOV
+```
+
+| Flag | Description |
+|------|-------------|
+| `--mode` | `video`, `image`, `batch` |
+| `--source` | Image path, folder, or video file |
+| `--model` | Path to `.pt` weights (YOLO mode) |
+| `--device` | `cpu`, `cuda` (YOLO only) |
+| `--no-display` | No OpenCV window |
+| `--output` | CSV path (default: `output/results.csv`) |
+
+---
+
+## Video controls
+
+| Key | Webcam | Video file |
+|-----|--------|------------|
+| `q` | Quit | Quit |
+| `s` | Save to CSV | Save to CSV |
+| `c` / `p` | Capture / pause | — |
+| `space` | — | Pause |
+| `a` | — | Analyze paused frame |
+
+---
+
+## Project layout
 
 ```
 src/
-├── pipeline/     # 5 CV stages (enhance → segment → clean → detect → decide)
-├── ml/           # YOLO-Seg backend (--model)
-├── modes/        # CLI: video, image, batch, label
-└── app/          # GUI, CSV export, labeling
+├── pipeline/     # 5 CV stages
+├── ml/           # YOLO-Seg backend
+├── modes/        # CLI: video, image, batch
+└── app/          # OpenCV dashboard, CSV export
 scripts/          # build_dataset.py, train_yolo.py wrappers
-training/         # dataset builder, YOLO trainer, test media
+training/         # dataset builder + trainer implementation
+dataset/          # YOLO images/labels (from Roboflow import)
+training/test_images/   # local test photos by category
+runs/             # trained weights (local, gitignored)
+output/           # results.csv, stages/, comparison metrics
 ```
 
----
+Test photos layout:
 
-## Usage
-
-### Quick start — rule-based mode (no model needed)
-
-```bash
-# Webcam
-./run.sh --mode video
-
-# Single image — rule-based demo
-./run.sh --mode image --source training/test_images/Image_6.jpeg --no-display
-
-# Single image — YOLO demo
-./run.sh --mode image --source training/test_images/Image_2.jpeg --model models/yolo11n-seg.pt --device cpu --no-display
-
-# Batch folder (predictions + masks for YOLO dataset)
-./run.sh --mode batch --source training/test_images/
-
-# Manual labeling (ground_truth) — disputed images only
-./run.sh --mode label --source training/test_images/Image.jpeg
 ```
-
-`image` = quick preview (window, no console prompt). `label` = confirm/override class → `ground_truth` in `output/results.csv`.
-
-Or without the script:
-
-```bash
-uv run python -m src.main --mode image --source training/test_images/Image.jpeg
+training/test_images/
+├── Charger_Adapter/
+├── Headphones/
+├── Keyboard/
+├── mouse/
+├── USB-C_Cable/
+└── flash_drive/
 ```
-
----
-
-### YOLO-Seg mode (requires trained model)
-
-First install YOLO dependencies:
-
-```bash
-uv sync --group yolo
-```
-
-Then run with `--model` and optionally `--device`:
-
-```bash
-# Webcam — CPU
-uv run python -m src.main --mode video --model models/yolo11n-seg.pt --device cpu
-
-# Webcam — GPU (CUDA)
-uv run python -m src.main --mode video --model models/yolo11n-seg.pt --device cuda
-
-# Single image
-uv run python -m src.main --mode image --source training/test_images/Image_1.jpeg --model models/yolo11n-seg.pt
-
-# Batch
-uv run python -m src.main --mode batch --source training/test_images/ --model models/yolo11n-seg.pt
-```
-
-In YOLO-Seg mode the pipeline uses:
-- YOLO-Seg for object detection and segmentation (class + bbox + mask)
-- OpenCV HSV/K-means for color detection **inside the YOLO mask**
-- Mask area for size estimation
-
----
-
-### All CLI arguments
-
-| Argument | Description | Default |
-|----------|-------------|---------|
-| `--mode` | `video`, `image`, `batch`, or `label` | `video` |
-| `--source` | Image path (image mode) or folder path (batch mode) | — |
-| `--model` | Path to YOLO-Seg weights `.pt` | None (rule-based) |
-| `--device` | Inference device: `cpu`, `cuda`, `cuda:0`, `mps` | auto-detect |
-| `--output` | CSV output path | `output/results.csv` |
-| `--no-save-images` | Do not save pipeline stage images | off |
-| `--no-display` | Run without OpenCV window (headless) | off |
-| `--debug` | Enable debug logging | off |
-
-> When `--device` is omitted, CUDA is auto-detected and falls back to `cpu` with a warning if unavailable.
-
----
-
-### Controls (video mode)
-
-| Key / Action | Effect |
-|-----|--------|
-| `q` | Quit |
-| Close window (×) | Quit |
-| `s` | Save current result to CSV |
-| `c` | Freeze current frame |
-| `p` | Pause / resume |
-| `space` | Pause / resume (label mode with video file or webcam) |
 
 ---
 
 ## Output
 
-Each run appends a row to `output/results.csv`:
+Each run appends rows to `output/results.csv`. Stage images go to `output/stages/`.
 
-| Field | Description |
-|-------|-------------|
-| timestamp | ISO 8601 datetime |
-| category | Detected peripheral type |
-| color | Dominant color |
-| size_category | small / medium / large / long_thin |
-| confidence | 0.0 – 1.0 |
-| method_used | `yolo` / `combined` / `hsv` / `kmeans` |
-| color_hsv | HSV method color name |
-| color_kmeans | K-means method color name |
+Evaluate rows that have `ground_truth` filled in:
 
-Pipeline stage images are saved to `output/stages/` on each run.
+```bash
+uv run python -m src.evaluation --csv output/results.csv
+```
+
+---
+
+## Tests
+
+```bash
+./run_tests.sh
+```
 
 ---
 
 ## Categories
 
-| Category | Color | Size |
-|----------|-------|------|
-| Mouse | black / gray / blue | medium |
-| Keyboard | black / gray / silver | large |
-| Charger Adapter | white / silver / gray | small / medium |
+| Category | Typical color | Typical size |
+|----------|---------------|--------------|
+| Mouse | black / gray | medium |
+| Keyboard | black / gray | large |
+| Charger Adapter | white / silver | small / medium |
 | USB-C Cable | white / gray / black | long_thin / medium |
-| Headphones | black / white / silver | medium / large |
+| Headphones | black / white | medium / large |
 | Flash Drive | gray / silver / black | small |
-| Colored Object | any chromatic color | any |
 
----
-
-## Run tests
-
-```bash
-uv run pytest tests/ -v
-```
-
----
-
-## Training a YOLO-Seg model
-
-See [aidlc-docs/ml-roadmap.md](aidlc-docs/ml-roadmap.md) for the full ML roadmap.
-
-Quick start:
-
-```bash
-# 1. Batch — predictions + cleaned_mask artifacts
-./run.sh --mode batch --source training/test_images/
-
-# 2. Label — only for images you want to correct (writes ground_truth to output/results.csv)
-./run.sh --mode label --source training/test_images/Image.jpeg
-
-# 3. Build YOLO-Seg dataset (reads output/results.csv + output/stages/)
-uv run python scripts/build_dataset.py --clean
-
-# Or import Roboflow/CVAT YOLOv8 Segmentation export:
-uv run python scripts/build_dataset.py --import-from path/to/export --clean
-
-# 4. Train
-uv run python scripts/train_yolo.py \
-    --data dataset/dataset.yaml \
-    --model yolo11n-seg.pt \
-    --epochs 100
-
-# 5. Run with trained model
-./run.sh --mode image --source training/test_images/Image.jpeg --model runs/segment/smart_storage/weights/best.pt
-```
-
-For precise polygon masks use Roboflow or CVAT (YOLOv8 Segmentation export) instead of auto masks from `cleaned_mask`.
+Known limitations: see `aidlc-docs/failure-cases.md`.
