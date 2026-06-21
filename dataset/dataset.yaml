@@ -1,0 +1,11 @@
+path: /media/sirano/4TB/1TB/ESDE/4c/4c_2s_ImageVision/Smart_storage/dataset
+train: images/train
+val: images/val
+names:
+  0: mouse
+  1: keyboard
+  2: charger
+  3: cable
+  4: headphones
+  5: flash_drive
+  6: colored_object

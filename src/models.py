@@ -60,6 +60,16 @@ class Decision:
 
 
 @dataclass
+class YOLODetection:
+    """Single object returned by YOLO-Seg inference."""
+
+    class_name: str
+    bbox: tuple[int, int, int, int]  # (x, y, w, h)
+    mask: np.ndarray  # uint8 binary mask, 255 = object pixel
+    confidence: float  # 0.0–1.0
+
+
+@dataclass
 class PipelineResult:
     """Complete result of the CV pipeline with all intermediate outputs."""
 

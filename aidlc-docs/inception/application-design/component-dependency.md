@@ -72,7 +72,8 @@ smart-storage/
 |   +-- data_exporter.py   # DataExporter class
 |   +-- config.py          # Configuration and classification rules
 |   +-- models.py          # Data models (dataclasses)
-+-- test_images/           # Sample test images
++-- training/test_images/   # Sample test images
++-- training/test_video/    # Sample test videos
 +-- output/                # Output directory for results
 +-- requirements.txt       # Python dependencies
 +-- README.md              # Installation and usage instructions

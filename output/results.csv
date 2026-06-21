@@ -1,176 +1,598 @@
-timestamp,category,color,size_category,confidence,method,area_pixels,aspect_ratio,color_hsv,color_kmeans,confidence_hsv,confidence_kmeans
-2026-04-24T13:54:03.236149,Неизвестный объект,black,large,0.364,combined,716791,1.15,blue,black,0.353,0.405
-2026-04-24T13:58:10.605953,Unknown Object,black,large,0.364,combined,716791,1.15,blue,black,0.353,0.405
-2026-04-24T14:00:19.442795,Mouse,black,medium,0.344,combined,716791,1.15,blue,black,0.353,0.405
-2026-04-24T14:03:56.847657,Unknown Object,gray,medium,0.238,combined,893713,3.46,gray,gray,0.851,0.539
-2026-04-24T14:07:01.525992,Unknown Object,gray,medium,0.238,combined,893713,3.46,gray,gray,0.851,0.539
-2026-04-24T14:16:34.478949,Mouse,black,medium,0.344,combined,716791,1.15,blue,black,0.353,0.405
-2026-04-24T14:17:12.914022,Mouse,black,medium,0.344,combined,716791,1.15,blue,black,0.353,0.405
-2026-04-24T14:17:38.810335,Keyboard,gray,medium,0.766,combined,893713,3.46,gray,gray,0.851,0.539
-2026-04-24T14:20:46.006034,Headphones,black,medium,0.352,combined,909537,1.1,gray,black,0.481,0.503
-2026-04-24T14:24:19.976054,Headphones,silver,large,0.64,combined,2676807,1.71,silver,silver,0.915,0.684
-2026-04-24T14:34:39.314682,Keyboard,silver,large,0.74,combined,2669918,1.6,silver,silver,0.822,0.481
-2026-04-24T14:36:27.999347,Keyboard,silver,large,0.74,combined,2669918,1.6,silver,silver,0.822,0.481
-2026-04-24T14:39:31.886723,Keyboard,silver,large,0.74,combined,2669918,1.6,silver,silver,0.822,0.481
-2026-04-24T14:41:48.121668,Headphones,silver,medium,0.575,combined,563100,2.15,silver,silver,0.822,0.481
-2026-04-24T14:42:49.248984,Headphones,silver,medium,0.64,combined,1035661,1.06,silver,silver,0.915,0.684
-2026-04-24T14:43:30.474389,Headphones,silver,medium,0.575,combined,563100,2.15,silver,silver,0.822,0.481
-2026-04-24T14:49:24.683848,USB-C Cable,gray,medium,0.772,combined,815866,1.04,gray,gray,0.99,0.445
-2026-04-24T14:52:09.411960,iPhone Charger,gray,medium,0.792,combined,815866,1.04,gray,gray,0.99,0.445
-2026-04-24T14:59:13.927401,Mouse,blue,medium,0.541,combined,216601,1.37,blue,blue,0.306,0.636
-2026-05-02T19:03:10.488154,Keyboard,gray,medium,0.724,combined,893713,3.46,gray,gray,0.851,0.539
-2026-05-02T19:08:13.935877,Android Charger,black,medium,0.377,combined,909537,1.1,gray,black,0.481,0.503
-2026-05-02T19:09:54.865031,Keyboard,gray,medium,0.724,combined,893713,3.46,gray,gray,0.851,0.539
-2026-05-02T19:10:20.933120,Keyboard,gray,medium,0.724,combined,893713,3.46,gray,gray,0.851,0.539
-2026-05-02T19:13:38.386372,Keyboard,gray,medium,0.724,combined,893713,3.46,gray,gray,0.851,0.539
-2026-05-02T19:17:40.388009,Android Charger,black,medium,0.377,combined,909537,1.1,gray,black,0.481,0.503
-2026-05-02T19:19:02.327462,Android Charger,black,medium,0.377,combined,909537,1.1,gray,black,0.481,0.503
-2026-05-02T19:19:51.424319,Android Charger,black,medium,0.377,combined,909537,1.1,gray,black,0.481,0.503
-2026-05-02T19:20:30.176691,iPhone Charger,silver,medium,0.732,combined,1035661,1.06,silver,silver,0.915,0.684
-2026-05-02T19:22:55.091586,Android Charger,black,medium,0.377,combined,909537,1.1,gray,black,0.481,0.503
-2026-05-02T19:25:28.356506,Headphones,black,medium,0.352,combined,909537,1.1,gray,black,0.481,0.503
-2026-05-02T19:26:01.672953,Headphones,silver,medium,0.64,combined,1035661,1.06,silver,silver,0.915,0.684
-2026-05-02T19:26:47.710743,Mouse,blue,medium,0.541,combined,216601,1.37,blue,blue,0.306,0.636
-2026-05-02T20:23:18.775111,Mouse,blue,medium,0.541,combined,216601,1.37,blue,blue,0.306,0.636
-2026-05-02T20:23:40.839804,Headphones,silver,medium,0.64,combined,1035661,1.06,silver,silver,0.915,0.683
-2026-05-02T20:23:57.070725,Headphones,black,medium,0.352,combined,909537,1.1,gray,black,0.481,0.503
-2026-05-02T20:24:19.541094,USB-C Cable,silver,medium,0.641,combined,563100,2.15,silver,silver,0.822,0.481
-2026-05-02T20:41:29.726597,Image_1.jpeg,1,USB-C Cable,black,large,0.738,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788
-2026-05-02T20:42:08.871854,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-02T20:42:31.413900,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-02T20:43:11.384617,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-02T20:44:01.015236,Image_5.jpeg,1,Mouse,white,medium,0.637,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-02T20:44:36.125849,Image_6.jpeg,1,Mouse,silver,medium,0.677,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-02T20:45:07.650354,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213867,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.836
-2026-05-02T20:45:42.123534,Image.jpeg,1,Mouse,black,large,0.756,combined,715193,1.15,oval,0.786,0.987,0.67,black,black,0.859,0.58
-2026-05-02T20:56:33.451206,Image.jpeg,1,Mouse,black,large,0.756,combined,715193,1.15,oval,0.786,0.987,0.67,black,black,0.859,0.58
-2026-05-02T20:57:03.651319,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
-2026-05-02T20:57:37.586128,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-02T20:58:29.825448,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-02T20:59:35.428497,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-02T21:00:07.979347,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-02T21:01:14.924970,Image_1.jpeg,1,Keyboard,black,large,0.874,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788
-2026-05-02T21:14:15.960202,Image_4.jpeg,1,Headphones,silver,medium,0.409,combined,444897,1.15,ring_like,0.091,0.712,0.479,silver,black,0.524,0.409
-2026-05-02T21:16:37.623343,Image_2.jpeg,1,Headphones,black,large,0.485,combined,770363,1.06,ring_like,0.156,0.64,0.453,black,black,0.622,0.59
-2026-05-02T21:17:34.829987,Image_5.jpeg,1,Charger Adapter,white,medium,0.623,combined,169283,1.17,rectangular,0.179,0.819,0.656,white,white,0.713,0.742
-2026-05-02T21:18:14.111457,Image_6.jpeg,1,Headphones,silver,large,0.613,combined,178409,1.19,irregular,0.02,0.115,0.087,silver,silver,0.786,0.678
-2026-05-02T21:19:03.799594,Image_7.jpeg,1,Headphones,black,large,0.728,combined,215506,1.13,ring_like,0.559,0.186,0.111,black,black,0.934,0.834
-2026-05-02T21:19:42.298946,Image.jpeg,1,Mouse,black,large,0.756,combined,715136,1.15,oval,0.785,0.987,0.67,black,black,0.859,0.562
-2026-05-02T21:46:09.485328,Image.jpeg,1,Mouse,black,large,0.756,combined,715193,1.15,oval,0.786,0.987,0.67,black,black,0.859,0.58
-2026-05-02T21:46:54.889155,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-02T21:47:24.933670,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-02T21:47:52.259910,Image_1.jpeg,1,Keyboard,black,large,0.874,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788
-2026-05-02T21:48:22.221735,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-02T21:48:52.100529,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-02T21:49:40.801224,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-02T21:50:09.527157,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-02T22:13:50.039386,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-02T22:14:33.177946,Image_1.jpeg,1,Keyboard,black,large,0.874,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788
-2026-05-02T22:15:52.304742,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-02T22:17:15.230474,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-02T22:18:02.722884,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-02T22:18:44.813442,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
-2026-05-02T22:19:42.002864,Image.jpeg,1,Mouse,black,large,0.756,combined,715193,1.15,oval,0.786,0.987,0.67,black,black,0.859,0.58
-2026-05-02T22:20:41.021977,Image_1.jpeg,1,Keyboard,black,large,0.874,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788
-2026-05-02T22:22:24.417946,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-02T22:23:58.119437,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-02T22:27:32.238935,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-03T00:28:28.544357,Image_3.png,1,Keyboard,black,large,0.857,combined,550297,3.25,rectangular,0.483,0.978,0.956,black,black,0.952,0.829
-2026-05-03T00:44:49.337370,Image_9.png,1,Headphones,black,large,0.739,combined,203657,2.41,irregular,0.032,0.519,0.313,black,black,0.948,0.563
-2026-05-03T00:46:41.007667,Image_10.png,1,Mouse,black,large,0.385,combined,420175,1.53,oval,0.809,0.994,0.838,black,black,0.142,0.438
-2026-05-03T00:49:31.081237,Image_11.png,1,Mouse,black,medium,0.88,combined,207571,1.68,oval,0.744,0.986,0.836,black,black,1.0,0.653
-2026-05-03T00:50:13.831123,Image_12.png,1,Keyboard,black,large,0.84,combined,549070,3.14,rectangular,0.169,0.947,0.919,black,black,0.934,0.607
-2026-05-03T00:50:38.703705,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
-2026-05-03T00:56:41.460685,Image_16.png,1,Headphones,silver,large,0.417,combined,268189,1.03,irregular,0.025,0.281,0.272,silver,silver,0.534,0.471
-2026-05-03T00:57:13.917758,Image_17.png,1,Colored Object,green,medium,0.468,combined,122406,2.71,rectangular,0.604,0.973,0.893,green,green,0.721,0.531
-2026-05-03T00:58:15.797433,Image_18.png,1,Headphones,black,medium,0.582,combined,120974,1.17,block,0.137,0.512,0.4,black,black,0.746,0.466
-2026-05-03T01:00:08.022063,Image_19.png,1,Mouse,black,large,0.639,combined,375940,1.37,oval,0.83,0.992,0.835,black,black,0.726,0.405
-2026-05-03T01:02:43.227692,Image_20.png,1,Headphones,black,large,0.677,combined,348335,1.35,ring_like,0.252,0.807,0.632,black,black,0.868,0.425
-2026-05-03T01:19:53.166913,Image_20.png,1,USB-C Cable,black,large,0.404,combined,348335,1.35,ring_like,0.252,0.807,0.632,blue,black,0.532,0.425
-2026-05-03T01:20:40.811972,Image_19.png,1,Mouse,black,large,0.636,combined,375940,1.37,oval,0.83,0.992,0.835,black,black,0.722,0.405
-2026-05-03T01:21:54.816496,Image_18.png,1,Charger Adapter,silver,small,0.824,combined,20290,1.22,block,0.274,0.59,0.408,silver,silver,0.981,0.801
-2026-05-03T01:23:00.380018,Image_17.png,1,Colored Object,green,medium,0.472,combined,122406,2.71,rectangular,0.604,0.973,0.893,green,green,0.726,0.531
-2026-05-03T01:24:07.113984,Image_2.jpeg,1,USB-C Cable,black,large,0.463,combined,741226,1.06,ring_like,0.167,0.618,0.436,blue,black,0.387,0.609
-2026-05-03T01:25:09.616090,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-03T01:26:28.520830,Image_16.png,1,Headphones,silver,large,0.417,combined,268189,1.03,irregular,0.025,0.281,0.272,silver,silver,0.534,0.471
-2026-05-03T01:29:39.263121,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
-2026-05-03T01:30:12.233269,Image_12.png,1,Keyboard,black,large,0.84,combined,549070,3.14,rectangular,0.169,0.947,0.919,black,black,0.934,0.607
-2026-05-03T01:30:49.067110,Image_11.png,1,Mouse,black,medium,0.88,combined,207571,1.68,oval,0.744,0.986,0.836,black,black,1.0,0.653
-2026-05-03T01:31:14.353184,Image_12.png,1,Keyboard,black,large,0.84,combined,549070,3.14,rectangular,0.169,0.947,0.919,black,black,0.934,0.607
-2026-05-03T01:31:43.383071,Image_10.png,1,Mouse,black,large,0.385,combined,420175,1.53,oval,0.809,0.994,0.838,black,black,0.142,0.438
-2026-05-03T01:32:30.941343,Image_9.png,1,Headphones,black,large,0.739,combined,203657,2.41,irregular,0.032,0.519,0.313,black,black,0.948,0.563
-2026-05-03T01:33:05.334551,Image_8.png,1,USB-C Cable,black,small,0.397,combined,4876,1.21,ring_like,0.421,0.49,0.31,black,silver,0.489,0.523
-2026-05-03T01:33:28.108731,Image_3.png,1,Keyboard,black,large,0.857,combined,550297,3.25,rectangular,0.483,0.978,0.956,black,black,0.952,0.829
-2026-05-03T13:35:25.609658,Image_3.png,1,Keyboard,black,large,0.857,combined,550297,3.25,rectangular,0.483,0.978,0.956,black,black,0.952,0.829
-2026-05-03T13:35:50.562149,Image_8.png,1,USB-C Cable,black,small,0.397,combined,4876,1.21,ring_like,0.421,0.49,0.31,black,silver,0.489,0.523
-2026-05-03T13:38:50.045409,Image_9.png,1,Headphones,black,large,0.739,combined,203657,2.41,irregular,0.032,0.519,0.313,black,black,0.948,0.563
-2026-05-03T13:39:10.589628,Image_10.png,1,Mouse,black,large,0.385,combined,420175,1.53,oval,0.809,0.994,0.838,black,black,0.142,0.438
-2026-05-03T13:39:49.303538,Image_11.png,1,Mouse,black,medium,0.88,combined,207571,1.68,oval,0.744,0.986,0.836,black,black,1.0,0.653
-2026-05-03T13:40:11.153449,Image_12.png,1,Keyboard,black,large,0.84,combined,549070,3.14,rectangular,0.169,0.947,0.919,black,black,0.934,0.607
-2026-05-03T13:40:25.258241,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
-2026-05-03T13:41:56.561643,Image_16.png,1,Headphones,silver,large,0.417,combined,268189,1.03,irregular,0.025,0.281,0.272,silver,silver,0.534,0.471
-2026-05-03T13:42:21.984540,Image_17.png,1,Colored Object,green,medium,0.468,combined,122406,2.71,rectangular,0.604,0.973,0.893,green,green,0.721,0.531
-2026-05-03T13:43:03.365057,Image_18.png,1,Headphones,black,medium,0.582,combined,120974,1.17,block,0.137,0.512,0.4,black,black,0.746,0.466
-2026-05-03T13:43:40.816710,Image_19.png,1,Mouse,black,large,0.639,combined,375940,1.37,oval,0.83,0.992,0.835,black,black,0.726,0.405
-2026-05-03T13:44:21.446467,Image_20.png,1,Headphones,black,large,0.677,combined,348335,1.35,ring_like,0.252,0.807,0.632,black,black,0.868,0.425
-2026-05-03T13:44:52.287084,Image_1.jpeg,1,Keyboard,black,large,0.874,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788
-2026-05-03T13:45:25.673916,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-03T13:47:26.328821,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-03T13:49:07.731725,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-03T13:51:09.749747,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-03T13:52:15.359535,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-03T13:54:34.058261,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-03T13:57:21.986704,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
-2026-05-03T13:58:08.353248,Image.jpeg,1,Mouse,black,large,0.756,combined,715193,1.15,oval,0.786,0.987,0.67,black,black,0.859,0.58
-2026-05-03T13:58:49.128900,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
-2026-05-03T14:00:27.720473,Image_8.png,1,USB-C Cable,black,small,0.397,combined,4876,1.21,ring_like,0.421,0.49,0.31,black,silver,0.489,0.523
-2026-05-03T14:03:22.946940,Image_16.png,1,Headphones,silver,large,0.417,combined,268189,1.03,irregular,0.025,0.281,0.272,silver,silver,0.534,0.471
-2026-05-03T14:05:29.151938,Image_18.png,1,Headphones,black,medium,0.582,combined,120974,1.17,block,0.137,0.512,0.4,black,black,0.746,0.466
-2026-05-03T14:07:47.698023,Image_17.png,1,Colored Object,green,medium,0.468,combined,122406,2.71,rectangular,0.604,0.973,0.893,green,green,0.721,0.531
-2026-05-03T14:09:09.924022,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
-2026-05-03T14:23:25.747185,Image_2.jpeg,1,USB-C Cable,black,large,0.472,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-03T14:24:06.327526,Image_1.jpeg,1,Keyboard,black,large,0.874,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788
-2026-05-03T14:25:05.333834,Image_4.jpeg,1,USB-C Cable,silver,medium,0.406,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-03T14:26:03.994013,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-03T14:27:12.539664,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-03T14:27:47.791378,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
-2026-05-03T14:28:13.709325,Image_11.png,1,Mouse,black,medium,0.88,combined,207571,1.68,oval,0.744,0.986,0.836,black,black,1.0,0.653
-2026-05-03T14:28:38.683155,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
-2026-05-03T14:28:57.195902,Image_12.png,1,Keyboard,black,large,0.84,combined,549070,3.14,rectangular,0.169,0.947,0.919,black,black,0.934,0.607
-2026-05-03T14:37:24.188701,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-03T14:38:04.121115,Image_4.jpeg,1,USB-C Cable,silver,medium,0.406,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-03T14:39:02.159986,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-03T14:39:43.138832,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-03T14:40:13.434513,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
-2026-05-03T14:41:11.809448,Image_13.png,1,Charger Adapter,white,medium,0.838,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
-2026-05-03T14:45:58.643106,Image_4.jpeg,1,USB-C Cable,silver,medium,0.406,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-03T14:46:59.557586,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-03T14:48:00.848409,Image_2.jpeg,1,USB-C Cable,black,large,0.472,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-03T14:48:43.745572,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-03T14:51:18.913866,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-03T14:52:17.356641,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-03T14:53:27.031086,Image_4.jpeg,1,USB-C Cable,silver,medium,0.406,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-03T14:54:20.328405,Image_2.jpeg,1,USB-C Cable,black,large,0.472,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-03T14:58:11.026050,Image_2.jpeg,1,USB-C Cable,black,large,0.472,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-03T14:59:06.134340,Image_4.jpeg,1,USB-C Cable,silver,medium,0.406,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-03T15:00:03.722619,Image_5.jpeg,1,Charger Adapter,white,medium,0.608,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-03T15:04:59.328401,Image_5.jpeg,1,USB-C Cable,white,medium,0.551,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-03T15:05:42.475377,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-03T15:07:18.124021,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-03T15:28:24.154531,Image_6.jpeg,1,USB-C Cable,silver,medium,0.585,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-03T15:30:21.504105,Image_7.jpeg,1,Mouse,black,medium,0.824,combined,213869,1.35,oval,0.743,0.97,0.672,black,black,0.936,0.832
-2026-05-03T15:31:45.365143,Image_13.png,1,Unknown Object,white,medium,0.299,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
-2026-05-03T15:32:19.380465,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-03T15:35:15.560397,Image_13.png,1,Unknown Object,white,medium,0.299,combined,111420,1.83,block,0.132,0.534,0.416,white,white,0.997,0.803
-2026-05-03T15:36:17.067190,Image_6.jpeg,1,USB-C Cable,silver,medium,0.585,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-03T15:37:02.332905,Image_1.jpeg,1,Keyboard,black,large,0.874,combined,894462,3.47,rectangular,0.538,0.989,0.939,black,black,0.971,0.788
-2026-05-03T15:41:20.583991,Image_6.jpeg,1,Charger Adapter,silver,medium,0.646,combined,165802,1.51,rectangular,0.386,0.851,0.632,silver,silver,0.77,0.423
-2026-05-03T15:42:12.224959,Image_5.jpeg,1,USB-C Cable,white,medium,0.551,combined,169433,1.17,rectangular,0.181,0.819,0.657,white,white,0.712,0.724
-2026-05-03T15:42:59.523058,Image_4.jpeg,1,Headphones,silver,medium,0.416,combined,455151,1.15,ring_like,0.196,0.729,0.49,silver,black,0.534,0.367
-2026-05-03T15:43:29.912630,Image_2.jpeg,1,Headphones,black,large,0.485,combined,771437,1.06,ring_like,0.161,0.64,0.453,black,black,0.621,0.583
-2026-05-03T15:44:24.881824,Image_8.png,1,Flash Drive,black,small,0.397,combined,4876,1.21,ring_like,0.421,0.49,0.31,black,silver,0.489,0.523
-2026-05-03T15:45:02.289850,Image_9.png,1,USB-C Cable,black,large,0.72,combined,203657,2.41,irregular,0.032,0.519,0.313,black,black,0.948,0.563
-2026-05-03T15:45:32.642648,Image_18.png,1,USB-C Cable,black,medium,0.567,combined,120974,1.17,block,0.137,0.512,0.4,black,black,0.746,0.466
-2026-05-03T15:46:25.797711,Image_16.png,1,USB-C Cable,silver,large,0.406,combined,268189,1.03,irregular,0.025,0.281,0.272,silver,silver,0.534,0.471
-2026-05-03T15:48:15.610864,Image_18.png,1,USB-C Cable,black,medium,0.567,combined,120974,1.17,block,0.137,0.512,0.4,black,black,0.746,0.466
-2026-05-03T15:48:56.942454,Image_20.png,1,Headphones,black,large,0.677,combined,348335,1.35,ring_like,0.252,0.807,0.632,black,black,0.868,0.425
+timestamp,image_name,object_id,category,color,size_category,confidence,method,area_pixels,aspect_ratio,shape_category,circularity,solidity,extent,color_hsv,color_kmeans,confidence_hsv,confidence_kmeans,roi_image,ground_truth
+2026-05-24T13:55:59.279097,Image.jpeg,1,Mouse,black,large,0.773,combined,697085,1.15,oval,0.765,0.962,0.653,black,black,0.878,0.545,20260524_135608_069438.jpg,Mouse
+2026-05-24T13:56:22.462487,Image_1.jpeg,1,Unknown Object,black,large,0.239,combined,612941,3.57,ring_like,0.294,0.59,0.56,black,black,0.798,0.611,20260524_135628_070633.jpg,Keyboard
+2026-05-24T13:56:33.389457,Image_11.png,1,Mouse,black,medium,0.869,combined,247028,1.55,rectangular,0.293,0.841,0.684,black,black,0.987,0.614,20260524_135646_457706.jpg,Mouse
+2026-05-24T13:56:33.389492,Image_11.png,2,Unknown Object,black,long_thin,0.3,combined,28435,6.5,rectangular,0.276,0.921,0.757,black,black,1.0,0.742,20260524_135646_460699.jpg,Mouse
+2026-05-24T13:56:33.389524,Image_11.png,3,Flash Drive,black,small,0.76,combined,6395,3.4,rectangular,0.421,0.918,0.752,black,black,1.0,0.617,20260524_135646_461164.jpg,Mouse
+2026-05-24T20:54:36.368126,Charger_Adapter/Image_42.jpg,1,Mouse,black,medium,0.858,combined,110780,1.26,rectangular,0.41,0.891,0.607,gray,black,0.975,0.507,20260524_205436_368184.jpg,
+2026-05-24T20:54:39.507167,Charger_Adapter/Image_43.jpg,1,Headphones,silver,medium,0.662,combined,34028,2.47,irregular,0.4,0.862,0.552,silver,silver,0.849,0.46,20260524_205439_507571.jpg,
+2026-05-24T20:54:42.167492,Charger_Adapter/Image_44.jpg,1,USB-C Cable,white,long_thin,0.437,combined,14355,4.2,irregular,0.052,0.373,0.267,white,white,0.575,0.51,20260524_205442_167559.jpg,
+2026-05-24T20:54:45.155381,Charger_Adapter/Image_45.jpg,1,Flash Drive,black,small,0.753,combined,2742,1.11,oval,0.782,0.987,0.661,black,black,0.991,0.468,20260524_205445_155434.jpg,
+2026-05-24T20:54:49.925427,Charger_Adapter/Image_46.jpg,1,USB-C Cable,silver,medium,0.405,combined,47244,1.56,irregular,0.073,0.292,0.23,silver,silver,0.533,0.407,20260524_205449_925484.jpg,
+2026-05-24T20:54:55.556767,Charger_Adapter/Image_47.jpg,1,Unknown Object,black,long_thin,0.259,combined,13420,4.0,rectangular,0.354,0.881,0.666,black,black,0.865,0.395,20260524_205455_556838.jpg,
+2026-05-24T20:54:55.556796,Charger_Adapter/Image_47.jpg,2,Unknown Object,black,long_thin,0.3,combined,3397,9.64,irregular,0.164,0.908,0.564,black,black,1.0,0.385,20260524_205455_557311.jpg,
+2026-05-24T20:55:11.887417,Charger_Adapter/Image_6.jpeg,1,Charger Adapter,silver,small,0.503,combined,90661,1.69,block,0.114,0.523,0.441,silver,white,0.599,0.519,20260524_205511_887480.jpg,
+2026-05-24T20:55:12.358801,Headphones/170432341583.jpg,1,Colored Object,orange,medium,0.544,combined,7007,1.28,oval,0.433,0.735,0.538,orange,orange,0.837,0.728,20260524_205512_362517.jpg,
+2026-05-24T20:55:15.252732,Headphones/23822.970.jpg,1,Unknown Object,black,long_thin,0.3,combined,5060,9.06,irregular,0.175,0.884,0.581,black,black,1.0,0.486,20260524_205515_252806.jpg,
+2026-05-24T20:55:15.252763,Headphones/23822.970.jpg,2,Charger Adapter,white,medium,0.686,combined,22938,1.79,block,0.29,0.835,0.593,white,white,0.816,0.532,20260524_205515_253247.jpg,
+2026-05-24T20:55:17.211716,Headphones/835236965672fb28e8df75ba326a6e9c0c4a51026c4f_b.jpg,1,Unknown Object,black,large,0.266,combined,96200,1.01,ring_like,0.102,0.453,0.366,black,black,0.886,0.58,20260524_205517_211778.jpg,
+2026-05-24T20:55:32.114855,Headphones/Image_2.jpeg,1,USB-C Cable,black,medium,0.3,combined,89912,1.31,ring_like,0.126,0.519,0.312,black,black,0.334,0.395,20260524_205532_114910.jpg,
+2026-05-24T20:55:36.990731,Headphones/Image_28.jpg,1,Charger Adapter,silver,small,0.839,combined,5209,1.95,block,0.168,0.495,0.378,silver,silver,0.999,0.569,20260524_205536_990804.jpg,
+2026-05-24T20:55:36.990759,Headphones/Image_28.jpg,2,USB-C Cable,silver,small,0.76,combined,3400,3.05,irregular,0.164,0.537,0.281,silver,silver,1.0,0.461,20260524_205536_991245.jpg,
+2026-05-24T20:55:40.298158,Headphones/Image_29.jpg,1,USB-C Cable,silver,small,0.414,combined,10248,1.06,ring_like,0.227,0.532,0.296,silver,black,0.544,0.437,20260524_205540_300959.jpg,
+2026-05-24T20:55:44.606337,Headphones/Image_30.jpg,1,USB-C Cable,silver,long_thin,0.416,combined,13597,4.05,irregular,0.032,0.202,0.119,silver,silver,0.533,0.547,20260524_205544_606404.jpg,
+2026-05-24T20:55:44.606365,Headphones/Image_30.jpg,2,USB-C Cable,black,medium,0.53,combined,11498,1.47,irregular,0.044,0.233,0.127,black,black,0.697,0.533,20260524_205544_607310.jpg,
+2026-05-24T20:55:48.781390,Headphones/Image_31.jpg,1,Charger Adapter,gray,small,0.84,combined,3135,1.3,oval,0.494,0.872,0.505,gray,gray,1.0,0.345,20260524_205548_781464.jpg,
+2026-05-24T20:55:48.781418,Headphones/Image_31.jpg,2,Charger Adapter,silver,small,0.78,combined,22300,1.39,block,0.216,0.489,0.309,silver,silver,0.929,0.659,20260524_205548_781875.jpg,
+2026-05-24T20:55:53.556805,Headphones/Image_32.jpg,1,USB-C Cable,silver,medium,0.386,combined,24268,1.32,irregular,0.044,0.192,0.126,silver,silver,0.509,0.473,20260524_205553_556880.jpg,
+2026-05-24T20:55:53.556833,Headphones/Image_32.jpg,2,USB-C Cable,black,small,0.447,combined,8765,1.21,ring_like,0.12,0.329,0.104,black,black,0.588,0.578,20260524_205553_558361.jpg,
+2026-05-24T20:55:57.690920,Headphones/Image_33.jpg,1,Unknown Object,black,small,0.166,combined,3615,1.33,ring_like,0.321,0.643,0.376,silver,black,0.293,0.554,20260524_205557_692662.jpg,
+2026-05-24T20:55:57.690952,Headphones/Image_33.jpg,2,USB-C Cable,silver,medium,0.536,combined,14118,3.42,irregular,0.067,0.29,0.17,silver,silver,0.705,0.47,20260524_205557_693099.jpg,
+2026-05-24T20:56:05.591937,Headphones/Image_35.jpg,1,Unknown Object,silver,large,0.159,combined,212592,1.21,ring_like,0.083,0.444,0.288,silver,white,0.529,0.44,20260524_205605_591985.jpg,
+2026-05-24T20:56:28.367472,Headphones/Image_4.jpeg,1,Headphones,silver,large,0.469,combined,553954,1.04,ring_like,0.198,0.679,0.472,silver,silver,0.602,0.516,20260524_205628_367567.jpg,
+2026-05-24T20:56:28.367518,Headphones/Image_4.jpeg,2,USB-C Cable,silver,long_thin,0.426,combined,14608,19.48,irregular,0.007,0.103,0.052,silver,black,0.561,0.455,20260524_205628_375431.jpg,
+2026-05-24T20:56:54.516283,Headphones/Image_5.jpeg,1,USB-C Cable,silver,small,0.522,combined,20642,1.0,ring_like,0.151,0.321,0.155,silver,silver,0.687,0.522,20260524_205654_516355.jpg,
+2026-05-24T20:56:58.907969,Headphones/c750bf9a32d211ee9bfc6ee9ab557742_upscaled.jpeg,1,Unknown Object,black,small,0.228,combined,2225,1.75,oval,0.649,1.012,0.657,black,black,0.759,0.671,20260524_205658_910767.jpg,
+2026-05-24T20:56:58.907997,Headphones/c750bf9a32d211ee9bfc6ee9ab557742_upscaled.jpeg,2,Flash Drive,red,small,0.636,combined,7411,1.8,oval,0.596,0.946,0.753,red,black,0.837,0.447,20260524_205658_911109.jpg,
+2026-05-24T20:56:59.284362,Headphones/images (1).jpeg,1,Flash Drive,black,small,0.378,combined,310,1.12,oval,0.526,0.84,0.443,black,gray,0.497,0.458,20260524_205659_284425.jpg,
+2026-05-24T20:56:59.551177,Headphones/images (13).jpeg,1,Headphones,black,large,0.338,combined,8178,1.14,ring_like,0.553,0.681,0.543,gray,black,0.291,0.434,20260524_205659_551248.jpg,
+2026-05-24T20:56:59.551206,Headphones/images (13).jpeg,2,Unknown Object,white,long_thin,0.215,combined,347,24.5,rectangular,0.108,1.228,0.885,white,white,0.718,0.718,20260524_205659_552227.jpg,
+2026-05-24T20:56:59.714484,Headphones/images (2).jpeg,1,Mouse,black,medium,0.698,combined,2824,2.05,oval,0.613,0.941,0.746,black,black,0.793,0.57,20260524_205659_714565.jpg,
+2026-05-24T20:57:00.074419,Headphones/images.jpeg,1,Flash Drive,black,small,0.636,combined,153,2.18,oval,0.573,0.93,0.58,black,black,0.837,0.497,20260524_205700_074540.jpg,
+2026-05-24T20:57:00.074455,Headphones/images.jpeg,2,Unknown Object,black,small,0.281,combined,242,2.77,irregular,0.462,1.059,0.517,orange,black,0.938,0.459,20260524_205700_074892.jpg,
+2026-05-24T20:57:00.074475,Headphones/images.jpeg,3,Colored Object,orange,small,0.514,combined,450,1.27,oval,0.772,1.01,0.731,orange,black,0.791,0.422,20260524_205700_075084.jpg,
+2026-05-24T20:57:01.291813,Headphones/tochny-gray-background.jpeg,1,USB-C Cable,black,medium,0.554,combined,56871,1.21,ring_like,0.287,0.49,0.408,black,black,0.729,0.48,20260524_205701_291906.jpg,
+2026-05-24T20:57:01.291847,Headphones/tochny-gray-background.jpeg,2,Unknown Object,black,small,0.192,combined,1033,3.08,ring_like,0.36,0.75,0.497,black,black,0.639,0.512,20260524_205701_293096.jpg,
+2026-05-24T20:57:03.624366,Headphones/проводные-наушники-с-usb-разъемом-на-деревянном-столе-крупный-план-433202715.webp,1,Headphones,gray,medium,0.438,combined,23833,1.03,ring_like,0.613,0.862,0.562,gray,gray,0.302,0.562,20260524_205703_624437.jpg,
+2026-05-24T20:57:03.624392,Headphones/проводные-наушники-с-usb-разъемом-на-деревянном-столе-крупный-план-433202715.webp,2,Colored Object,orange,medium,0.485,combined,12129,1.64,ring_like,0.459,0.87,0.506,orange,gray,0.746,0.453,20260524_205703_625151.jpg,
+2026-05-24T20:57:06.552093,Image_21.jpg,1,Unknown Object,black,large,0.201,combined,179108,1.21,ring_like,0.328,0.501,0.353,black,black,0.67,0.505,20260524_205706_552150.jpg,
+2026-05-24T20:57:11.403281,Image_22.jpg,1,Unknown Object,black,large,0.231,combined,179973,1.45,ring_like,0.083,0.304,0.229,gray,black,0.769,0.375,20260524_205711_403337.jpg,
+2026-05-24T20:57:15.520741,Image_23.jpg,1,Charger Adapter,silver,medium,0.812,combined,125106,1.3,oval,0.461,0.712,0.514,silver,white,0.967,0.684,20260524_205715_520828.jpg,
+2026-05-24T20:57:15.520769,Image_23.jpg,2,Charger Adapter,white,small,0.625,combined,3342,1.25,oval,0.602,0.986,0.463,white,white,0.744,0.683,20260524_205715_524455.jpg,
+2026-05-24T20:57:15.520787,Image_23.jpg,3,Unknown Object,silver,small,0.246,combined,13469,1.53,ring_like,0.432,0.833,0.442,white,silver,0.485,0.819,20260524_205715_524702.jpg,
+2026-05-24T20:57:17.502714,Image_24.jpg,1,USB-C Cable,black,small,0.585,combined,5775,1.17,irregular,0.056,0.182,0.047,black,black,0.769,0.636,20260524_205717_504495.jpg,
+2026-05-24T20:57:20.240769,Image_25.jpg,1,USB-C Cable,black,medium,0.404,combined,25832,1.28,irregular,0.05,0.256,0.099,silver,black,0.404,0.532,20260524_205720_240822.jpg,
+2026-05-24T20:57:22.931911,Image_26.jpg,1,Charger Adapter,silver,small,0.84,combined,3110,1.34,block,0.268,0.627,0.473,silver,silver,1.0,0.512,20260524_205722_931980.jpg,
+2026-05-24T20:57:22.931939,Image_26.jpg,2,Charger Adapter,white,small,0.724,combined,3244,1.48,block,0.378,0.75,0.435,white,silver,0.862,0.403,20260524_205722_932337.jpg,
+2026-05-24T20:57:26.561646,Image_27.jpg,1,Charger Adapter,silver,small,0.84,combined,2779,1.05,block,0.342,0.651,0.404,silver,silver,1.0,0.489,20260524_205726_561739.jpg,
+2026-05-24T20:57:26.561675,Image_27.jpg,2,Charger Adapter,silver,small,0.84,combined,2867,1.6,block,0.199,0.501,0.303,silver,silver,1.0,0.608,20260524_205726_562103.jpg,
+2026-05-24T20:57:26.561692,Image_27.jpg,3,Charger Adapter,silver,small,0.84,combined,9138,1.56,block,0.106,0.473,0.326,silver,silver,1.0,0.444,20260524_205726_562330.jpg,
+2026-05-24T20:57:31.290901,Image_28.jpg,1,Charger Adapter,silver,small,0.839,combined,5209,1.95,block,0.168,0.495,0.378,silver,silver,0.999,0.569,20260524_205731_290977.jpg,
+2026-05-24T20:57:31.290929,Image_28.jpg,2,USB-C Cable,silver,small,0.76,combined,3400,3.05,irregular,0.164,0.537,0.281,silver,silver,1.0,0.461,20260524_205731_291417.jpg,
+2026-05-24T20:57:34.521998,Image_29.jpg,1,USB-C Cable,silver,small,0.414,combined,10248,1.06,ring_like,0.227,0.532,0.296,silver,black,0.544,0.437,20260524_205734_522054.jpg,
+2026-05-24T20:57:38.739347,Image_30.jpg,1,USB-C Cable,silver,long_thin,0.416,combined,13597,4.05,irregular,0.032,0.202,0.119,silver,silver,0.533,0.547,20260524_205738_739419.jpg,
+2026-05-24T20:57:38.739377,Image_30.jpg,2,USB-C Cable,black,medium,0.53,combined,11498,1.47,irregular,0.044,0.233,0.127,black,black,0.697,0.533,20260524_205738_740402.jpg,
+2026-05-24T20:57:42.962786,Image_31.jpg,1,Charger Adapter,gray,small,0.84,combined,3135,1.3,oval,0.494,0.872,0.505,gray,gray,1.0,0.345,20260524_205742_962862.jpg,
+2026-05-24T20:57:42.962815,Image_31.jpg,2,Charger Adapter,silver,small,0.78,combined,22300,1.39,block,0.216,0.489,0.309,silver,silver,0.929,0.659,20260524_205742_963254.jpg,
+2026-05-24T20:57:47.772200,Image_32.jpg,1,USB-C Cable,silver,medium,0.386,combined,24268,1.32,irregular,0.044,0.192,0.126,silver,silver,0.509,0.473,20260524_205747_772275.jpg,
+2026-05-24T20:57:47.772229,Image_32.jpg,2,USB-C Cable,black,small,0.447,combined,8765,1.21,ring_like,0.12,0.329,0.104,black,black,0.588,0.578,20260524_205747_774428.jpg,
+2026-05-24T20:57:51.864670,Image_33.jpg,1,Unknown Object,black,small,0.166,combined,3615,1.33,ring_like,0.321,0.643,0.376,silver,black,0.293,0.554,20260524_205751_864746.jpg,
+2026-05-24T20:57:51.864699,Image_33.jpg,2,USB-C Cable,silver,medium,0.536,combined,14118,3.42,irregular,0.067,0.29,0.17,silver,silver,0.705,0.47,20260524_205751_865244.jpg,
+2026-05-24T20:57:59.677956,Image_35.jpg,1,Unknown Object,silver,large,0.159,combined,212592,1.21,ring_like,0.083,0.444,0.288,silver,white,0.529,0.44,20260524_205759_678000.jpg,
+2026-05-24T20:58:01.939225,Image_36.jpg,1,USB-C Cable,black,medium,0.452,combined,37927,1.48,irregular,0.03,0.22,0.183,black,black,0.595,0.435,20260524_205801_939780.jpg,
+2026-05-24T20:58:04.233902,Image_37.jpg,1,Flash Drive,black,small,0.756,combined,3251,1.35,oval,0.637,0.946,0.568,black,black,0.995,0.529,20260524_205804_233954.jpg,
+2026-05-24T20:58:06.982827,Image_38.jpg,1,USB-C Cable,black,medium,0.476,combined,57317,1.31,ring_like,0.108,0.138,0.114,black,black,0.626,0.442,20260524_205806_982881.jpg,
+2026-05-24T20:58:08.932539,Image_39.jpg,1,USB-C Cable,black,medium,0.447,combined,43408,1.49,ring_like,0.128,0.156,0.13,black,black,0.588,0.403,20260524_205808_932593.jpg,
+2026-05-24T20:58:12.263698,Image_40.jpg,1,USB-C Cable,black,medium,0.539,combined,23680,1.11,irregular,0.015,0.116,0.093,black,black,0.709,0.631,20260524_205812_263766.jpg,
+2026-05-24T20:58:12.263724,Image_40.jpg,2,USB-C Cable,black,small,0.752,combined,2993,1.61,ring_like,0.095,0.583,0.086,black,black,0.99,0.647,20260524_205812_265590.jpg,
+2026-05-24T20:58:15.179957,Image_41.jpg,1,USB-C Cable,black,medium,0.365,combined,7053,1.0,irregular,0.023,0.057,0.031,gray,black,0.48,0.458,20260524_205815_181785.jpg,
+2026-05-24T20:58:15.179984,Image_41.jpg,2,USB-C Cable,black,small,0.659,combined,2782,1.57,ring_like,0.19,0.488,0.214,black,black,0.868,0.838,20260524_205815_183393.jpg,
+2026-05-24T20:58:17.925456,Image_42.jpg,1,Mouse,black,medium,0.858,combined,110780,1.26,rectangular,0.41,0.891,0.607,gray,black,0.975,0.507,20260524_205817_925548.jpg,
+2026-05-24T20:58:21.013887,Image_43.jpg,1,Headphones,silver,medium,0.662,combined,34028,2.47,irregular,0.4,0.862,0.552,silver,silver,0.849,0.46,20260524_205821_013937.jpg,
+2026-05-24T20:58:23.677232,Image_44.jpg,1,USB-C Cable,white,long_thin,0.437,combined,14355,4.2,irregular,0.052,0.373,0.267,white,white,0.575,0.51,20260524_205823_677288.jpg,
+2026-05-24T20:58:26.668216,Image_45.jpg,1,Flash Drive,black,small,0.753,combined,2742,1.11,oval,0.782,0.987,0.661,black,black,0.991,0.468,20260524_205826_668271.jpg,
+2026-05-24T20:58:31.351058,Image_46.jpg,1,USB-C Cable,silver,medium,0.405,combined,47244,1.56,irregular,0.073,0.292,0.23,silver,silver,0.533,0.407,20260524_205831_351112.jpg,
+2026-05-24T20:58:37.012473,Image_47.jpg,1,Unknown Object,black,long_thin,0.259,combined,13420,4.0,rectangular,0.354,0.881,0.666,black,black,0.865,0.395,20260524_205837_012564.jpg,
+2026-05-24T20:58:37.012517,Image_47.jpg,2,Unknown Object,black,long_thin,0.3,combined,3397,9.64,irregular,0.164,0.908,0.564,black,black,1.0,0.385,20260524_205837_013053.jpg,
+2026-05-24T20:58:50.175128,Keyboard/Image_1.jpeg,1,Unknown Object,black,large,0.239,combined,612941,3.57,ring_like,0.294,0.59,0.56,black,black,0.798,0.611,20260524_205850_175189.jpg,
+2026-05-24T20:59:10.155839,USB-C_Cable/Image_16.png,1,USB-C Cable,silver,small,0.347,combined,8274,2.4,ring_like,0.181,0.562,0.207,silver,black,0.457,0.378,20260524_205910_155896.jpg,
+2026-05-24T20:59:13.128995,USB-C_Cable/Image_21.jpg,1,Unknown Object,black,large,0.201,combined,179108,1.21,ring_like,0.328,0.501,0.353,black,black,0.67,0.505,20260524_205913_129052.jpg,
+2026-05-24T20:59:17.952467,USB-C_Cable/Image_22.jpg,1,Unknown Object,black,large,0.231,combined,179973,1.45,ring_like,0.083,0.304,0.229,gray,black,0.769,0.375,20260524_205917_952535.jpg,
+2026-05-24T20:59:21.931284,USB-C_Cable/Image_23.jpg,1,Charger Adapter,silver,medium,0.812,combined,125106,1.3,oval,0.461,0.712,0.514,silver,white,0.967,0.684,20260524_205921_931370.jpg,
+2026-05-24T20:59:21.931311,USB-C_Cable/Image_23.jpg,2,Charger Adapter,white,small,0.625,combined,3342,1.25,oval,0.602,0.986,0.463,white,white,0.744,0.683,20260524_205921_933233.jpg,
+2026-05-24T20:59:21.931329,USB-C_Cable/Image_23.jpg,3,Unknown Object,silver,small,0.246,combined,13469,1.53,ring_like,0.432,0.833,0.442,white,silver,0.485,0.819,20260524_205921_933448.jpg,
+2026-05-24T20:59:23.904913,USB-C_Cable/Image_24.jpg,1,USB-C Cable,black,small,0.585,combined,5775,1.17,irregular,0.056,0.182,0.047,black,black,0.769,0.636,20260524_205923_904971.jpg,
+2026-05-24T20:59:26.575608,USB-C_Cable/Image_25.jpg,1,USB-C Cable,black,medium,0.404,combined,25832,1.28,irregular,0.05,0.256,0.099,silver,black,0.404,0.532,20260524_205926_575662.jpg,
+2026-05-24T20:59:29.298302,USB-C_Cable/Image_26.jpg,1,Charger Adapter,silver,small,0.84,combined,3110,1.34,block,0.268,0.627,0.473,silver,silver,1.0,0.512,20260524_205929_298379.jpg,
+2026-05-24T20:59:29.298333,USB-C_Cable/Image_26.jpg,2,Charger Adapter,white,small,0.724,combined,3244,1.48,block,0.378,0.75,0.435,white,silver,0.862,0.403,20260524_205929_298868.jpg,
+2026-05-24T20:59:32.939079,USB-C_Cable/Image_27.jpg,1,Charger Adapter,silver,small,0.84,combined,2779,1.05,block,0.342,0.651,0.404,silver,silver,1.0,0.489,20260524_205932_939170.jpg,
+2026-05-24T20:59:32.939108,USB-C_Cable/Image_27.jpg,2,Charger Adapter,silver,small,0.84,combined,2867,1.6,block,0.199,0.501,0.303,silver,silver,1.0,0.608,20260524_205932_939586.jpg,
+2026-05-24T20:59:32.939125,USB-C_Cable/Image_27.jpg,3,Charger Adapter,silver,small,0.84,combined,9138,1.56,block,0.106,0.473,0.326,silver,silver,1.0,0.444,20260524_205932_939803.jpg,
+2026-05-24T20:59:34.077021,flash_drive/05_hd.jpg,1,Unknown Object,white,large,0.194,combined,41096,2.12,ring_like,0.09,0.343,0.179,white,white,0.648,0.53,20260524_205934_077078.jpg,
+2026-05-24T20:59:34.481267,flash_drive/11561.16_11_500.webp,1,Unknown Object,white,large,0.276,combined,43669,1.52,block,0.35,0.907,0.396,white,white,0.919,0.726,20260524_205934_485135.jpg,
+2026-05-24T20:59:38.859977,flash_drive/1548583412135439414.jpg,1,Flash Drive,blue,small,0.76,combined,7261,2.64,irregular,0.384,0.851,0.578,blue,blue,1.0,0.629,20260524_205938_860028.jpg,
+2026-05-24T20:59:40.021487,flash_drive/193987066.jpg,1,Mouse,blue,medium,0.746,combined,46532,1.42,oval,0.527,0.932,0.486,blue,blue,0.848,0.838,20260524_205940_021549.jpg,
+2026-05-24T20:59:40.655681,flash_drive/1940362_1.jpg,1,Mouse,black,medium,0.677,combined,40072,1.06,oval,0.48,0.884,0.452,blue,black,0.74,0.769,20260524_205940_655736.jpg,
+2026-05-24T20:59:41.855434,flash_drive/8407.970.jpg,1,Colored Object,purple,large,0.478,combined,112698,1.91,ring_like,0.244,0.791,0.474,purple,purple,0.511,0.736,20260524_205941_855487.jpg,
+2026-05-24T20:59:43.439371,flash_drive/8L6lQWJdNMM.jpg,1,Mouse,black,medium,0.733,combined,32190,2.29,oval,0.577,0.945,0.884,black,black,0.833,0.675,20260524_205943_439423.jpg,
+2026-05-24T20:59:43.825025,flash_drive/9adfc3a4-e21c-43cd-b744-6382a58e0cd8.webp,1,Colored Object,red,medium,0.331,combined,5024,1.34,ring_like,0.377,0.893,0.311,red,black,0.509,0.468,20260524_205943_825073.jpg,
+2026-05-24T20:59:44.399046,flash_drive/Fleshka-Zhvachka-8-Gb-silikon-500x500.jpg,1,Unknown Object,white,small,0.183,combined,3421,2.01,irregular,0.227,0.905,0.22,silver,white,0.581,0.611,20260524_205944_399102.jpg,
+2026-05-24T20:59:45.215192,flash_drive/USB-Xiaomi-mijia-64-128-USB-3-2-8.jpg,1,Unknown Object,silver,large,0.195,combined,60645,1.43,ring_like,0.288,0.547,0.263,silver,silver,0.627,0.65,20260524_205945_215245.jpg,
+2026-05-24T20:59:46.120069,flash_drive/YbUVbbm4bqh6T450luDjQ.jpg,1,Colored Object,red,medium,0.322,combined,24460,2.56,rectangular,0.521,0.937,0.674,red,orange,0.496,0.447,20260524_205946_120124.jpg,
+2026-05-24T20:59:47.188657,flash_drive/a8a9686d4abc5332.jpg,1,Unknown Object,white,large,0.161,combined,52784,1.23,ring_like,0.097,0.344,0.187,silver,white,0.208,0.536,20260524_205947_188711.jpg,
+2026-05-24T20:59:51.556431,flash_drive/canvas_image_photo_constructor2502img25020_59869jpg.jpg,1,USB-C Cable,silver,medium,0.572,combined,70599,2.83,ring_like,0.295,0.583,0.44,silver,silver,0.753,0.738,20260524_205951_556482.jpg,
+2026-05-24T20:59:52.787881,flash_drive/f6c4eb3a835a5659.jpg,1,Colored Object,green,large,0.42,combined,144843,1.04,block,0.346,1.022,0.431,green,green,0.647,0.535,20260524_205952_790606.jpg,
+2026-05-24T20:59:53.458038,flash_drive/flesh-png.png,1,Colored Object,red,large,0.423,combined,23767,2.26,ring_like,0.378,0.884,0.706,red,red,0.465,0.651,20260524_205953_458111.jpg,
+2026-05-24T20:59:54.362780,flash_drive/fleshka-apacer-64-gb-ah334-pink-usb-2.0-(ap64gah334p-1)_1-800x800.jpg,1,Flash Drive,red,small,0.433,combined,2078,1.65,oval,0.448,0.901,0.415,red,red,0.5,0.57,20260524_205954_362833.jpg,
+2026-05-24T20:59:54.595598,flash_drive/images (1).jpeg,1,Unknown Object,silver,large,0.207,combined,12046,1.65,oval,0.619,1.0,0.573,white,silver,0.348,0.69,20260524_205954_595658.jpg,
+2026-05-24T20:59:54.886309,flash_drive/images (10).jpeg,1,Mouse,gray,large,0.56,combined,10737,1.29,oval,0.598,0.91,0.516,gray,gray,0.387,0.636,20260524_205954_886361.jpg,
+2026-05-24T20:59:55.178657,flash_drive/images (11).jpeg,1,Mouse,black,medium,0.612,combined,5383,1.55,oval,0.604,0.935,0.57,black,black,0.688,0.695,20260524_205955_178722.jpg,
+2026-05-24T20:59:55.382729,flash_drive/images (12).jpeg,1,USB-C Cable,black,medium,0.665,combined,5164,1.51,ring_like,0.277,0.513,0.287,black,black,0.875,0.861,20260524_205955_382781.jpg,
+2026-05-24T20:59:55.567447,flash_drive/images (2).jpeg,1,Mouse,black,large,0.568,combined,13876,1.05,oval,0.696,0.985,0.549,black,black,0.645,0.536,20260524_205955_567495.jpg,
+2026-05-24T20:59:55.836393,flash_drive/images (3).jpeg,1,Headphones,white,medium,0.562,combined,1407,1.04,ring_like,0.349,0.747,0.501,white,white,0.72,0.719,20260524_205955_836455.jpg,
+2026-05-24T20:59:56.043396,flash_drive/images (4).jpeg,1,Mouse,black,large,0.778,combined,10499,1.53,oval,0.517,0.981,0.446,black,black,0.884,0.497,20260524_205956_043454.jpg,
+2026-05-24T20:59:56.250808,flash_drive/images (5).jpeg,1,Unknown Object,white,large,0.243,combined,9366,1.01,ring_like,0.38,0.614,0.326,white,white,0.809,0.729,20260524_205956_250855.jpg,
+2026-05-24T20:59:56.666191,flash_drive/images (6).jpeg,1,Unknown Object,black,large,0.198,combined,2952,1.85,ring_like,0.108,0.344,0.153,black,black,0.659,0.586,20260524_205956_666265.jpg,
+2026-05-24T20:59:56.666224,flash_drive/images (6).jpeg,2,Unknown Object,silver,small,0.161,combined,250,2.78,irregular,0.25,0.984,0.278,silver,silver,0.536,0.404,20260524_205956_667433.jpg,
+2026-05-24T20:59:57.003359,flash_drive/images (7).jpeg,1,Headphones,gray,large,0.383,combined,11233,2.55,ring_like,0.289,0.689,0.625,gray,gray,0.433,0.491,20260524_205957_003414.jpg,
+2026-05-24T20:59:57.367019,flash_drive/images (8).jpeg,1,Headphones,silver,medium,0.456,combined,5773,1.51,ring_like,0.479,0.777,0.584,silver,silver,0.584,0.499,20260524_205957_367144.jpg,
+2026-05-24T20:59:57.367052,flash_drive/images (8).jpeg,2,Headphones,silver,medium,0.593,combined,1656,1.3,ring_like,0.317,0.623,0.344,silver,silver,0.761,0.707,20260524_205957_367629.jpg,
+2026-05-24T20:59:57.367075,flash_drive/images (8).jpeg,3,Flash Drive,black,small,0.76,combined,237,1.15,oval,0.615,0.91,0.515,black,black,1.0,0.414,20260524_205957_367880.jpg,
+2026-05-24T20:59:57.367097,flash_drive/images (8).jpeg,4,Unknown Object,black,small,0.3,combined,183,1.25,oval,0.783,1.046,0.572,black,black,1.0,0.388,20260524_205957_368081.jpg,
+2026-05-24T20:59:57.554329,flash_drive/images (9).jpeg,1,Mouse,black,large,0.561,combined,14513,2.09,oval,0.671,0.968,0.877,gray,black,0.071,0.638,20260524_205957_554399.jpg,
+2026-05-24T20:59:57.769144,flash_drive/images.jpeg,1,Headphones,black,large,0.501,combined,10716,1.09,ring_like,0.415,0.664,0.31,black,black,0.643,0.418,20260524_205957_769194.jpg,
+2026-05-24T20:59:58.172688,flash_drive/metaleva-fleshka-twister-1.jpg,1,Unknown Object,white,large,0.247,combined,26302,1.23,ring_like,0.137,0.354,0.229,white,white,0.823,0.698,20260524_205958_172740.jpg,
+2026-05-24T20:59:58.820838,flash_drive/modern-flash-drive-laptop-on-260nw-2628399191.webp,2,Colored Object,red,small,0.578,combined,342,1.27,ring_like,0.475,0.757,0.399,red,red,0.889,0.415,20260524_205958_820921.jpg,
+2026-05-24T20:59:58.820870,flash_drive/modern-flash-drive-laptop-on-260nw-2628399191.webp,3,Colored Object,red,medium,0.49,combined,2376,1.51,ring_like,0.266,0.533,0.313,red,red,0.754,0.519,20260524_205958_821305.jpg,
+2026-05-24T21:00:03.033704,flash_drive/snLxBT7RnM.webp,1,Charger Adapter,white,medium,0.78,combined,60457,2.16,oval,0.622,0.971,0.937,white,white,0.929,0.507,20260524_210003_033757.jpg,
+2026-05-24T21:00:03.247685,flash_drive/usb-laikmena-kingston-usb-flash-drive-datatraveler_large.webp,1,Keyboard,black,large,0.755,combined,13609,3.1,rectangular,0.57,0.964,0.871,black,black,0.839,0.837,20260524_210003_247743.jpg,
+2026-05-24T21:00:04.162352,flash_drive/белый-usb-накопитель-лежит-на-простой-серой-поверхности-современное-426733875.webp,1,Charger Adapter,white,medium,0.493,combined,77926,1.28,oval,0.558,0.922,0.501,silver,white,0.429,0.587,20260524_210004_162403.jpg,
+2026-05-24T21:00:05.483258,flash_drive/флэш-накопитель-usb-с-изящным-минималистичным-дизайном-расположен-на-406496457.webp,1,Headphones,black,medium,0.607,combined,21526,3.71,ring_like,0.263,0.658,0.323,black,black,0.779,0.439,20260524_210005_483310.jpg,
+2026-05-24T21:00:06.085604,mouse/01ebc3ce9219b7cfaf75624bde1348922fa67727.jpg,1,Unknown Object,white,large,0.266,combined,20133,1.6,irregular,0.047,0.15,0.136,white,white,0.886,0.482,20260524_210006_085653.jpg,
+2026-05-24T21:00:06.568480,mouse/0xnszp73paillzxkjdqqo5rtzky1zzrn.webp,1,Unknown Object,silver,large,0.178,combined,12352,2.0,irregular,0.031,0.165,0.133,silver,silver,0.592,0.437,20260524_210006_568543.jpg,
+2026-05-24T21:00:07.962384,mouse/1.jpg,1,Unknown Object,black,large,0.183,combined,67006,1.88,ring_like,0.12,0.153,0.137,black,black,0.609,0.504,20260524_210007_962440.jpg,
+2026-05-24T21:00:11.073834,mouse/1.webp,1,USB-C Cable,black,small,0.305,combined,6631,2.8,ring_like,0.408,0.618,0.543,silver,black,0.043,0.401,20260524_210011_073889.jpg,
+2026-05-24T21:00:16.364189,mouse/102106.jpg,1,Unknown Object,white,large,0.296,combined,22783,1.88,irregular,0.01,0.031,0.019,white,white,0.987,0.808,20260524_210016_364250.jpg,
+2026-05-24T21:00:16.725174,mouse/17afc481b08a2220f67fd114c3093644_large.webp,1,Unknown Object,white,large,0.15,combined,16019,1.16,ring_like,0.35,0.447,0.32,silver,white,0.044,0.383,20260524_210016_728962.jpg,
+2026-05-24T21:00:17.253950,mouse/260227080110273109.webp,1,Unknown Object,black,small,0.248,combined,1560,2.76,ring_like,0.335,0.775,0.488,black,black,0.827,0.43,20260524_210017_254034.jpg,
+2026-05-24T21:00:17.253984,mouse/260227080110273109.webp,2,Flash Drive,black,small,0.58,combined,367,1.16,oval,0.425,0.976,0.31,black,black,0.763,0.591,20260524_210017_254442.jpg,
+2026-05-24T21:00:18.442610,mouse/3-Tasten-Maus_Microsoft.jpg,1,Unknown Object,black,large,0.285,combined,27991,1.61,irregular,0.124,0.349,0.125,black,black,0.951,0.742,20260524_210018_442681.jpg,
+2026-05-24T21:00:18.442637,mouse/3-Tasten-Maus_Microsoft.jpg,2,Unknown Object,black,small,0.218,combined,5625,1.08,oval,0.619,1.002,0.501,black,black,0.727,0.466,20260524_210018_444650.jpg,
+2026-05-24T21:00:19.826743,mouse/32a2556bc883e91e0c05a720dfa382bd4a58f777_original.jpeg,1,Unknown Object,black,large,0.221,combined,64786,1.42,irregular,0.032,0.28,0.168,black,black,0.738,0.623,20260524_210019_826798.jpg,
+2026-05-24T21:00:20.087370,mouse/414212235_s265.jpg,1,Unknown Object,black,small,0.21,combined,729,1.03,oval,0.865,1.01,0.735,black,black,0.701,0.487,20260524_210020_091059.jpg,
+2026-05-24T21:00:21.110341,mouse/550e10fc2f6093a79d05b6946c28b3af.webp,1,Unknown Object,silver,large,0.15,combined,46293,1.93,irregular,0.048,0.29,0.193,silver,silver,0.472,0.404,20260524_210021_110394.jpg,
+2026-05-24T21:00:42.043352,mouse/Image.jpeg,1,Mouse,black,large,0.773,combined,697085,1.15,oval,0.765,0.962,0.653,black,black,0.878,0.545,20260524_210042_043416.jpg,
+2026-05-24T21:00:44.438671,mouse/Image_36.jpg,1,USB-C Cable,black,medium,0.452,combined,37927,1.48,irregular,0.03,0.22,0.183,black,black,0.595,0.435,20260524_210044_438726.jpg,
+2026-05-24T21:00:46.724116,mouse/Image_37.jpg,1,Flash Drive,black,small,0.756,combined,3251,1.35,oval,0.637,0.946,0.568,black,black,0.995,0.529,20260524_210046_727295.jpg,
+2026-05-24T21:00:49.490848,mouse/Image_38.jpg,1,USB-C Cable,black,medium,0.476,combined,57317,1.31,ring_like,0.108,0.138,0.114,black,black,0.626,0.442,20260524_210049_490899.jpg,
+2026-05-24T21:00:51.455067,mouse/Image_39.jpg,1,USB-C Cable,black,medium,0.447,combined,43408,1.49,ring_like,0.128,0.156,0.13,black,black,0.588,0.403,20260524_210051_455118.jpg,
+2026-05-24T21:00:54.880093,mouse/Image_40.jpg,1,USB-C Cable,black,medium,0.539,combined,23680,1.11,irregular,0.015,0.116,0.093,black,black,0.709,0.631,20260524_210054_880166.jpg,
+2026-05-24T21:00:54.880122,mouse/Image_40.jpg,2,USB-C Cable,black,small,0.752,combined,2993,1.61,ring_like,0.095,0.583,0.086,black,black,0.99,0.647,20260524_210054_882086.jpg,
+2026-05-24T21:00:57.866849,mouse/Image_41.jpg,1,USB-C Cable,black,medium,0.365,combined,7053,1.0,irregular,0.023,0.057,0.031,gray,black,0.48,0.458,20260524_210057_869393.jpg,
+2026-05-24T21:00:57.866877,mouse/Image_41.jpg,2,USB-C Cable,black,small,0.659,combined,2782,1.57,ring_like,0.19,0.488,0.214,black,black,0.868,0.838,20260524_210057_871066.jpg,
+2026-05-24T21:01:14.657413,mouse/Image_7.jpeg,1,Mouse,black,medium,0.869,combined,203620,1.26,oval,0.75,0.975,0.685,black,black,0.988,0.795,20260524_210114_657473.jpg,
+2026-05-24T21:01:16.456778,mouse/d05760904a05192258cf8b01c0b6fffc-1000-1000.jpg,1,Unknown Object,black,small,0.3,combined,22272,1.08,irregular,0.262,0.818,0.219,black,black,0.998,0.371,20260524_210116_456846.jpg,
+2026-05-24T21:01:16.456806,mouse/d05760904a05192258cf8b01c0b6fffc-1000-1000.jpg,2,Unknown Object,black,small,0.3,combined,13896,1.01,irregular,0.334,0.871,0.288,black,black,1.0,0.626,20260524_210116_457805.jpg,
+2026-05-24T21:01:16.638221,mouse/display.webp,1,Headphones,black,medium,0.451,combined,1695,1.0,ring_like,0.549,0.829,0.581,black,black,0.578,0.375,20260524_210116_642834.jpg,
+2026-05-24T21:01:16.870452,mouse/ed6b925d3f34c5852ebd215398020d78_large.webp,1,Unknown Object,white,large,0.156,combined,6581,2.9,ring_like,0.162,0.392,0.329,silver,white,0.027,0.519,20260524_210116_870514.jpg,
+2026-05-24T21:01:17.052245,mouse/images (1).jpeg,1,Mouse,black,large,0.664,combined,13779,1.47,oval,0.764,0.971,0.866,black,black,0.754,0.573,20260524_210117_052295.jpg,
+2026-05-24T21:01:17.244238,mouse/images (10).jpeg,1,Unknown Object,black,large,0.15,combined,11145,1.22,ring_like,0.417,0.592,0.39,gray,black,0.34,0.46,20260524_210117_244290.jpg,
+2026-05-24T21:01:17.524380,mouse/images (12).jpeg,1,Charger Adapter,silver,small,0.586,combined,1232,1.82,oval,0.593,0.936,0.584,silver,silver,0.697,0.62,20260524_210117_524421.jpg,
+2026-05-24T21:01:17.681690,mouse/images (13).jpeg,1,Unknown Object,white,long_thin,0.3,combined,919,4.55,ring_like,0.291,0.827,0.418,white,white,1.0,0.367,20260524_210117_681750.jpg,
+2026-05-24T21:01:17.955271,mouse/images (15).jpeg,1,Unknown Object,white,large,0.178,combined,7914,1.78,ring_like,0.346,0.45,0.411,silver,white,0.028,0.595,20260524_210117_955323.jpg,
+2026-05-24T21:01:18.139417,mouse/images (16).jpeg,1,Unknown Object,black,medium,0.22,combined,1385,1.09,oval,0.802,1.004,0.628,black,black,0.734,0.539,20260524_210118_139474.jpg,
+2026-05-24T21:01:18.324234,mouse/images (17).jpeg,1,Mouse,black,large,0.855,combined,11354,1.57,oval,0.632,0.982,0.549,black,black,0.971,0.747,20260524_210118_324290.jpg,
+2026-05-24T21:01:18.522608,mouse/images (18).jpeg,1,Unknown Object,black,large,0.232,combined,8363,1.88,ring_like,0.365,0.487,0.389,black,black,0.774,0.65,20260524_210118_522664.jpg,
+2026-05-24T21:01:18.750195,mouse/images (19).jpeg,1,Unknown Object,black,large,0.262,combined,12840,1.6,ring_like,0.444,0.569,0.483,black,black,0.873,0.452,20260524_210118_750252.jpg,
+2026-05-24T21:01:18.947051,mouse/images (2).jpeg,1,Unknown Object,white,large,0.15,combined,10854,1.14,ring_like,0.102,0.511,0.333,silver,white,0.033,0.441,20260524_210118_947103.jpg,
+2026-05-24T21:01:19.097917,mouse/images (3).jpeg,1,USB-C Cable,black,medium,0.758,combined,1710,1.35,ring_like,0.147,0.425,0.299,black,black,0.998,0.535,20260524_210119_097979.jpg,
+2026-05-24T21:01:19.308011,mouse/images (4).jpeg,1,Headphones,black,large,0.756,combined,18301,1.61,ring_like,0.514,0.878,0.512,black,black,0.97,0.662,20260524_210119_308072.jpg,
+2026-05-24T21:01:19.473561,mouse/images (5).jpeg,1,Colored Object,red,small,0.533,combined,184,1.08,irregular,0.469,1.122,0.295,red,red,0.821,0.663,20260524_210119_473620.jpg,
+2026-05-24T21:01:19.677436,mouse/images (6).jpeg,1,Mouse,black,large,0.525,combined,14948,1.69,oval,0.634,0.919,0.772,black,black,0.596,0.429,20260524_210119_677488.jpg,
+2026-05-24T21:01:19.846786,mouse/images (7).jpeg,1,Mouse,black,medium,0.771,combined,7199,1.42,oval,0.632,0.933,0.586,black,black,0.876,0.504,20260524_210119_846851.jpg,
+2026-05-24T21:01:20.042154,mouse/images (8).jpeg,1,Flash Drive,gray,small,0.461,combined,666,1.54,oval,0.626,0.907,0.553,gray,white,0.607,0.532,20260524_210120_042221.jpg,
+2026-05-24T21:01:20.240839,mouse/images (9).jpeg,1,Unknown Object,white,large,0.184,combined,6262,1.76,ring_like,0.281,0.357,0.322,white,white,0.604,0.613,20260524_210120_240903.jpg,
+2026-05-24T21:01:20.423686,mouse/images.jpeg,1,USB-C Cable,black,medium,0.423,combined,5030,1.14,ring_like,0.34,0.613,0.425,black,white,0.556,0.375,20260524_210120_423744.jpg,
+2026-05-24T21:01:21.343112,mouse/kak-vybrat-igrovuyu-mysh-01_3.jpg,1,Unknown Object,black,large,0.187,combined,53720,1.99,irregular,0.034,0.256,0.144,black,black,0.623,0.529,20260524_210121_343164.jpg,
+2026-05-24T21:01:22.067074,mouse/komputernaya_mysh-63510664593842.webp,1,Unknown Object,black,large,0.285,combined,134950,2.11,oval,0.647,0.947,0.806,black,black,0.951,0.498,20260524_210122_067131.jpg,
+2026-05-24T21:01:22.469385,mouse/large0TeckNet-Raptor-Gaming-Mouse-2000-tochek-dyuym-6-knopka-lishniy-ves-opticheskoy-kompyuternoy-mishi-kibersport-USB.jpg,1,Unknown Object,silver,small,0.278,combined,721,1.22,irregular,0.162,0.959,0.111,silver,white,0.926,0.549,20260524_210122_469470.jpg,
+2026-05-24T21:01:22.469419,mouse/large0TeckNet-Raptor-Gaming-Mouse-2000-tochek-dyuym-6-knopka-lishniy-ves-opticheskoy-kompyuternoy-mishi-kibersport-USB.jpg,2,Unknown Object,silver,small,0.181,combined,771,1.5,ring_like,0.346,0.866,0.291,silver,silver,0.536,0.602,20260524_210122_469893.jpg,
+2026-05-24T21:01:23.052939,mouse/mouse.png,1,Unknown Object,black,large,0.189,combined,40993,2.09,ring_like,0.195,0.314,0.231,black,black,0.629,0.501,20260524_210123_052993.jpg,
+2026-05-24T21:01:24.160741,mouse/mydo-silent-click.jpg,1,USB-C Cable,black,small,0.54,combined,6235,3.65,ring_like,0.237,0.568,0.526,black,black,0.711,0.458,20260524_210124_160791.jpg,
+2026-05-24T21:01:24.736516,mouse/orig.png,1,USB-C Cable,black,small,0.622,combined,7789,1.55,ring_like,0.118,0.545,0.271,black,black,0.818,0.78,20260524_210124_736570.jpg,
+2026-05-24T21:01:25.117436,mouse/provodnaya-igrovaya-mysh-razer-basilisk-v3-s-rgb-podsvetkoj-cvet-chernyj.jpg,1,Unknown Object,black,large,0.209,combined,15835,1.83,ring_like,0.092,0.464,0.347,black,black,0.698,0.559,20260524_210125_117538.jpg,
+2026-05-24T21:01:25.117474,mouse/provodnaya-igrovaya-mysh-razer-basilisk-v3-s-rgb-podsvetkoj-cvet-chernyj.jpg,2,Flash Drive,black,small,0.487,combined,1086,1.21,oval,0.772,0.998,0.621,black,black,0.641,0.57,20260524_210125_118366.jpg,
+2026-05-24T21:01:25.606906,mouse/sh-8012.jpg,1,Unknown Object,black,large,0.286,combined,23137,2.06,ring_like,0.172,0.281,0.209,black,black,0.952,0.584,20260524_210125_606965.jpg,
+2026-05-24T21:01:25.869850,mouse/small_202030.jpeg,1,Unknown Object,black,large,0.243,combined,14312,1.82,ring_like,0.348,0.465,0.335,black,black,0.809,0.401,20260524_210125_869900.jpg,
+2026-05-24T21:01:32.202208,photo_100_2026-05-24_15-36-01.jpg,1,Mouse,black,large,0.804,combined,303624,1.52,block,0.162,0.791,0.591,black,black,0.914,0.657,20260524_210132_202262.jpg,
+2026-05-24T21:01:39.978793,photo_10_2026-05-24_15-36-01.jpg,1,Mouse,black,medium,0.864,combined,103018,1.14,block,0.338,0.795,0.529,black,black,0.982,0.719,20260524_210139_978861.jpg,
+2026-05-24T21:01:39.978820,photo_10_2026-05-24_15-36-01.jpg,2,Mouse,black,medium,0.88,combined,59774,1.51,oval,0.796,1.0,0.706,black,black,1.0,0.559,20260524_210139_980469.jpg,
+2026-05-24T21:01:56.184847,photo_11_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,medium,0.632,combined,15108,1.41,irregular,0.022,0.14,0.11,black,black,0.831,0.635,20260524_210156_184910.jpg,
+2026-05-24T21:01:56.184875,photo_11_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,small,0.708,combined,2606,2.65,ring_like,0.111,0.413,0.139,black,black,0.932,0.541,20260524_210156_186159.jpg,
+2026-05-24T21:02:01.361144,photo_11_2026-05-24_15-36-23.jpg,1,Unknown Object,black,large,0.232,combined,130295,1.47,ring_like,0.103,0.344,0.227,black,black,0.773,0.417,20260524_210201_361202.jpg,
+2026-05-24T21:02:09.402636,photo_12_2026-05-24_15-36-01.jpg,1,Flash Drive,red,small,0.548,combined,18400,1.33,oval,0.552,0.91,0.546,red,red,0.72,0.663,20260524_210209_402696.jpg,
+2026-05-24T21:02:24.038231,photo_13_2026-05-24_15-36-01.jpg,1,Colored Object,red,medium,0.335,combined,143021,1.27,block,0.284,0.789,0.517,red,red,0.515,0.484,20260524_210224_038300.jpg,
+2026-05-24T21:02:24.038265,photo_13_2026-05-24_15-36-01.jpg,2,Flash Drive,black,small,0.76,combined,5799,1.31,block,0.261,0.61,0.424,black,black,1.0,0.576,20260524_210224_040217.jpg,
+2026-05-24T21:02:29.495029,photo_13_2026-05-24_15-36-23.jpg,1,USB-C Cable,black,small,0.743,combined,8695,3.13,irregular,0.098,0.287,0.178,black,black,0.978,0.478,20260524_210229_495089.jpg,
+2026-05-24T21:02:36.555677,photo_14_2026-05-24_15-36-01.jpg,1,Flash Drive,black,small,0.76,combined,18216,1.83,block,0.363,0.785,0.546,black,black,1.0,0.513,20260524_210236_555753.jpg,
+2026-05-24T21:02:36.555706,photo_14_2026-05-24_15-36-01.jpg,2,Flash Drive,red,small,0.583,combined,10264,1.41,block,0.222,0.58,0.347,red,red,0.692,0.767,20260524_210236_556379.jpg,
+2026-05-24T21:02:48.877170,photo_15_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,medium,0.76,combined,13030,1.28,irregular,0.013,0.063,0.047,black,black,1.0,0.393,20260524_210248_877215.jpg,
+2026-05-24T21:02:53.528707,photo_15_2026-05-24_15-36-23.jpg,1,Unknown Object,black,large,0.268,combined,116446,1.11,ring_like,0.083,0.311,0.225,black,black,0.893,0.451,20260524_210253_528765.jpg,
+2026-05-24T21:03:00.539024,photo_16_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,small,0.76,combined,9704,2.76,irregular,0.144,0.474,0.29,black,black,1.0,0.484,20260524_210300_539097.jpg,
+2026-05-24T21:03:00.539053,photo_16_2026-05-24_15-36-01.jpg,2,Flash Drive,black,small,0.754,combined,2847,1.57,oval,0.636,0.958,0.62,black,black,0.992,0.529,20260524_210300_539690.jpg,
+2026-05-24T21:03:04.958553,photo_16_2026-05-24_15-36-23.jpg,1,USB-C Cable,black,medium,0.692,combined,95000,1.21,ring_like,0.136,0.273,0.189,black,black,0.91,0.424,20260524_210304_958609.jpg,
+2026-05-24T21:03:11.612610,photo_17_2026-05-24_15-36-01.jpg,1,Mouse,black,large,0.88,combined,270989,1.15,oval,0.792,0.974,0.701,black,black,1.0,0.665,20260524_210311_614706.jpg,
+2026-05-24T21:03:11.612641,photo_17_2026-05-24_15-36-01.jpg,2,Flash Drive,black,small,0.76,combined,4908,1.23,block,0.332,0.708,0.491,black,black,1.0,0.398,20260524_210311_617180.jpg,
+2026-05-24T21:03:16.440426,photo_17_2026-05-24_15-36-23.jpg,1,Mouse,black,medium,0.875,combined,78258,1.29,oval,0.622,0.946,0.702,black,black,0.995,0.401,20260524_210316_440489.jpg,
+2026-05-24T21:03:23.585458,photo_18_2026-05-24_15-36-01.jpg,1,Flash Drive,black,small,0.699,combined,2619,1.3,oval,0.732,0.975,0.641,black,black,0.92,0.755,20260524_210323_585527.jpg,
+2026-05-24T21:03:30.202652,photo_18_2026-05-24_15-36-23.jpg,1,Unknown Object,black,large,0.249,combined,121461,1.24,irregular,0.056,0.328,0.215,black,black,0.828,0.544,20260524_210330_202740.jpg,
+2026-05-24T21:03:30.202682,photo_18_2026-05-24_15-36-23.jpg,2,USB-C Cable,black,small,0.688,combined,19894,1.39,irregular,0.066,0.286,0.22,black,black,0.905,0.531,20260524_210330_205936.jpg,
+2026-05-24T21:03:30.202697,photo_18_2026-05-24_15-36-23.jpg,3,USB-C Cable,black,small,0.76,combined,5103,3.06,ring_like,0.141,0.377,0.281,black,black,1.0,0.434,20260524_210330_206621.jpg,
+2026-05-24T21:03:34.118817,photo_19_2026-05-24_15-36-01.jpg,1,Headphones,black,medium,0.78,combined,57504,3.94,irregular,0.233,0.78,0.523,black,black,1.0,0.417,20260524_210334_118938.jpg,
+2026-05-24T21:03:34.118845,photo_19_2026-05-24_15-36-01.jpg,2,Flash Drive,black,small,0.76,combined,5114,1.76,oval,0.423,0.916,0.401,black,black,1.0,0.489,20260524_210334_120043.jpg,
+2026-05-24T21:03:34.118863,photo_19_2026-05-24_15-36-01.jpg,3,Unknown Object,black,small,0.3,combined,9965,3.68,rectangular,0.428,0.961,0.682,black,black,1.0,0.38,20260524_210334_120300.jpg,
+2026-05-24T21:03:34.118878,photo_19_2026-05-24_15-36-01.jpg,4,Unknown Object,black,long_thin,0.3,combined,11567,5.09,irregular,0.24,0.833,0.522,black,black,1.0,0.545,20260524_210334_120567.jpg,
+2026-05-24T21:03:34.118892,photo_19_2026-05-24_15-36-01.jpg,5,Unknown Object,black,long_thin,0.283,combined,43028,6.38,irregular,0.135,0.633,0.37,black,black,0.942,0.673,20260524_210334_120863.jpg,
+2026-05-24T21:03:41.269712,photo_19_2026-05-24_15-36-23.jpg,1,Mouse,black,medium,0.88,combined,84821,1.21,oval,0.538,0.958,0.67,black,black,1.0,0.716,20260524_210341_269809.jpg,
+2026-05-24T21:03:41.269742,photo_19_2026-05-24_15-36-23.jpg,2,USB-C Cable,black,small,0.76,combined,9073,2.74,irregular,0.148,0.479,0.259,black,black,1.0,0.433,20260524_210341_270840.jpg,
+2026-05-24T21:03:41.269758,photo_19_2026-05-24_15-36-23.jpg,3,Mouse,black,medium,0.88,combined,97699,1.39,block,0.106,0.626,0.449,black,black,1.0,0.514,20260524_210341_271222.jpg,
+2026-05-24T21:03:49.049420,photo_1_2026-05-24_15-36-00.jpg,1,Flash Drive,black,small,0.76,combined,3295,1.94,block,0.331,0.803,0.367,black,black,1.0,0.459,20260524_210349_049530.jpg,
+2026-05-24T21:03:49.049448,photo_1_2026-05-24_15-36-00.jpg,2,Flash Drive,black,small,0.76,combined,3295,1.94,block,0.331,0.803,0.367,black,black,1.0,0.459,20260524_210349_050027.jpg,
+2026-05-24T21:03:49.049463,photo_1_2026-05-24_15-36-00.jpg,3,USB-C Cable,silver,small,0.48,combined,3808,1.02,irregular,0.145,0.37,0.22,silver,black,0.632,0.366,20260524_210349_050283.jpg,
+2026-05-24T21:03:54.922284,photo_1_2026-05-24_15-36-23.jpg,1,Unknown Object,black,large,0.278,combined,135422,1.66,irregular,0.042,0.424,0.266,black,black,0.927,0.546,20260524_210354_922340.jpg,
+2026-05-24T21:04:02.276169,photo_20_2026-05-24_15-36-01.jpg,1,Flash Drive,black,small,0.76,combined,4571,2.47,oval,0.629,0.982,0.838,black,black,1.0,0.616,20260524_210402_276224.jpg,
+2026-05-24T21:04:08.835960,photo_20_2026-05-24_15-36-23.jpg,1,Mouse,black,medium,0.88,combined,100453,1.16,oval,0.785,0.928,0.76,black,black,1.0,0.661,20260524_210408_836048.jpg,
+2026-05-24T21:04:08.835990,photo_20_2026-05-24_15-36-23.jpg,2,Unknown Object,black,small,0.3,combined,3709,1.1,irregular,0.242,0.626,0.299,black,black,1.0,0.501,20260524_210408_837173.jpg,
+2026-05-24T21:04:08.836007,photo_20_2026-05-24_15-36-23.jpg,3,Mouse,black,medium,0.88,combined,77847,1.33,block,0.069,0.608,0.415,black,black,1.0,0.472,20260524_210408_837417.jpg,
+2026-05-24T21:04:14.873201,photo_21_2026-05-24_15-36-01.jpg,1,Flash Drive,black,small,0.76,combined,6851,2.6,irregular,0.406,0.967,0.494,black,black,1.0,0.667,20260524_210414_873274.jpg,
+2026-05-24T21:04:14.873228,photo_21_2026-05-24_15-36-01.jpg,2,Mouse,black,medium,0.595,combined,71660,1.38,oval,0.624,0.987,0.549,black,black,0.676,0.56,20260524_210414_873800.jpg,
+2026-05-24T21:04:21.924909,photo_21_2026-05-24_15-36-23.jpg,1,Mouse,black,medium,0.776,combined,108446,1.34,rectangular,0.3,0.871,0.606,black,red,0.882,0.416,20260524_210421_924982.jpg,
+2026-05-24T21:04:21.924937,photo_21_2026-05-24_15-36-23.jpg,2,Mouse,black,medium,0.742,combined,67581,1.24,oval,0.547,0.936,0.68,black,red,0.843,0.543,20260524_210421_926372.jpg,
+2026-05-24T21:04:30.066666,photo_22_2026-05-24_15-36-01.jpg,1,Charger Adapter,gray,small,0.839,combined,29679,1.2,oval,0.647,0.968,0.61,gray,silver,0.999,0.715,20260524_210430_067363.jpg,
+2026-05-24T21:04:39.318869,photo_22_2026-05-24_15-36-23.jpg,1,Unknown Object,black,large,0.15,combined,54798,3.0,ring_like,0.124,0.581,0.205,black,black,0.477,0.445,20260524_210439_318975.jpg,
+2026-05-24T21:04:39.318901,photo_22_2026-05-24_15-36-23.jpg,2,USB-C Cable,black,medium,0.5,combined,74723,1.49,irregular,0.059,0.435,0.339,black,black,0.657,0.496,20260524_210439_321254.jpg,
+2026-05-24T21:04:39.318919,photo_22_2026-05-24_15-36-23.jpg,3,Unknown Object,gray,small,0.3,combined,5594,1.86,ring_like,0.284,0.684,0.397,gray,silver,1.0,0.446,20260524_210439_323114.jpg,
+2026-05-24T21:04:39.318933,photo_22_2026-05-24_15-36-23.jpg,4,Unknown Object,black,long_thin,0.3,combined,4856,8.64,irregular,0.145,0.771,0.516,black,black,1.0,0.674,20260524_210439_323397.jpg,
+2026-05-24T21:04:46.256426,photo_23_2026-05-24_15-36-01.jpg,1,Mouse,black,medium,0.603,combined,42590,1.28,rectangular,0.32,0.766,0.602,black,black,0.665,0.686,20260524_210446_256485.jpg,
+2026-05-24T21:04:57.867764,photo_23_2026-05-24_15-36-23.jpg,1,USB-C Cable,black,medium,0.39,combined,13388,2.99,irregular,0.082,0.23,0.137,black,black,0.514,0.507,20260524_210457_867864.jpg,
+2026-05-24T21:04:57.867792,photo_23_2026-05-24_15-36-23.jpg,2,Charger Adapter,white,small,0.831,combined,4931,1.62,oval,0.697,0.954,0.817,white,white,0.989,0.864,20260524_210457_943333.jpg,
+2026-05-24T21:04:57.867809,photo_23_2026-05-24_15-36-23.jpg,3,USB-C Cable,white,medium,0.537,combined,16032,2.11,irregular,0.055,0.126,0.079,white,white,0.587,0.707,20260524_210457_943583.jpg,
+2026-05-24T21:04:57.867823,photo_23_2026-05-24_15-36-23.jpg,4,USB-C Cable,black,medium,0.39,combined,13388,2.99,irregular,0.082,0.23,0.137,black,black,0.514,0.507,20260524_210457_945667.jpg,
+2026-05-24T21:05:04.088927,photo_24_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,small,0.76,combined,9075,1.47,irregular,0.025,0.091,0.08,black,black,1.0,0.368,20260524_210504_089003.jpg,
+2026-05-24T21:05:04.088955,photo_24_2026-05-24_15-36-01.jpg,2,Unknown Object,black,small,0.291,combined,3016,2.08,ring_like,0.379,0.731,0.558,black,black,0.969,0.491,20260524_210504_089963.jpg,
+2026-05-24T21:05:15.410961,photo_24_2026-05-24_15-36-23.jpg,1,USB-C Cable,silver,medium,0.512,combined,97997,1.19,ring_like,0.107,0.393,0.282,silver,silver,0.674,0.491,20260524_210515_411024.jpg,
+2026-05-24T21:05:23.252111,photo_25_2026-05-24_15-36-01.jpg,1,Mouse,black,medium,0.76,combined,37871,2.04,oval,0.664,0.985,0.895,black,black,0.863,0.348,20260524_210523_252170.jpg,
+2026-05-24T21:05:34.471644,photo_25_2026-05-24_15-36-23.jpg,1,Unknown Object,white,large,0.15,combined,57334,1.09,ring_like,0.082,0.178,0.103,silver,white,0.309,0.493,20260524_210534_471695.jpg,
+2026-05-24T21:05:40.581790,photo_26_2026-05-24_15-36-01.jpg,1,Unknown Object,black,small,0.298,combined,10548,3.52,rectangular,0.559,0.999,0.804,black,black,0.995,0.829,20260524_210540_581847.jpg,
+2026-05-24T21:05:51.015528,photo_26_2026-05-24_15-36-23.jpg,1,Unknown Object,silver,large,0.178,combined,91970,1.23,irregular,0.047,0.209,0.153,silver,silver,0.592,0.399,20260524_210551_015580.jpg,
+2026-05-24T21:05:59.485962,photo_27_2026-05-24_15-36-01.jpg,1,Mouse,gray,medium,0.878,combined,47938,1.7,oval,0.463,0.859,0.743,gray,gray,0.998,0.645,20260524_210559_486481.jpg,
+2026-05-24T21:06:10.230052,photo_27_2026-05-24_15-36-23.jpg,1,Unknown Object,white,small,0.211,combined,14407,2.12,ring_like,0.533,0.892,0.707,white,white,0.704,0.69,20260524_210610_230104.jpg,
+2026-05-24T21:06:19.683251,photo_28_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,small,0.74,combined,5570,1.4,irregular,0.056,0.214,0.179,black,black,0.974,0.666,20260524_210619_683302.jpg,
+2026-05-24T21:06:29.759917,photo_28_2026-05-24_15-36-23.jpg,1,Charger Adapter,white,small,0.582,combined,17430,1.48,oval,0.69,0.951,0.686,white,white,0.693,0.659,20260524_210629_762317.jpg,
+2026-05-24T21:06:38.533732,photo_29_2026-05-24_15-36-01.jpg,1,Mouse,black,large,0.851,combined,193239,1.29,block,0.065,0.74,0.429,black,black,0.967,0.516,20260524_210638_533799.jpg,
+2026-05-24T21:06:49.011014,photo_29_2026-05-24_15-36-23.jpg,1,Charger Adapter,white,medium,0.744,combined,46176,1.95,rectangular,0.416,0.854,0.707,white,white,0.877,0.886,20260524_210649_011069.jpg,
+2026-05-24T21:06:57.173876,photo_2_2026-05-24_15-36-00.jpg,1,USB-C Cable,black,medium,0.53,combined,133451,1.1,ring_like,0.218,0.463,0.29,black,black,0.697,0.52,20260524_210657_173930.jpg,
+2026-05-24T21:07:03.490800,photo_2_2026-05-24_15-36-23.jpg,1,Unknown Object,black,large,0.266,combined,94556,1.09,ring_like,0.095,0.241,0.153,black,black,0.887,0.466,20260524_210703_490859.jpg,
+2026-05-24T21:07:11.614878,photo_30_2026-05-24_15-36-01.jpg,1,Flash Drive,black,small,0.754,combined,16740,1.1,block,0.35,0.782,0.47,black,black,0.992,0.417,20260524_210711_615012.jpg,
+2026-05-24T21:07:11.614906,photo_30_2026-05-24_15-36-01.jpg,2,Flash Drive,black,small,0.76,combined,8419,1.18,block,0.294,0.699,0.494,black,black,1.0,0.433,20260524_210711_615621.jpg,
+2026-05-24T21:07:11.614924,photo_30_2026-05-24_15-36-01.jpg,3,Mouse,black,medium,0.653,combined,36289,1.62,oval,0.779,1.0,0.923,black,gray,0.342,0.742,20260524_210711_615881.jpg,
+2026-05-24T21:07:11.614940,photo_30_2026-05-24_15-36-01.jpg,4,Flash Drive,black,small,0.76,combined,16253,1.18,block,0.266,0.77,0.461,black,black,1.0,0.438,20260524_210711_616286.jpg,
+2026-05-24T21:07:11.614954,photo_30_2026-05-24_15-36-01.jpg,5,Mouse,black,medium,0.617,combined,43469,1.07,oval,0.727,0.91,0.734,black,gray,0.393,0.701,20260524_210711_616664.jpg,
+2026-05-24T21:07:11.614970,photo_30_2026-05-24_15-36-01.jpg,6,Unknown Object,black,small,0.3,combined,3632,2.02,irregular,0.199,0.828,0.199,black,black,1.0,0.441,20260524_210711_617147.jpg,
+2026-05-24T21:07:21.640621,photo_30_2026-05-24_15-36-23.jpg,1,Unknown Object,black,long_thin,0.3,combined,6601,4.2,rectangular,0.331,0.806,0.605,black,black,1.0,0.669,20260524_210721_640740.jpg,
+2026-05-24T21:07:21.640651,photo_30_2026-05-24_15-36-23.jpg,2,Unknown Object,white,small,0.3,combined,17335,2.79,irregular,0.164,0.62,0.47,white,white,1.0,0.472,20260524_210721_641161.jpg,
+2026-05-24T21:07:21.640670,photo_30_2026-05-24_15-36-23.jpg,3,Charger Adapter,white,medium,0.84,combined,47516,1.06,oval,0.644,0.876,0.709,white,white,1.0,0.668,20260524_210721_641610.jpg,
+2026-05-24T21:07:21.640684,photo_30_2026-05-24_15-36-23.jpg,4,Unknown Object,white,long_thin,0.3,combined,29808,4.32,irregular,0.132,0.64,0.53,white,white,1.0,0.386,20260524_210721_642166.jpg,
+2026-05-24T21:07:28.951104,photo_31_2026-05-24_15-36-01.jpg,1,Charger Adapter,silver,small,0.761,combined,28698,1.93,oval,0.592,0.969,0.759,silver,silver,0.906,0.44,20260524_210728_951170.jpg,
+2026-05-24T21:07:38.419616,photo_31_2026-05-24_15-36-23.jpg,1,Unknown Object,white,medium,0.262,combined,61150,3.33,rectangular,0.213,0.744,0.644,white,white,0.873,0.727,20260524_210738_419669.jpg,
+2026-05-24T21:07:47.685691,photo_32_2026-05-24_15-36-01.jpg,1,Charger Adapter,silver,medium,0.726,combined,31000,1.72,oval,0.464,0.883,0.647,silver,silver,0.839,0.864,20260524_210747_685809.jpg,
+2026-05-24T21:07:47.685722,photo_32_2026-05-24_15-36-01.jpg,2,Charger Adapter,silver,small,0.737,combined,28684,1.56,oval,0.683,0.976,0.817,silver,silver,0.877,0.486,20260524_210747_686478.jpg,
+2026-05-24T21:07:47.685738,photo_32_2026-05-24_15-36-01.jpg,3,USB-C Cable,black,small,0.758,combined,19894,1.0,ring_like,0.147,0.568,0.32,black,black,0.998,0.426,20260524_210747_686864.jpg,
+2026-05-24T21:07:47.685754,photo_32_2026-05-24_15-36-01.jpg,4,Unknown Object,black,small,0.3,combined,3077,1.32,oval,0.79,1.002,0.72,black,black,1.0,0.587,20260524_210747_687456.jpg,
+2026-05-24T21:07:47.685768,photo_32_2026-05-24_15-36-01.jpg,5,USB-C Cable,black,medium,0.615,combined,28655,1.3,irregular,0.063,0.221,0.154,black,black,0.809,0.69,20260524_210747_687662.jpg,
+2026-05-24T21:07:55.182032,photo_32_2026-05-24_15-36-23.jpg,1,Charger Adapter,white,medium,0.811,combined,95809,1.92,block,0.387,0.876,0.522,white,white,0.966,0.619,20260524_210755_182095.jpg,
+2026-05-24T21:08:03.573731,photo_33_2026-05-24_15-36-01.jpg,1,Charger Adapter,silver,medium,0.653,combined,50889,1.13,oval,0.468,0.86,0.493,silver,silver,0.778,0.529,20260524_210803_573785.jpg,
+2026-05-24T21:08:12.326289,photo_33_2026-05-24_15-36-23.jpg,1,Charger Adapter,white,medium,0.596,combined,80004,1.04,rectangular,0.356,0.84,0.623,white,white,0.709,0.584,20260524_210812_326345.jpg,
+2026-05-24T21:08:18.749382,photo_34_2026-05-24_15-36-01.jpg,1,Flash Drive,black,small,0.76,combined,3707,1.4,block,0.327,0.71,0.342,black,black,1.0,0.389,20260524_210818_749450.jpg,
+2026-05-24T21:08:18.749409,photo_34_2026-05-24_15-36-01.jpg,2,Flash Drive,black,small,0.76,combined,11761,1.44,block,0.2,0.649,0.377,black,black,1.0,0.432,20260524_210818_749902.jpg,
+2026-05-24T21:08:27.116009,photo_34_2026-05-24_15-36-23.jpg,1,USB-C Cable,silver,small,0.429,combined,21336,1.01,ring_like,0.149,0.533,0.378,silver,silver,0.564,0.437,20260524_210827_116127.jpg,
+2026-05-24T21:08:27.116038,photo_34_2026-05-24_15-36-23.jpg,2,USB-C Cable,black,small,0.608,combined,6403,1.33,ring_like,0.144,0.472,0.329,black,black,0.8,0.471,20260524_210827_116954.jpg,
+2026-05-24T21:08:27.116055,photo_34_2026-05-24_15-36-23.jpg,3,Charger Adapter,white,medium,0.82,combined,84949,1.09,oval,0.683,0.963,0.806,white,white,0.976,0.864,20260524_210827_117278.jpg,
+2026-05-24T21:08:27.116069,photo_34_2026-05-24_15-36-23.jpg,4,USB-C Cable,black,small,0.449,combined,4164,1.35,ring_like,0.232,0.593,0.365,black,black,0.591,0.414,20260524_210827_118055.jpg,
+2026-05-24T21:08:27.116083,photo_34_2026-05-24_15-36-23.jpg,5,USB-C Cable,black,small,0.513,combined,5312,1.87,ring_like,0.138,0.457,0.36,black,black,0.676,0.424,20260524_210827_118315.jpg,
+2026-05-24T21:08:33.593340,photo_35_2026-05-24_15-36-01.jpg,1,Charger Adapter,silver,medium,0.543,combined,42931,1.24,oval,0.455,0.826,0.63,silver,silver,0.647,0.56,20260524_210833_593401.jpg,
+2026-05-24T21:08:42.244747,photo_35_2026-05-24_15-36-23.jpg,1,Charger Adapter,silver,small,0.84,combined,3761,1.57,block,0.244,0.608,0.373,silver,silver,1.0,0.471,20260524_210842_244818.jpg,
+2026-05-24T21:08:42.244777,photo_35_2026-05-24_15-36-23.jpg,2,Headphones,black,medium,0.592,combined,43835,2.45,irregular,0.241,0.791,0.475,black,black,0.759,0.456,20260524_210842_245209.jpg,
+2026-05-24T21:08:48.308157,photo_36_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,small,0.76,combined,6647,1.25,irregular,0.029,0.086,0.067,black,black,1.0,0.612,20260524_210848_308247.jpg,
+2026-05-24T21:08:48.308185,photo_36_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,small,0.76,combined,3350,1.05,irregular,0.067,0.184,0.112,black,black,1.0,0.418,20260524_210848_309171.jpg,
+2026-05-24T21:08:48.308201,photo_36_2026-05-24_15-36-01.jpg,3,Flash Drive,black,small,0.76,combined,2666,1.19,block,0.14,0.531,0.324,black,black,1.0,0.505,20260524_210848_309602.jpg,
+2026-05-24T21:08:59.336960,photo_36_2026-05-24_15-36-23.jpg,1,USB-C Cable,white,medium,0.458,combined,75584,1.17,ring_like,0.15,0.277,0.205,silver,white,0.29,0.603,20260524_210859_340195.jpg,
+2026-05-24T21:09:07.810226,photo_37_2026-05-24_15-36-01.jpg,1,Mouse,black,medium,0.543,combined,91295,1.2,block,0.132,0.583,0.333,black,black,0.617,0.584,20260524_210907_810312.jpg,
+2026-05-24T21:09:07.810254,photo_37_2026-05-24_15-36-01.jpg,2,Mouse,black,medium,0.88,combined,90153,1.14,oval,0.526,0.91,0.634,black,black,1.0,0.586,20260524_210907_812069.jpg,
+2026-05-24T21:09:07.810271,photo_37_2026-05-24_15-36-01.jpg,3,Flash Drive,black,small,0.76,combined,2833,1.33,rectangular,0.388,0.776,0.634,black,black,1.0,0.496,20260524_210907_813002.jpg,
+2026-05-24T21:09:18.863096,photo_37_2026-05-24_15-36-23.jpg,1,USB-C Cable,white,medium,0.598,combined,27258,1.27,irregular,0.015,0.11,0.077,white,white,0.787,0.779,20260524_210918_863152.jpg,
+2026-05-24T21:09:28.581966,photo_38_2026-05-24_15-36-01.jpg,1,Mouse,black,medium,0.88,combined,88398,1.01,oval,0.479,0.9,0.596,black,black,1.0,0.833,20260524_210928_583509.jpg,
+2026-05-24T21:09:39.863760,photo_38_2026-05-24_15-36-23.jpg,1,Unknown Object,white,large,0.194,combined,96822,1.33,irregular,0.058,0.195,0.127,white,white,0.648,0.634,20260524_210939_863815.jpg,
+2026-05-24T21:09:47.242767,photo_39_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,small,0.74,combined,5558,1.18,irregular,0.041,0.109,0.064,black,black,0.974,0.596,20260524_210947_242836.jpg,
+2026-05-24T21:09:47.242794,photo_39_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,medium,0.76,combined,7508,1.74,irregular,0.021,0.082,0.054,black,black,1.0,0.51,20260524_210947_243657.jpg,
+2026-05-24T21:10:01.407582,photo_3_2026-05-24_15-36-00.jpg,1,Flash Drive,black,small,0.76,combined,4342,1.34,block,0.242,0.624,0.399,black,black,1.0,0.497,20260524_211001_407624.jpg,
+2026-05-24T21:10:09.535143,photo_3_2026-05-24_15-36-23.jpg,1,Mouse,black,medium,0.389,combined,56280,1.03,block,0.245,0.635,0.339,black,gray,0.439,0.442,20260524_211009_535194.jpg,
+2026-05-24T21:10:15.452709,photo_40_2026-05-24_15-36-01.jpg,1,Charger Adapter,silver,medium,0.751,combined,56567,1.88,oval,0.66,0.97,0.869,silver,silver,0.894,0.681,20260524_211015_452762.jpg,
+2026-05-24T21:10:25.324303,photo_40_2026-05-24_15-36-23.jpg,1,Unknown Object,silver,small,0.271,combined,3760,3.56,ring_like,0.287,0.8,0.422,silver,silver,0.903,0.48,20260524_211025_326059.jpg,
+2026-05-24T21:10:31.705613,photo_41_2026-05-24_15-36-01.jpg,1,Charger Adapter,silver,medium,0.653,combined,54664,1.45,oval,0.637,0.973,0.606,silver,silver,0.778,0.579,20260524_211031_705665.jpg,
+2026-05-24T21:10:42.520287,photo_41_2026-05-24_15-36-23.jpg,1,USB-C Cable,white,medium,0.495,combined,80797,1.34,ring_like,0.261,0.398,0.299,white,white,0.651,0.613,20260524_211042_520339.jpg,
+2026-05-24T21:10:48.508072,photo_42_2026-05-24_15-36-01.jpg,1,Charger Adapter,silver,medium,0.618,combined,60365,1.54,oval,0.618,0.958,0.602,silver,silver,0.736,0.565,20260524_211048_508126.jpg,
+2026-05-24T21:10:59.779638,photo_42_2026-05-24_15-36-23.jpg,1,USB-C Cable,white,medium,0.417,combined,69161,1.02,irregular,0.028,0.265,0.179,silver,white,0.227,0.549,20260524_211059_779693.jpg,
+2026-05-24T21:11:07.241285,photo_43_2026-05-24_15-36-01.jpg,1,Mouse,black,medium,0.88,combined,91734,1.75,oval,0.651,0.922,0.791,black,black,1.0,0.59,20260524_211107_241385.jpg,
+2026-05-24T21:11:07.241313,photo_43_2026-05-24_15-36-01.jpg,2,Mouse,black,medium,0.88,combined,105261,1.43,oval,0.67,0.927,0.739,black,black,1.0,0.565,20260524_211107_242390.jpg,
+2026-05-24T21:11:07.241331,photo_43_2026-05-24_15-36-01.jpg,3,Unknown Object,black,small,0.288,combined,8581,1.91,ring_like,0.204,0.655,0.58,black,black,0.96,0.557,20260524_211107_243309.jpg,
+2026-05-24T21:11:07.241345,photo_43_2026-05-24_15-36-01.jpg,4,Flash Drive,black,small,0.76,combined,4453,1.38,oval,0.532,0.861,0.558,black,black,1.0,0.573,20260524_211107_243585.jpg,
+2026-05-24T21:11:18.303411,photo_43_2026-05-24_15-36-23.jpg,1,USB-C Cable,white,medium,0.49,combined,85967,1.06,ring_like,0.089,0.281,0.187,silver,white,0.309,0.645,20260524_211118_304821.jpg,
+2026-05-24T21:11:24.881401,photo_44_2026-05-24_15-36-01.jpg,1,Charger Adapter,silver,medium,0.723,combined,49523,1.06,oval,0.483,0.844,0.495,silver,silver,0.861,0.487,20260524_211124_881459.jpg,
+2026-05-24T21:11:34.876384,photo_44_2026-05-24_15-36-23.jpg,1,Unknown Object,black,large,0.222,combined,108265,1.17,irregular,0.064,0.295,0.197,gray,black,0.741,0.421,20260524_211134_876457.jpg,
+2026-05-24T21:11:34.876414,photo_44_2026-05-24_15-36-23.jpg,2,USB-C Cable,black,small,0.747,combined,4477,1.97,irregular,0.045,0.202,0.097,black,black,0.982,0.914,20260524_211134_882732.jpg,
+2026-05-24T21:11:43.688958,photo_45_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,small,0.748,combined,8838,1.2,irregular,0.032,0.143,0.085,black,black,0.984,0.455,20260524_211143_690168.jpg,
+2026-05-24T21:11:43.688986,photo_45_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,small,0.76,combined,6755,1.37,irregular,0.022,0.069,0.055,black,black,1.0,0.416,20260524_211143_691173.jpg,
+2026-05-24T21:11:54.373687,photo_45_2026-05-24_15-36-23.jpg,1,Unknown Object,white,long_thin,0.278,combined,48137,6.3,ring_like,0.114,0.628,0.497,white,white,0.928,0.496,20260524_211154_373794.jpg,
+2026-05-24T21:11:54.373718,photo_45_2026-05-24_15-36-23.jpg,2,Charger Adapter,white,small,0.84,combined,2621,1.46,oval,0.716,0.967,0.718,white,white,1.0,0.403,20260524_211154_374935.jpg,
+2026-05-24T21:11:54.373735,photo_45_2026-05-24_15-36-23.jpg,3,Charger Adapter,white,small,0.812,combined,2784,2.14,oval,0.439,0.864,0.52,white,white,0.966,0.386,20260524_211154_375134.jpg,
+2026-05-24T21:11:54.373749,photo_45_2026-05-24_15-36-23.jpg,4,USB-C Cable,white,small,0.632,combined,3660,3.1,ring_like,0.109,0.283,0.172,white,white,0.831,0.737,20260524_211154_375349.jpg,
+2026-05-24T21:12:02.155454,photo_46_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.218,combined,164892,1.08,ring_like,0.12,0.394,0.261,black,black,0.726,0.471,20260524_211202_155555.jpg,
+2026-05-24T21:12:02.155485,photo_46_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,small,0.584,combined,4375,1.1,ring_like,0.106,0.27,0.117,black,black,0.768,0.537,20260524_211202_159717.jpg,
+2026-05-24T21:12:12.100005,photo_46_2026-05-24_15-36-23.jpg,1,Flash Drive,black,small,0.326,combined,2994,1.56,oval,0.606,0.912,0.711,silver,black,0.428,0.429,20260524_211212_100100.jpg,
+2026-05-24T21:12:12.100038,photo_46_2026-05-24_15-36-23.jpg,2,Unknown Object,silver,small,0.205,combined,4565,1.17,ring_like,0.264,0.861,0.211,silver,silver,0.682,0.448,20260524_211212_100482.jpg,
+2026-05-24T21:12:12.100056,photo_46_2026-05-24_15-36-23.jpg,3,Mouse,gray,medium,0.88,combined,32028,2.02,oval,0.593,0.967,0.714,gray,gray,1.0,0.488,20260524_211212_100905.jpg,
+2026-05-24T21:12:18.370998,photo_47_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.235,combined,263115,1.34,block,0.055,0.533,0.405,black,black,0.785,0.464,20260524_211218_371065.jpg,
+2026-05-24T21:12:28.180443,photo_47_2026-05-24_15-36-23.jpg,1,Unknown Object,black,large,0.252,combined,78980,1.55,irregular,0.045,0.394,0.224,black,black,0.841,0.467,20260524_211228_182387.jpg,
+2026-05-24T21:12:28.180471,photo_47_2026-05-24_15-36-23.jpg,2,Unknown Object,black,long_thin,0.235,combined,6490,4.35,ring_like,0.211,0.716,0.494,black,black,0.784,0.403,20260524_211228_185220.jpg,
+2026-05-24T21:12:35.927786,photo_48_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.232,combined,214870,1.02,block,0.073,0.513,0.362,black,black,0.773,0.477,20260524_211235_927848.jpg,
+2026-05-24T21:12:46.351405,photo_48_2026-05-24_15-36-23.jpg,1,Colored Object,red,medium,0.453,combined,118343,1.27,oval,0.47,0.811,0.658,red,red,0.697,0.386,20260524_211246_353210.jpg,
+2026-05-24T21:12:53.396042,photo_49_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.219,combined,215448,1.2,ring_like,0.083,0.368,0.278,black,black,0.73,0.405,20260524_211253_396097.jpg,
+2026-05-24T21:13:01.184735,photo_49_2026-05-24_15-36-23.jpg,1,Mouse,black,medium,0.88,combined,51227,1.94,oval,0.429,0.808,0.492,black,black,1.0,0.672,20260524_211301_184805.jpg,
+2026-05-24T21:13:07.294925,photo_4_2026-05-24_15-36-00.jpg,1,Unknown Object,black,large,0.194,combined,75771,1.11,irregular,0.071,0.274,0.144,black,black,0.646,0.414,20260524_211307_297804.jpg,
+2026-05-24T21:13:12.950614,photo_4_2026-05-24_15-36-23.jpg,1,Unknown Object,black,large,0.292,combined,83060,2.19,block,0.103,0.558,0.384,black,black,0.974,0.487,20260524_211312_950668.jpg,
+2026-05-24T21:13:20.003259,photo_50_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.244,combined,197440,1.15,irregular,0.038,0.352,0.291,black,black,0.815,0.414,20260524_211320_003316.jpg,
+2026-05-24T21:13:28.276905,photo_50_2026-05-24_15-36-23.jpg,1,Flash Drive,black,small,0.76,combined,13474,2.42,irregular,0.326,0.637,0.437,black,black,1.0,0.865,20260524_211328_276957.jpg,
+2026-05-24T21:13:34.570218,photo_51_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.214,combined,141729,1.05,ring_like,0.117,0.378,0.265,black,black,0.714,0.454,20260524_211334_570275.jpg,
+2026-05-24T21:13:43.046383,photo_51_2026-05-24_15-36-23.jpg,1,Mouse,black,medium,0.452,combined,98142,1.72,rectangular,0.304,0.725,0.605,black,black,0.239,0.513,20260524_211343_048295.jpg,
+2026-05-24T21:13:43.046412,photo_51_2026-05-24_15-36-23.jpg,2,Headphones,white,medium,0.705,combined,31551,3.88,ring_like,0.145,0.642,0.439,white,white,0.904,0.447,20260524_211343_049680.jpg,
+2026-05-24T21:13:43.046428,photo_51_2026-05-24_15-36-23.jpg,3,USB-C Cable,white,medium,0.707,combined,17592,3.05,ring_like,0.164,0.54,0.381,white,white,0.93,0.492,20260524_211343_050275.jpg,
+2026-05-24T21:13:52.268184,photo_52_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.219,combined,155552,1.11,ring_like,0.229,0.489,0.312,black,black,0.731,0.488,20260524_211352_268278.jpg,
+2026-05-24T21:13:52.268225,photo_52_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,small,0.674,combined,8241,1.11,irregular,0.07,0.326,0.264,black,black,0.887,0.439,20260524_211352_272009.jpg,
+2026-05-24T21:14:02.732394,photo_52_2026-05-24_15-36-23.jpg,1,Mouse,black,medium,0.541,combined,118283,1.33,oval,0.752,0.931,0.734,black,black,0.614,0.519,20260524_211402_732454.jpg,
+2026-05-24T21:14:10.527300,photo_53_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.231,combined,203778,1.13,ring_like,0.112,0.515,0.338,black,black,0.769,0.417,20260524_211410_527368.jpg,
+2026-05-24T21:14:10.527328,photo_53_2026-05-24_15-36-01.jpg,2,Unknown Object,black,long_thin,0.228,combined,10261,4.21,rectangular,0.391,0.938,0.776,black,black,0.759,0.636,20260524_211410_531317.jpg,
+2026-05-24T21:14:19.292188,photo_53_2026-05-24_15-36-23.jpg,1,Headphones,gray,medium,0.779,combined,31650,2.33,ring_like,0.163,0.689,0.448,gray,silver,0.999,0.581,20260524_211419_294096.jpg,
+2026-05-24T21:14:27.792324,photo_54_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,medium,0.679,combined,109132,1.11,ring_like,0.082,0.38,0.252,black,black,0.893,0.546,20260524_211427_792413.jpg,
+2026-05-24T21:14:27.792355,photo_54_2026-05-24_15-36-01.jpg,2,Flash Drive,black,small,0.76,combined,4016,1.54,block,0.23,0.55,0.344,black,black,1.0,0.541,20260524_211427_795114.jpg,
+2026-05-24T21:14:27.792372,photo_54_2026-05-24_15-36-01.jpg,3,Unknown Object,black,small,0.247,combined,7470,1.57,ring_like,0.224,0.64,0.431,black,black,0.822,0.515,20260524_211427_795347.jpg,
+2026-05-24T21:14:35.478630,photo_54_2026-05-24_15-36-23.jpg,1,Mouse,black,large,0.708,combined,182677,1.4,oval,0.561,0.86,0.672,black,black,0.804,0.493,20260524_211435_478687.jpg,
+2026-05-24T21:14:41.808837,photo_55_2026-05-24_15-36-01.jpg,1,Headphones,black,large,0.705,combined,193714,1.28,ring_like,0.129,0.655,0.511,black,black,0.903,0.459,20260524_211441_808890.jpg,
+2026-05-24T21:14:50.497032,photo_55_2026-05-24_15-36-23.jpg,1,USB-C Cable,silver,small,0.69,combined,26750,1.08,ring_like,0.275,0.613,0.365,silver,silver,0.908,0.787,20260524_211450_497089.jpg,
+2026-05-24T21:14:56.008473,photo_56_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,medium,0.504,combined,108490,1.02,block,0.065,0.451,0.307,black,black,0.664,0.388,20260524_211456_008558.jpg,
+2026-05-24T21:15:04.205174,photo_56_2026-05-24_15-36-23.jpg,1,Mouse,black,medium,0.863,combined,38677,1.45,block,0.33,0.635,0.385,black,black,0.981,0.579,20260524_211504_205247.jpg,
+2026-05-24T21:15:04.205202,photo_56_2026-05-24_15-36-23.jpg,2,USB-C Cable,black,long_thin,0.76,combined,4850,4.4,irregular,0.136,0.558,0.245,black,black,1.0,0.556,20260524_211504_206267.jpg,
+2026-05-24T21:15:11.270042,photo_57_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.223,combined,141076,1.26,ring_like,0.155,0.462,0.357,black,black,0.743,0.432,20260524_211511_270101.jpg,
+2026-05-24T21:15:21.329956,photo_57_2026-05-24_15-36-23.jpg,1,Mouse,black,medium,0.475,combined,122467,1.04,block,0.096,0.679,0.581,black,black,0.54,0.453,20260524_211521_330012.jpg,
+2026-05-24T21:15:27.731865,photo_58_2026-05-24_15-36-01.jpg,1,Flash Drive,black,small,0.76,combined,3733,1.05,oval,0.463,0.768,0.493,black,black,1.0,0.448,20260524_211527_731957.jpg,
+2026-05-24T21:15:27.731897,photo_58_2026-05-24_15-36-01.jpg,2,Charger Adapter,silver,small,0.658,combined,30247,1.1,oval,0.603,0.883,0.485,silver,silver,0.784,0.674,20260524_211527_732358.jpg,
+2026-05-24T21:15:27.731914,photo_58_2026-05-24_15-36-01.jpg,3,USB-C Cable,black,medium,0.591,combined,65568,1.42,irregular,0.061,0.301,0.244,black,black,0.777,0.403,20260524_211527_732916.jpg,
+2026-05-24T21:15:36.088055,photo_58_2026-05-24_15-36-23.jpg,1,Unknown Object,silver,small,0.158,combined,3398,1.01,ring_like,0.507,0.821,0.581,silver,silver,0.526,0.412,20260524_211536_088135.jpg,
+2026-05-24T21:15:36.088084,photo_58_2026-05-24_15-36-23.jpg,2,Colored Object,red,medium,0.574,combined,178427,1.25,oval,0.738,0.982,0.821,red,red,0.883,0.498,20260524_211536_088593.jpg,
+2026-05-24T21:15:42.102583,photo_59_2026-05-24_15-36-01.jpg,1,Headphones,black,large,0.642,combined,222852,1.18,ring_like,0.187,0.71,0.51,black,black,0.823,0.481,20260524_211542_102638.jpg,
+2026-05-24T21:15:52.263669,photo_59_2026-05-24_15-36-23.jpg,1,USB-C Cable,black,medium,0.76,combined,21227,1.09,irregular,0.128,0.272,0.157,black,black,1.0,0.537,20260524_211552_263740.jpg,
+2026-05-24T21:16:00.364566,photo_5_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,medium,0.517,combined,178325,1.33,ring_like,0.288,0.504,0.377,black,black,0.68,0.553,20260524_211600_365538.jpg,
+2026-05-24T21:16:14.461908,photo_60_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,medium,0.595,combined,120182,1.44,ring_like,0.232,0.564,0.391,black,black,0.783,0.391,20260524_211614_461957.jpg,
+2026-05-24T21:16:21.481169,photo_61_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.21,combined,148915,1.23,ring_like,0.104,0.461,0.308,black,black,0.699,0.455,20260524_211621_481227.jpg,
+2026-05-24T21:16:28.466107,photo_62_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.247,combined,137411,1.03,ring_like,0.082,0.382,0.273,black,black,0.822,0.494,20260524_211628_466157.jpg,
+2026-05-24T21:16:35.926114,photo_63_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.228,combined,133813,1.11,ring_like,0.172,0.466,0.299,black,black,0.759,0.635,20260524_211635_926165.jpg,
+2026-05-24T21:16:42.170039,photo_64_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.199,combined,119451,1.15,ring_like,0.091,0.401,0.265,black,black,0.663,0.473,20260524_211642_170095.jpg,
+2026-05-24T21:16:49.392136,photo_65_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.243,combined,174472,1.19,ring_like,0.137,0.6,0.362,black,black,0.81,0.425,20260524_211649_392191.jpg,
+2026-05-24T21:16:56.806585,photo_66_2026-05-24_15-36-01.jpg,1,Headphones,black,medium,0.604,combined,152134,1.1,ring_like,0.484,0.822,0.555,black,black,0.775,0.411,20260524_211656_806639.jpg,
+2026-05-24T21:17:02.744747,photo_67_2026-05-24_15-36-01.jpg,1,Headphones,black,medium,0.573,combined,172645,1.28,ring_like,0.464,0.79,0.58,black,black,0.735,0.48,20260524_211702_744804.jpg,
+2026-05-24T21:17:09.527783,photo_68_2026-05-24_15-36-01.jpg,1,Headphones,black,medium,0.576,combined,112046,1.54,ring_like,0.372,0.649,0.471,black,black,0.739,0.401,20260524_211709_527839.jpg,
+2026-05-24T21:17:15.103854,photo_69_2026-05-24_15-36-01.jpg,1,Headphones,black,medium,0.563,combined,161506,1.41,ring_like,0.293,0.731,0.557,black,black,0.722,0.509,20260524_211715_103907.jpg,
+2026-05-24T21:17:23.180648,photo_6_2026-05-24_15-36-01.jpg,1,Flash Drive,black,small,0.76,combined,3772,1.07,oval,0.467,0.831,0.418,black,black,1.0,0.472,20260524_211723_180732.jpg,
+2026-05-24T21:17:23.180676,photo_6_2026-05-24_15-36-01.jpg,2,Flash Drive,black,small,0.76,combined,5847,1.04,oval,0.76,0.975,0.706,black,black,1.0,0.509,20260524_211723_181161.jpg,
+2026-05-24T21:17:23.180691,photo_6_2026-05-24_15-36-01.jpg,3,Flash Drive,black,small,0.76,combined,28106,1.64,oval,0.726,0.988,0.704,black,black,1.0,0.498,20260524_211723_181390.jpg,
+2026-05-24T21:17:29.782491,photo_6_2026-05-24_15-36-23.jpg,1,Flash Drive,black,small,0.76,combined,29103,2.07,oval,0.669,0.999,0.77,black,black,1.0,0.463,20260524_211729_782616.jpg,
+2026-05-24T21:17:29.782534,photo_6_2026-05-24_15-36-23.jpg,2,Flash Drive,black,small,0.76,combined,24926,1.18,block,0.388,0.701,0.355,black,black,1.0,0.406,20260524_211729_783243.jpg,
+2026-05-24T21:17:29.782551,photo_6_2026-05-24_15-36-23.jpg,3,Flash Drive,black,small,0.76,combined,16267,1.06,oval,0.848,0.992,0.753,black,black,1.0,0.4,20260524_211729_783886.jpg,
+2026-05-24T21:17:29.782566,photo_6_2026-05-24_15-36-23.jpg,4,Mouse,black,medium,0.88,combined,31550,1.82,oval,0.687,0.994,0.732,black,black,1.0,0.436,20260524_211729_784191.jpg,
+2026-05-24T21:17:37.501762,photo_70_2026-05-24_15-36-01.jpg,1,Unknown Object,black,small,0.291,combined,5560,1.12,ring_like,0.348,0.739,0.487,black,black,0.972,0.457,20260524_211737_501841.jpg,
+2026-05-24T21:17:37.501791,photo_70_2026-05-24_15-36-01.jpg,2,Headphones,black,medium,0.579,combined,107888,1.69,ring_like,0.395,0.791,0.65,black,black,0.742,0.549,20260524_211737_502255.jpg,
+2026-05-24T21:17:45.077923,photo_71_2026-05-24_15-36-01.jpg,1,Flash Drive,black,small,0.76,combined,9671,1.07,oval,0.46,0.819,0.6,black,black,1.0,0.449,20260524_211745_078025.jpg,
+2026-05-24T21:17:45.077952,photo_71_2026-05-24_15-36-01.jpg,2,Flash Drive,black,small,0.677,combined,14933,1.47,block,0.289,0.806,0.549,black,black,0.891,0.483,20260524_211745_078466.jpg,
+2026-05-24T21:17:45.077968,photo_71_2026-05-24_15-36-01.jpg,3,USB-C Cable,black,small,0.76,combined,5972,3.33,irregular,0.168,0.612,0.227,black,black,1.0,0.808,20260524_211745_078825.jpg,
+2026-05-24T21:17:45.077982,photo_71_2026-05-24_15-36-01.jpg,4,Flash Drive,black,small,0.75,combined,10894,1.16,block,0.172,0.54,0.318,black,black,0.987,0.657,20260524_211745_079149.jpg,
+2026-05-24T21:17:52.946953,photo_72_2026-05-24_15-36-01.jpg,1,Unknown Object,black,small,0.286,combined,6547,1.65,ring_like,0.4,0.808,0.536,black,black,0.952,0.43,20260524_211752_947050.jpg,
+2026-05-24T21:17:52.946983,photo_72_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,small,0.759,combined,3119,1.25,ring_like,0.266,0.605,0.354,black,black,0.999,0.418,20260524_211752_947532.jpg,
+2026-05-24T21:17:52.946999,photo_72_2026-05-24_15-36-01.jpg,3,Headphones,black,medium,0.577,combined,107311,1.7,ring_like,0.288,0.743,0.598,black,black,0.739,0.577,20260524_211752_947785.jpg,
+2026-05-24T21:17:59.929640,photo_73_2026-05-24_15-36-01.jpg,1,Headphones,black,large,0.597,combined,215326,1.3,ring_like,0.096,0.696,0.481,black,black,0.765,0.572,20260524_211759_929705.jpg,
+2026-05-24T21:18:08.062072,photo_74_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,small,0.754,combined,4867,1.35,ring_like,0.194,0.534,0.304,black,black,0.992,0.474,20260524_211808_062165.jpg,
+2026-05-24T21:18:08.062104,photo_74_2026-05-24_15-36-01.jpg,2,Unknown Object,black,small,0.3,combined,7745,1.14,ring_like,0.255,0.634,0.436,black,black,0.999,0.467,20260524_211808_062718.jpg,
+2026-05-24T21:18:08.062121,photo_74_2026-05-24_15-36-01.jpg,3,Flash Drive,black,small,0.71,combined,3253,3.09,irregular,0.257,0.88,0.348,black,black,0.935,0.513,20260524_211808_063032.jpg,
+2026-05-24T21:18:15.818361,photo_75_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.167,combined,108514,1.2,irregular,0.072,0.307,0.203,black,black,0.556,0.5,20260524_211815_818424.jpg,
+2026-05-24T21:18:22.962745,photo_76_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.217,combined,115943,1.29,ring_like,0.089,0.371,0.275,black,black,0.722,0.443,20260524_211822_962798.jpg,
+2026-05-24T21:18:29.631981,photo_77_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.248,combined,151113,1.27,irregular,0.058,0.375,0.262,black,black,0.827,0.57,20260524_211829_632056.jpg,
+2026-05-24T21:18:29.632011,photo_77_2026-05-24_15-36-01.jpg,2,Flash Drive,red,small,0.75,combined,5256,1.4,oval,0.444,0.861,0.472,red,red,0.987,0.617,20260524_211829_635730.jpg,
+2026-05-24T21:18:37.157617,photo_78_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.248,combined,180616,1.07,irregular,0.037,0.392,0.287,black,black,0.826,0.626,20260524_211837_157673.jpg,
+2026-05-24T21:18:45.419669,photo_79_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.154,combined,70679,1.22,ring_like,0.092,0.231,0.145,black,black,0.513,0.383,20260524_211845_419724.jpg,
+2026-05-24T21:18:51.651667,photo_7_2026-05-24_15-36-01.jpg,1,Unknown Object,black,small,0.3,combined,6601,3.52,irregular,0.228,0.715,0.558,black,black,1.0,0.462,20260524_211851_651740.jpg,
+2026-05-24T21:18:51.651698,photo_7_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,medium,0.663,combined,80971,1.26,irregular,0.049,0.447,0.307,black,black,0.872,0.491,20260524_211851_652190.jpg,
+2026-05-24T21:18:58.005767,photo_7_2026-05-24_15-36-23.jpg,1,Unknown Object,black,large,0.266,combined,89144,1.05,irregular,0.026,0.196,0.153,black,black,0.886,0.385,20260524_211858_005844.jpg,
+2026-05-24T21:18:58.005797,photo_7_2026-05-24_15-36-23.jpg,2,USB-C Cable,black,medium,0.645,combined,17065,2.75,irregular,0.043,0.191,0.111,black,black,0.848,0.496,20260524_211858_009533.jpg,
+2026-05-24T21:19:03.106051,photo_80_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.235,combined,81714,1.15,irregular,0.014,0.17,0.121,black,black,0.784,0.5,20260524_211903_106110.jpg,
+2026-05-24T21:19:09.146681,photo_81_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.22,combined,78589,1.31,ring_like,0.182,0.319,0.222,black,black,0.734,0.4,20260524_211909_147910.jpg,
+2026-05-24T21:19:16.139300,photo_82_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,medium,0.563,combined,14243,1.76,irregular,0.064,0.159,0.088,black,black,0.74,0.435,20260524_211916_139391.jpg,
+2026-05-24T21:19:16.139333,photo_82_2026-05-24_15-36-01.jpg,2,Unknown Object,black,large,0.233,combined,35747,1.13,irregular,0.029,0.098,0.061,black,black,0.778,0.487,20260524_211916_140740.jpg,
+2026-05-24T21:19:16.139349,photo_82_2026-05-24_15-36-01.jpg,3,USB-C Cable,black,medium,0.632,combined,30730,1.22,irregular,0.031,0.089,0.073,black,black,0.831,0.523,20260524_211916_143901.jpg,
+2026-05-24T21:19:25.672512,photo_83_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,medium,0.76,combined,7222,2.68,irregular,0.05,0.392,0.065,black,black,1.0,0.508,20260524_211925_672608.jpg,
+2026-05-24T21:19:25.672545,photo_83_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,medium,0.744,combined,15997,2.88,irregular,0.024,0.203,0.104,black,black,0.979,0.489,20260524_211925_673605.jpg,
+2026-05-24T21:19:25.672561,photo_83_2026-05-24_15-36-01.jpg,3,USB-C Cable,black,medium,0.744,combined,16384,2.5,irregular,0.023,0.184,0.093,black,black,0.979,0.499,20260524_211925_674745.jpg,
+2026-05-24T21:19:31.640370,photo_84_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.247,combined,43239,1.85,irregular,0.054,0.216,0.125,black,black,0.822,0.443,20260524_211931_640429.jpg,
+2026-05-24T21:19:39.007066,photo_85_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.262,combined,59148,1.66,ring_like,0.103,0.289,0.193,black,black,0.873,0.431,20260524_211939_007133.jpg,
+2026-05-24T21:19:44.385453,photo_86_2026-05-24_15-36-01.jpg,1,Unknown Object,black,long_thin,0.3,combined,8785,4.68,irregular,0.168,0.761,0.325,black,black,1.0,0.542,20260524_211944_385520.jpg,
+2026-05-24T21:19:51.118807,photo_87_2026-05-24_15-36-01.jpg,1,Flash Drive,black,small,0.76,combined,4521,1.92,oval,0.464,0.849,0.655,black,black,1.0,0.471,20260524_211951_118860.jpg,
+2026-05-24T21:20:00.962595,photo_88_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,medium,0.683,combined,36319,1.03,irregular,0.043,0.178,0.098,black,black,0.899,0.61,20260524_212000_962668.jpg,
+2026-05-24T21:20:00.962623,photo_88_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,small,0.644,combined,19143,1.82,ring_like,0.126,0.456,0.196,black,black,0.847,0.819,20260524_212000_965431.jpg,
+2026-05-24T21:20:08.992924,photo_89_2026-05-24_15-36-01.jpg,1,Flash Drive,black,small,0.759,combined,3483,2.57,irregular,0.166,0.52,0.321,black,black,0.999,0.426,20260524_212008_993014.jpg,
+2026-05-24T21:20:08.992954,photo_89_2026-05-24_15-36-01.jpg,2,Mouse,black,large,0.867,combined,179389,1.7,block,0.099,0.624,0.476,black,black,0.985,0.569,20260524_212008_993421.jpg,
+2026-05-24T21:20:08.992970,photo_89_2026-05-24_15-36-01.jpg,3,Flash Drive,black,small,0.76,combined,17574,1.56,block,0.145,0.58,0.385,black,black,1.0,0.476,20260524_212008_995449.jpg,
+2026-05-24T21:20:16.079709,photo_8_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.232,combined,100844,1.21,irregular,0.035,0.265,0.126,black,black,0.772,0.469,20260524_212016_079774.jpg,
+2026-05-24T21:20:23.988443,photo_8_2026-05-24_15-36-23.jpg,1,USB-C Cable,black,medium,0.735,combined,86177,1.28,irregular,0.061,0.197,0.155,black,black,0.968,0.421,20260524_212023_988530.jpg,
+2026-05-24T21:20:23.988476,photo_8_2026-05-24_15-36-23.jpg,2,Unknown Object,black,large,0.266,combined,97553,1.03,irregular,0.058,0.313,0.206,black,black,0.887,0.532,20260524_212023_991885.jpg,
+2026-05-24T21:20:31.091344,photo_90_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.232,combined,94675,1.62,ring_like,0.082,0.277,0.204,black,black,0.774,0.431,20260524_212031_091402.jpg,
+2026-05-24T21:20:38.336591,photo_91_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.242,combined,45928,1.95,irregular,0.015,0.17,0.11,black,black,0.807,0.555,20260524_212038_336664.jpg,
+2026-05-24T21:20:38.336622,photo_91_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,medium,0.76,combined,5071,2.64,irregular,0.056,0.18,0.098,black,black,1.0,0.477,20260524_212038_339319.jpg,
+2026-05-24T21:20:49.234437,photo_92_2026-05-24_15-36-01.jpg,1,USB-C Cable,black,small,0.756,combined,4604,1.11,ring_like,0.283,0.597,0.303,black,black,0.995,0.36,20260524_212049_234562.jpg,
+2026-05-24T21:20:49.234465,photo_92_2026-05-24_15-36-01.jpg,2,USB-C Cable,black,small,0.758,combined,3340,1.4,ring_like,0.17,0.614,0.156,black,black,0.998,0.565,20260524_212049_235062.jpg,
+2026-05-24T21:20:49.234482,photo_92_2026-05-24_15-36-01.jpg,3,Flash Drive,black,small,0.76,combined,3332,1.29,oval,0.606,0.888,0.61,black,black,1.0,0.496,20260524_212049_235464.jpg,
+2026-05-24T21:20:49.234511,photo_92_2026-05-24_15-36-01.jpg,4,Headphones,black,medium,0.77,combined,51122,2.39,irregular,0.126,0.691,0.471,black,black,0.987,0.772,20260524_212049_235683.jpg,
+2026-05-24T21:20:58.402668,photo_93_2026-05-24_15-36-01.jpg,1,Mouse,black,medium,0.873,combined,72396,1.36,oval,0.478,0.777,0.544,black,black,0.992,0.541,20260524_212058_403215.jpg,
+2026-05-24T21:21:05.152406,photo_94_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.281,combined,75394,1.25,irregular,0.049,0.213,0.13,black,black,0.937,0.473,20260524_212105_152460.jpg,
+2026-05-24T21:21:11.448858,photo_95_2026-05-24_15-36-01.jpg,1,Mouse,black,large,0.879,combined,201540,1.02,oval,0.555,0.685,0.523,black,black,0.999,0.588,20260524_212111_448930.jpg,
+2026-05-24T21:21:15.291896,photo_96_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.277,combined,131603,1.01,irregular,0.044,0.295,0.192,black,black,0.922,0.509,20260524_212115_291956.jpg,
+2026-05-24T21:21:21.275939,photo_97_2026-05-24_15-36-01.jpg,1,Mouse,black,medium,0.86,combined,122029,1.08,oval,0.835,0.996,0.768,black,black,0.977,0.516,20260524_212121_278701.jpg,
+2026-05-24T21:21:26.401672,photo_98_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.276,combined,108348,1.27,ring_like,0.149,0.335,0.187,black,black,0.921,0.443,20260524_212126_401731.jpg,
+2026-05-24T21:21:32.272065,photo_99_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.266,combined,168483,1.24,irregular,0.045,0.449,0.276,black,black,0.888,0.642,20260524_212132_272118.jpg,
+2026-05-24T21:21:39.885651,photo_9_2026-05-24_15-36-01.jpg,1,Unknown Object,black,large,0.254,combined,97330,1.02,irregular,0.024,0.23,0.115,black,black,0.847,0.516,20260524_212139_885702.jpg,
+2026-05-24T21:21:46.207670,photo_9_2026-05-24_15-36-23.jpg,1,Mouse,black,medium,0.88,combined,76598,1.47,oval,0.79,0.995,0.796,black,black,1.0,0.433,20260524_212146_207744.jpg,
+2026-05-24T21:21:46.207699,photo_9_2026-05-24_15-36-23.jpg,2,Flash Drive,black,small,0.76,combined,23573,2.17,oval,0.638,0.994,0.823,black,black,1.0,0.416,20260524_212146_208613.jpg,
+2026-06-14T18:31:44.790146,Image_43.jpg,1,Charger Adapter,silver,medium,0.997,yolo,143652,2.13,rectangular,0.352,0.84,0.711,silver,silver,0.548,0.429,20260614_183145_219106.jpg,
+2026-06-14T18:31:44.906413,Image_43.jpg,2,Charger Adapter,silver,medium,0.607,yolo,118404,1.52,oval,0.714,0.99,0.899,silver,silver,0.571,0.376,20260614_183145_220773.jpg,
+2026-06-14T19:06:12.615486,Image_44_jpg.rf.65812f2cd7754e620b27e0aef58e72ab.jpg,1,Charger Adapter,silver,medium,1.0,yolo,12803,1.38,oval,0.453,0.848,0.726,silver,silver,0.63,0.595,20260614_190612_803627.jpg,
+2026-06-14T19:06:12.697390,Image_44_jpg.rf.65812f2cd7754e620b27e0aef58e72ab.jpg,2,Charger Adapter,silver,medium,0.529,yolo,14380,1.05,oval,0.51,0.953,0.555,silver,silver,0.56,0.539,20260614_190612_804038.jpg,
+2026-06-14T19:06:12.770489,Image_44_jpg.rf.65812f2cd7754e620b27e0aef58e72ab.jpg,3,Charger Adapter,silver,medium,0.302,yolo,9602,1.16,oval,0.793,1.001,0.919,silver,silver,0.672,0.64,20260614_190612_804386.jpg,
+2026-06-14T20:04:12.504671,Image_6.jpeg,1,Charger Adapter,silver,small,0.503,combined,90661,1.69,block,0.114,0.523,0.441,silver,white,0.599,0.519,20260614_200412_695177.jpg,
+2026-06-14T20:04:31.618003,Image_43.jpg,1,Headphones,silver,medium,0.662,combined,34028,2.47,irregular,0.4,0.862,0.552,silver,silver,0.849,0.46,20260614_200431_695498.jpg,
+2026-06-14T20:04:57.084010,Image_42.jpg,1,Mouse,black,medium,0.858,combined,110780,1.26,rectangular,0.41,0.891,0.607,gray,black,0.975,0.507,20260614_200457_084068.jpg,
+2026-06-14T20:05:00.222302,Image_43.jpg,1,Headphones,silver,medium,0.662,combined,34028,2.47,irregular,0.4,0.862,0.552,silver,silver,0.849,0.46,20260614_200500_222578.jpg,
+2026-06-14T20:05:02.875050,Image_44.jpg,1,USB-C Cable,white,long_thin,0.437,combined,14355,4.2,irregular,0.052,0.373,0.267,white,white,0.575,0.51,20260614_200502_875101.jpg,
+2026-06-14T20:05:05.936292,Image_45.jpg,1,Flash Drive,black,small,0.753,combined,2742,1.11,oval,0.782,0.987,0.661,black,black,0.991,0.468,20260614_200505_936352.jpg,
+2026-06-14T20:05:10.780779,Image_46.jpg,1,USB-C Cable,silver,medium,0.405,combined,47244,1.56,irregular,0.073,0.292,0.23,silver,silver,0.533,0.407,20260614_200510_780835.jpg,
+2026-06-14T20:05:16.503233,Image_47.jpg,1,Unknown Object,black,long_thin,0.259,combined,13420,4.0,rectangular,0.354,0.881,0.666,black,black,0.865,0.395,20260614_200516_503309.jpg,
+2026-06-14T20:05:16.503264,Image_47.jpg,2,Unknown Object,black,long_thin,0.3,combined,3397,9.64,irregular,0.164,0.908,0.564,black,black,1.0,0.385,20260614_200516_503805.jpg,
+2026-06-14T20:05:32.630403,Image_6.jpeg,1,Charger Adapter,silver,small,0.503,combined,90661,1.69,block,0.114,0.523,0.441,silver,white,0.599,0.519,20260614_200532_630471.jpg,
+2026-06-14T20:06:19.871303,Image_43.jpg,1,Charger Adapter,silver,medium,0.997,yolo,144472,2.1,rectangular,0.343,0.832,0.689,silver,silver,0.545,0.44,20260614_200620_070672.jpg,
+2026-06-14T20:06:19.998608,Image_43.jpg,2,Charger Adapter,silver,medium,0.607,yolo,118948,1.51,oval,0.711,0.988,0.897,silver,silver,0.568,0.374,20260614_200620_072372.jpg,
+2026-06-14T20:07:48.879888,01ebc3ce9219b7cfaf75624bde1348922fa67727.jpg,1,Mouse,white,large,0.737,yolo,107816,1.4,oval,0.799,0.997,0.921,white,white,0.95,0.449,20260614_200748_910571.jpg,
+2026-06-14T20:08:48.339794,Image_2.jpeg,1,Headphones,black,medium,0.942,yolo,646370,1.3,oval,0.508,0.947,0.723,black,black,0.549,0.568,20260614_200849_014487.jpg,
+2026-06-14T20:08:48.499769,Image_2.jpeg,2,Flash Drive,black,small,0.524,yolo,20788,2.0,block,0.412,0.887,0.562,black,black,0.761,0.758,20260614_200849_020776.jpg,
+2026-06-14T20:08:48.667496,Image_2.jpeg,3,Mouse,black,small,0.392,yolo,41476,2.66,irregular,0.367,0.924,0.565,black,black,0.075,0.571,20260614_200849_021236.jpg,
+2026-06-14T20:08:48.821473,Image_2.jpeg,4,Mouse,black,small,0.303,yolo,21164,1.79,block,0.389,0.856,0.512,black,black,0.748,0.748,20260614_200849_022113.jpg,
+2026-06-14T20:09:17.094760,8L6lQWJdNMM.jpg,1,Flash Drive,black,medium,0.63,yolo,28088,2.9,rectangular,0.557,0.988,0.969,black,black,0.781,0.796,20260614_200917_137799.jpg,
+2026-06-14T20:09:56.949751,-usb-426733875_webp.rf.780fa5e34bbebe73e313a04a776c7372.jpg,1,Flash Drive,white,medium,0.777,yolo,16918,1.35,ring_like,0.405,0.794,0.433,white,white,0.761,0.607,20260614_200956_949832.jpg,
+2026-06-14T20:09:57.445551,17afc481b08a2220f67fd114c3093644_large_webp.rf.40cacf84743a733cd305bc10fb7b6233.jpg,1,Mouse,black,large,0.629,yolo,64950,1.03,oval,0.798,0.998,0.759,black,black,0.736,0.512,20260614_200957_547097.jpg,
+2026-06-14T20:09:57.547019,17afc481b08a2220f67fd114c3093644_large_webp.rf.40cacf84743a733cd305bc10fb7b6233.jpg,2,Mouse,black,large,0.5,yolo,62610,1.01,oval,0.807,0.999,0.771,black,black,0.769,0.613,20260614_200957_547946.jpg,
+2026-06-14T20:09:58.053802,32a2556bc883e91e0c05a720dfa382bd4a58f777_original_jpeg.rf.ce3e1e17aa6a687241914af69241c742.jpg,1,Mouse,black,large,0.839,yolo,51517,1.14,oval,0.746,0.996,0.677,black,black,0.771,0.347,20260614_200958_053863.jpg,
+2026-06-14T20:09:58.728765,8L6lQWJdNMM_jpg.rf.4723a5ce8c5181800da42a59064970a0.jpg,1,Flash Drive,black,medium,0.873,yolo,9950,3.79,rectangular,0.489,0.996,0.971,black,black,0.762,0.779,20260614_200958_728826.jpg,
+2026-06-14T20:09:59.285798,Fleshka-Zhvachka-8-Gb-silikon-500x500_jpg.rf.aac037f79323e17337feae071b61d18e.jpg,1,Flash Drive,orange,large,0.811,yolo,36238,1.57,oval,0.519,0.934,0.533,orange,orange,0.677,0.683,20260614_200959_497944.jpg,
+2026-06-14T20:09:59.393245,Fleshka-Zhvachka-8-Gb-silikon-500x500_jpg.rf.aac037f79323e17337feae071b61d18e.jpg,2,Flash Drive,orange,medium,0.664,yolo,25136,1.68,ring_like,0.437,0.855,0.555,orange,orange,0.645,0.622,20260614_200959_498744.jpg,
+2026-06-14T20:09:59.497854,Fleshka-Zhvachka-8-Gb-silikon-500x500_jpg.rf.aac037f79323e17337feae071b61d18e.jpg,3,Flash Drive,orange,medium,0.543,yolo,18591,2.01,ring_like,0.466,0.866,0.602,orange,orange,0.593,0.554,20260614_200959_499235.jpg,
+2026-06-14T20:10:00.467017,Image_16_png.rf.09f6284f7fc89bf3c8f6f2137d003850.jpg,1,USB-C Cable,silver,large,0.541,yolo,35937,1.54,ring_like,0.492,0.895,0.653,silver,silver,0.528,0.416,20260614_201000_574726.jpg,
+2026-06-14T20:10:00.574650,Image_16_png.rf.09f6284f7fc89bf3c8f6f2137d003850.jpg,2,Headphones,silver,large,0.344,yolo,35886,1.53,ring_like,0.495,0.896,0.657,silver,silver,0.527,0.395,20260614_201000_575635.jpg,
+2026-06-14T20:10:01.108609,Image_26_jpg.rf.01739b7627af227f7d64365d553affa5.jpg,1,USB-C Cable,silver,large,0.577,yolo,32557,1.09,ring_like,0.137,0.536,0.383,silver,silver,0.813,0.462,20260614_201001_326041.jpg,
+2026-06-14T20:10:01.215121,Image_26_jpg.rf.01739b7627af227f7d64365d553affa5.jpg,2,USB-C Cable,silver,large,0.404,yolo,20214,1.52,ring_like,0.319,0.436,0.308,silver,white,0.707,0.416,20260614_201001_327209.jpg,
+2026-06-14T20:10:01.325956,Image_26_jpg.rf.01739b7627af227f7d64365d553affa5.jpg,3,USB-C Cable,black,medium,0.343,yolo,8936,1.07,irregular,0.031,0.163,0.121,silver,black,0.387,0.462,20260614_201001_327844.jpg,
+2026-06-14T20:10:02.485781,Image_28_jpg.rf.27d16c55b428f658afa45886b5798a0c.jpg,1,USB-C Cable,gray,medium,0.383,yolo,9031,1.24,ring_like,0.169,0.318,0.178,gray,gray,0.861,0.461,20260614_201002_625305.jpg,
+2026-06-14T20:10:02.625210,Image_28_jpg.rf.27d16c55b428f658afa45886b5798a0c.jpg,2,USB-C Cable,black,medium,0.362,yolo,6646,1.38,ring_like,0.195,0.299,0.212,black,black,0.543,0.456,20260614_201002_626211.jpg,
+2026-06-14T20:10:04.578089,Image_35_jpg.rf.1029900ff9c67f659a4406a58b75153f.jpg,1,USB-C Cable,silver,medium,0.27,yolo,31509,1.05,ring_like,0.159,0.605,0.379,silver,white,0.536,0.382,20260614_201004_578146.jpg,
+2026-06-14T20:10:05.211631,Image_44_jpg.rf.65812f2cd7754e620b27e0aef58e72ab.jpg,1,Charger Adapter,silver,medium,1.0,yolo,12933,1.42,ring_like,0.44,0.839,0.715,silver,silver,0.632,0.597,20260614_201005_391800.jpg,
+2026-06-14T20:10:05.304936,Image_44_jpg.rf.65812f2cd7754e620b27e0aef58e72ab.jpg,2,Charger Adapter,silver,medium,0.529,yolo,14075,1.07,oval,0.499,0.935,0.554,silver,silver,0.559,0.528,20260614_201005_392271.jpg,
+2026-06-14T20:10:05.391738,Image_44_jpg.rf.65812f2cd7754e620b27e0aef58e72ab.jpg,3,Charger Adapter,silver,medium,0.302,yolo,10016,1.15,oval,0.783,0.997,0.904,silver,silver,0.666,0.643,20260614_201005_392600.jpg,
+2026-06-14T20:10:06.246860,Image_46_jpg.rf.bf87e2492fac79eee5753ebd8564ed31.jpg,1,Charger Adapter,silver,medium,0.999,yolo,20022,1.14,ring_like,0.344,0.818,0.676,silver,silver,0.692,0.632,20260614_201006_490032.jpg,
+2026-06-14T20:10:06.369579,Image_46_jpg.rf.bf87e2492fac79eee5753ebd8564ed31.jpg,2,Charger Adapter,silver,medium,0.558,yolo,29122,1.03,oval,0.554,1.027,0.794,silver,silver,0.74,0.489,20260614_201006_490662.jpg,
+2026-06-14T20:10:06.489947,Image_46_jpg.rf.bf87e2492fac79eee5753ebd8564ed31.jpg,3,Charger Adapter,gray,medium,0.27,yolo,5176,2.18,ring_like,0.204,0.562,0.458,gray,silver,0.8,0.513,20260614_201006_491763.jpg,
+2026-06-14T20:10:07.086922,Image_4_jpeg.rf.1dd6f122b7acfbce114775ebc0b86ce6.jpg,1,Headphones,silver,medium,0.495,yolo,24520,1.59,ring_like,0.486,0.856,0.552,silver,black,0.582,0.367,20260614_201007_087012.jpg,
+2026-06-14T20:10:07.664982,a8a9686d4abc5332_jpg.rf.ff03bb6bd623e0b8515074ef6c96d362.jpg,1,Flash Drive,black,large,0.73,yolo,27572,1.41,oval,0.526,0.888,0.503,black,black,0.607,0.595,20260614_201007_665052.jpg,
+2026-06-14T20:10:08.602435,canvas_image_photo_constructor2502img25020_59869jpg_jpg.rf.858b50f74346cf969d844bf907a17643.jpg,1,Flash Drive,black,medium,0.774,yolo,12913,1.57,oval,0.505,1.076,0.518,blue,black,0.758,0.752,20260614_201008_923318.jpg,
+2026-06-14T20:10:08.703646,canvas_image_photo_constructor2502img25020_59869jpg_jpg.rf.858b50f74346cf969d844bf907a17643.jpg,2,Flash Drive,white,medium,0.535,yolo,13780,3.13,rectangular,0.41,0.871,0.762,white,white,0.483,0.459,20260614_201008_923825.jpg,
+2026-06-14T20:10:08.812038,canvas_image_photo_constructor2502img25020_59869jpg_jpg.rf.858b50f74346cf969d844bf907a17643.jpg,3,Flash Drive,white,medium,0.314,yolo,19521,1.48,ring_like,0.26,0.673,0.502,white,white,0.619,0.593,20260614_201008_924141.jpg,
+2026-06-14T20:10:08.923252,canvas_image_photo_constructor2502img25020_59869jpg_jpg.rf.858b50f74346cf969d844bf907a17643.jpg,4,Flash Drive,silver,medium,0.25,yolo,9208,3.96,rectangular,0.46,0.994,0.969,silver,silver,0.689,0.607,20260614_201008_924533.jpg,
+2026-06-14T20:10:09.600917,images-1-_jpeg.rf.33bb75d29414cc90e57c0ac06bd1215b.jpg,1,Flash Drive,silver,large,0.895,yolo,33049,1.3,oval,0.568,0.985,0.505,silver,silver,0.932,0.93,20260614_201009_601003.jpg,
+2026-06-14T20:10:11.568204,images-3-_jpeg.rf.10d43bcccffde63e981c7798685e64ef.jpg,1,Flash Drive,white,large,0.781,yolo,50755,1.22,ring_like,0.452,0.813,0.591,white,white,0.734,0.685,20260614_201011_859293.jpg,
+2026-06-14T20:10:11.673308,images-3-_jpeg.rf.10d43bcccffde63e981c7798685e64ef.jpg,2,Flash Drive,white,large,0.713,yolo,39797,1.25,ring_like,0.448,0.85,0.565,white,white,0.779,0.748,20260614_201011_860625.jpg,
+2026-06-14T20:10:11.782321,images-3-_jpeg.rf.10d43bcccffde63e981c7798685e64ef.jpg,3,Flash Drive,white,large,0.633,yolo,50659,1.28,ring_like,0.44,0.835,0.616,white,white,0.777,0.734,20260614_201011_861249.jpg,
+2026-06-14T20:10:11.859215,images-3-_jpeg.rf.10d43bcccffde63e981c7798685e64ef.jpg,4,Flash Drive,white,long_thin,0.267,yolo,1625,4.45,rectangular,0.466,1.03,0.913,white,white,0.771,0.698,20260614_201011_861916.jpg,
+2026-06-14T20:10:12.411238,images-5-_jpeg.rf.7bc0d6871549d8bd382b4719eb12b69f.jpg,1,Flash Drive,white,large,0.611,yolo,39308,1.06,oval,0.566,1.018,0.471,white,white,0.765,0.728,20260614_201012_503861.jpg,
+2026-06-14T20:10:12.503790,images-5-_jpeg.rf.7bc0d6871549d8bd382b4719eb12b69f.jpg,2,Mouse,white,large,0.266,yolo,39601,1.01,oval,0.57,1.018,0.468,white,white,0.764,0.724,20260614_201012_504662.jpg,
+2026-06-14T20:10:13.039496,images-9-_jpeg.rf.8ac3a3b1cc4d31b61eaabc983fbc7277.jpg,1,Mouse,black,large,0.825,yolo,49316,1.61,oval,0.803,1.003,0.902,black,black,0.776,0.551,20260614_201013_039556.jpg,
+2026-06-14T20:10:13.568607,images_jpeg.rf.3b52164747f55834b85ea8c0ee2bc987.jpg,1,Mouse,black,large,0.773,yolo,41207,1.08,oval,0.749,0.991,0.663,black,black,0.973,0.436,20260614_201013_568666.jpg,
+2026-06-14T20:10:14.605762,modern-flash-drive-laptop-on-260nw-2628399191_webp.rf.abe04ac50b68c96bdbf1cb14d5e9356e.jpg,1,Flash Drive,red,large,0.552,yolo,35339,1.21,ring_like,0.44,0.873,0.638,gray,red,0.431,0.6,20260614_201014_897042.jpg,
+2026-06-14T20:10:14.697320,modern-flash-drive-laptop-on-260nw-2628399191_webp.rf.abe04ac50b68c96bdbf1cb14d5e9356e.jpg,2,Flash Drive,white,long_thin,0.55,yolo,4986,6.29,rectangular,0.335,0.986,0.825,white,white,0.828,0.767,20260614_201014_897772.jpg,
+2026-06-14T20:10:14.781727,modern-flash-drive-laptop-on-260nw-2628399191_webp.rf.abe04ac50b68c96bdbf1cb14d5e9356e.jpg,3,Flash Drive,black,medium,0.442,yolo,15954,1.1,ring_like,0.271,0.838,0.467,black,black,0.661,0.393,20260614_201014_898036.jpg,
+2026-06-14T20:10:14.896969,modern-flash-drive-laptop-on-260nw-2628399191_webp.rf.abe04ac50b68c96bdbf1cb14d5e9356e.jpg,4,Headphones,white,large,0.347,yolo,56538,1.5,oval,0.449,0.934,0.927,silver,white,0.443,0.5,20260614_201014_898517.jpg,
+2026-06-14T20:10:15.799809,photo_10_2026-05-24_15-36-01_jpg.rf.76b51f91e131e24e184fd7922739e357.jpg,1,Headphones,black,medium,0.871,yolo,25440,1.44,ring_like,0.253,0.697,0.464,black,black,0.852,0.538,20260614_201015_799892.jpg,
+2026-06-14T20:10:16.716350,photo_15_2026-05-24_15-36-01_jpg.rf.3787cf0f02c7b758ff15e98145f5c183.jpg,1,Mouse,black,medium,0.916,yolo,31070,1.66,oval,0.732,0.997,0.74,black,black,1.0,0.646,20260614_201016_716420.jpg,
+2026-06-14T20:10:17.459867,photo_16_2026-05-24_15-36-23_jpg.rf.68caac55c878a19a7e525d1059f990b2.jpg,1,USB-C Cable,black,medium,0.47,yolo,23855,1.04,ring_like,0.259,0.496,0.35,black,black,0.929,0.569,20260614_201017_459947.jpg,
+2026-06-14T20:10:18.318615,photo_17_2026-05-24_15-36-23_jpg.rf.605e1756d499e4083003b6fbceceaab1.jpg,1,USB-C Cable,black,medium,0.49,yolo,15638,1.0,ring_like,0.12,0.261,0.193,black,black,0.892,0.461,20260614_201018_477905.jpg,
+2026-06-14T20:10:18.416248,photo_17_2026-05-24_15-36-23_jpg.rf.605e1756d499e4083003b6fbceceaab1.jpg,2,USB-C Cable,black,medium,0.323,yolo,17468,1.05,ring_like,0.127,0.294,0.223,black,black,0.915,0.526,20260614_201018_478720.jpg,
+2026-06-14T20:10:18.477833,photo_17_2026-05-24_15-36-23_jpg.rf.605e1756d499e4083003b6fbceceaab1.jpg,3,Charger Adapter,black,small,0.313,yolo,1275,2.4,oval,0.587,0.983,0.85,black,black,0.842,0.594,20260614_201018_479375.jpg,
+2026-06-14T20:10:19.220006,photo_19_2026-05-24_15-36-01_jpg.rf.f3b3fb6c5e8041a744dd2bdd89494314.jpg,1,Mouse,black,medium,0.938,yolo,24586,1.91,oval,0.723,1.013,0.797,black,black,0.923,0.654,20260614_201019_220102.jpg,
+2026-06-14T20:10:20.155965,photo_21_2026-05-24_15-36-01_jpg.rf.d9cee8fb51848f2b394762466747fb5f.jpg,1,Charger Adapter,black,medium,0.989,yolo,12249,2.18,oval,0.607,1.013,0.483,black,black,0.707,0.826,20260614_201020_156033.jpg,
+2026-06-14T20:10:20.990161,photo_21_2026-05-24_15-36-23_jpg.rf.6e5da87a0c413439308db64acd167489.jpg,1,USB-C Cable,black,medium,0.505,yolo,3232,1.28,irregular,0.036,0.124,0.091,black,black,0.769,0.369,20260614_201020_990233.jpg,
+2026-06-14T20:10:21.988130,photo_22_2026-05-24_15-36-23_jpg.rf.b13ce0da50dca6953db9a8b7c131696d.jpg,1,USB-C Cable,black,medium,0.773,yolo,11438,1.71,irregular,0.048,0.387,0.315,gray,black,0.634,0.5,20260614_201022_078557.jpg,
+2026-06-14T20:10:22.078485,photo_22_2026-05-24_15-36-23_jpg.rf.b13ce0da50dca6953db9a8b7c131696d.jpg,2,USB-C Cable,black,medium,0.351,yolo,11859,1.16,irregular,0.047,0.4,0.223,silver,black,0.249,0.438,20260614_201022_079227.jpg,
+2026-06-14T20:10:23.013308,photo_24_2026-05-24_15-36-01_jpg.rf.bb35c5ee5bb83d0e1348dca6fd3f0b0c.jpg,1,Charger Adapter,black,medium,0.997,yolo,14747,1.67,rectangular,0.398,0.822,0.69,black,gray,0.532,0.555,20260614_201023_013380.jpg,
+2026-06-14T20:10:23.880280,photo_28_2026-05-24_15-36-01_jpg.rf.498079bac44c8dd99a300af25d7a43e9.jpg,1,Charger Adapter,black,small,0.708,yolo,4424,1.27,oval,0.554,0.904,0.71,black,black,0.829,0.512,20260614_201023_880338.jpg,
+2026-06-14T20:10:24.608469,photo_2_2026-05-24_15-36-23_jpg.rf.23100cd340dd4afb5db1eb9b7014a5c6.jpg,1,USB-C Cable,black,medium,0.77,yolo,18414,1.21,ring_like,0.245,0.406,0.264,black,black,0.803,0.425,20260614_201024_697515.jpg,
+2026-06-14T20:10:24.697455,photo_2_2026-05-24_15-36-23_jpg.rf.23100cd340dd4afb5db1eb9b7014a5c6.jpg,2,USB-C Cable,black,medium,0.557,yolo,21150,1.16,ring_like,0.083,0.423,0.287,black,black,0.824,0.437,20260614_201024_698275.jpg,
+2026-06-14T20:10:25.875615,photo_32_2026-05-24_15-36-01_jpg.rf.fd9e73fc605d710e66d1a18ab60c7a35.jpg,1,Charger Adapter,silver,medium,0.977,yolo,5007,1.25,ring_like,0.437,0.851,0.64,silver,silver,0.781,0.8,20260614_201025_973760.jpg,
+2026-06-14T20:10:25.973686,photo_32_2026-05-24_15-36-01_jpg.rf.fd9e73fc605d710e66d1a18ab60c7a35.jpg,2,Mouse,black,medium,0.723,yolo,22299,1.08,oval,0.817,0.998,0.742,black,black,0.957,0.75,20260614_201025_974272.jpg,
+2026-06-14T20:10:26.838669,photo_32_2026-05-24_15-36-23_jpg.rf.d7235b9185c6b296b16798a1199198c2.jpg,1,Charger Adapter,white,large,0.996,yolo,16855,2.33,oval,0.445,0.916,0.538,white,white,0.827,0.596,20260614_201026_931940.jpg,
+2026-06-14T20:10:26.931866,photo_32_2026-05-24_15-36-23_jpg.rf.d7235b9185c6b296b16798a1199198c2.jpg,2,Charger Adapter,white,medium,0.635,yolo,13798,1.61,oval,0.645,0.979,0.694,white,white,0.858,0.634,20260614_201026_932483.jpg,
+2026-06-14T20:10:27.750746,photo_34_2026-05-24_15-36-01_jpg.rf.d4e5a38e1a685a13183a642ee8c0accb.jpg,1,Charger Adapter,black,medium,0.993,yolo,10483,1.65,ring_like,0.428,0.881,0.499,black,silver,0.332,0.663,20260614_201027_846103.jpg,
+2026-06-14T20:10:27.846041,photo_34_2026-05-24_15-36-01_jpg.rf.d4e5a38e1a685a13183a642ee8c0accb.jpg,2,Mouse,black,medium,0.323,yolo,17181,1.55,oval,0.768,0.998,0.722,black,black,1.0,0.595,20260614_201027_939328.jpg,
+2026-06-14T20:10:28.870140,photo_35_2026-05-24_15-36-23_jpg.rf.bd7b8d9d889a3aebf2b2781d12be3eea.jpg,1,Charger Adapter,white,medium,0.974,yolo,13140,2.31,rectangular,0.344,0.878,0.768,white,white,0.611,0.529,20260614_201028_870210.jpg,
+2026-06-14T20:10:29.715453,photo_44_2026-05-24_15-36-23_jpg.rf.ce39c27d67aaaa5190c0db3355d6e24a.jpg,1,Headphones,silver,medium,0.677,yolo,24203,1.07,ring_like,0.165,0.501,0.322,silver,silver,0.45,0.483,20260614_201029_715510.jpg,
+2026-06-14T20:10:30.608800,photo_48_2026-05-24_15-36-01_jpg.rf.3a4d6a64b5b8a6b987296db22ea92e7a.jpg,1,Headphones,black,medium,0.846,yolo,29435,1.22,ring_like,0.384,0.649,0.438,black,black,0.748,0.424,20260614_201030_808874.jpg,
+2026-06-14T20:10:30.731468,photo_48_2026-05-24_15-36-01_jpg.rf.3a4d6a64b5b8a6b987296db22ea92e7a.jpg,2,Headphones,black,medium,0.647,yolo,30570,1.12,ring_like,0.214,0.681,0.442,black,black,0.753,0.457,20260614_201030_809980.jpg,
+2026-06-14T20:10:30.808802,photo_48_2026-05-24_15-36-01_jpg.rf.3a4d6a64b5b8a6b987296db22ea92e7a.jpg,3,Charger Adapter,black,small,0.39,yolo,3847,1.47,ring_like,0.496,0.889,0.534,black,silver,0.309,0.733,20260614_201030_810881.jpg,
+2026-06-14T20:10:31.792033,photo_53_2026-05-24_15-36-23_jpg.rf.1605f73cd640552350630657fba9b80a.jpg,1,Charger Adapter,white,small,0.868,yolo,1442,1.47,oval,0.714,1.003,0.756,white,white,0.633,0.584,20260614_201031_958306.jpg,
+2026-06-14T20:10:31.899596,photo_53_2026-05-24_15-36-23_jpg.rf.1605f73cd640552350630657fba9b80a.jpg,2,Mouse,black,medium,0.777,yolo,24620,1.95,oval,0.688,0.993,0.712,black,gray,0.541,0.469,20260614_201031_958677.jpg,
+2026-06-14T20:10:31.958226,photo_53_2026-05-24_15-36-23_jpg.rf.1605f73cd640552350630657fba9b80a.jpg,3,Flash Drive,white,small,0.457,yolo,1442,1.47,oval,0.714,1.003,0.756,white,white,0.633,0.584,20260614_201031_959121.jpg,
+2026-06-14T20:10:33.039751,photo_54_2026-05-24_15-36-01_jpg.rf.399601b9a4e5ec8b4f2e3acfc4955b4e.jpg,1,Mouse,black,medium,0.847,yolo,4592,3.71,irregular,0.337,0.96,0.537,black,black,1.0,0.785,20260614_201033_149879.jpg,
+2026-06-14T20:10:33.149807,photo_54_2026-05-24_15-36-01_jpg.rf.399601b9a4e5ec8b4f2e3acfc4955b4e.jpg,2,Headphones,black,medium,0.559,yolo,30702,1.17,ring_like,0.214,0.691,0.475,black,black,0.87,0.509,20260614_201033_150283.jpg,
+2026-06-14T20:10:34.041305,photo_55_2026-05-24_15-36-23_jpg.rf.40347edf2ed74049780978d95eef2401.jpg,1,Mouse,black,medium,0.437,yolo,22276,1.13,oval,0.832,0.996,0.842,black,silver,0.434,0.516,20260614_201034_041366.jpg,
+2026-06-14T20:10:34.890842,photo_56_2026-05-24_15-36-01_jpg.rf.dffeef7dc663a0248cdc81aebf0b2861.jpg,1,Charger Adapter,black,medium,0.382,yolo,5775,1.65,oval,0.492,0.901,0.574,black,gray,0.45,0.467,20260614_201034_890897.jpg,
+2026-06-14T20:10:35.869015,photo_57_2026-05-24_15-36-01_jpg.rf.b8081746ff5962173ba4915533271edf.jpg,1,Charger Adapter,gray,small,0.921,yolo,4014,1.15,ring_like,0.432,0.828,0.622,gray,silver,0.939,0.588,20260614_201035_954885.jpg,
+2026-06-14T20:10:35.954826,photo_57_2026-05-24_15-36-01_jpg.rf.b8081746ff5962173ba4915533271edf.jpg,2,Headphones,black,large,0.585,yolo,31229,1.74,oval,0.464,0.88,0.729,black,black,0.831,0.569,20260614_201035_955291.jpg,
+2026-06-14T20:10:36.874003,photo_64_2026-05-24_15-36-01_jpg.rf.ff30747cf4cbd870cb69353111b8d375.jpg,1,Headphones,black,large,0.93,yolo,33790,1.29,ring_like,0.491,0.851,0.572,black,black,0.771,0.465,20260614_201036_951555.jpg,
+2026-06-14T20:10:36.951491,photo_64_2026-05-24_15-36-01_jpg.rf.ff30747cf4cbd870cb69353111b8d375.jpg,2,Mouse,black,small,0.846,yolo,3652,2.32,oval,0.447,0.996,0.56,black,black,1.0,0.865,20260614_201036_952308.jpg,
+2026-06-14T20:10:37.942354,photo_65_2026-05-24_15-36-01_jpg.rf.4913ae78c04afa2508212a39f6d39a57.jpg,1,Headphones,black,medium,0.743,yolo,26889,1.43,ring_like,0.275,0.719,0.435,black,black,0.772,0.423,20260614_201038_042275.jpg,
+2026-06-14T20:10:38.042187,photo_65_2026-05-24_15-36-01_jpg.rf.4913ae78c04afa2508212a39f6d39a57.jpg,2,Headphones,black,large,0.275,yolo,27223,1.51,ring_like,0.191,0.657,0.404,black,black,0.829,0.434,20260614_201038_043307.jpg,
+2026-06-14T20:10:39.072139,photo_75_2026-05-24_15-36-01_jpg.rf.022fb3af505b083952d3b7361e72a21b.jpg,1,Headphones,black,large,0.368,yolo,26403,1.77,ring_like,0.429,0.715,0.454,black,black,0.822,0.581,20260614_201039_072208.jpg,
+2026-06-14T20:10:39.825861,photo_85_2026-05-24_15-36-01_jpg.rf.8811e7a837732e6e6fbc5ff004b1aa10.jpg,1,USB-C Cable,black,medium,0.733,yolo,15597,2.2,ring_like,0.114,0.562,0.377,black,black,0.935,0.591,20260614_201039_825943.jpg,
+2026-06-14T20:10:40.636050,photo_95_2026-05-24_15-36-01_jpg.rf.3711bf1fdb2679f76e7658df03a2fc6e.jpg,1,USB-C Cable,black,large,0.869,yolo,35369,1.26,ring_like,0.531,0.716,0.558,black,black,0.898,0.533,20260614_201040_636119.jpg,
+2026-06-14T20:10:41.484462,photo_99_2026-05-24_15-36-01_jpg.rf.1bfa7a3b1cda951c08b56e3943d5a0c5.jpg,1,USB-C Cable,black,medium,0.435,yolo,15613,1.07,irregular,0.06,0.44,0.27,black,black,0.881,0.466,20260614_201041_484530.jpg,
+2026-06-14T20:10:42.483464,photo_9_2026-05-24_15-36-01_jpg.rf.759227dfae46c67259d5b7b849e38350.jpg,1,Headphones,black,medium,0.712,yolo,12059,1.17,ring_like,0.096,0.366,0.194,black,black,0.785,0.454,20260614_201042_659174.jpg,
+2026-06-14T20:10:42.588688,photo_9_2026-05-24_15-36-01_jpg.rf.759227dfae46c67259d5b7b849e38350.jpg,2,Headphones,black,medium,0.425,yolo,10302,1.23,irregular,0.072,0.312,0.171,black,black,0.852,0.552,20260614_201042_660216.jpg,
+2026-06-14T20:10:42.659074,photo_9_2026-05-24_15-36-01_jpg.rf.759227dfae46c67259d5b7b849e38350.jpg,3,USB-C Cable,black,medium,0.262,yolo,9629,1.26,ring_like,0.32,0.723,0.569,black,black,0.916,0.864,20260614_201042_661003.jpg,
+2026-06-14T20:14:39.256079,Image_43.jpg,1,Charger Adapter,silver,medium,0.997,yolo,144472,2.1,rectangular,0.343,0.832,0.689,silver,silver,0.545,0.44,20260614_201439_451808.jpg,
+2026-06-14T20:14:39.376523,Image_43.jpg,2,Charger Adapter,silver,medium,0.607,yolo,118948,1.51,oval,0.711,0.988,0.897,silver,silver,0.568,0.374,20260614_201439_453457.jpg,
+2026-06-14T20:16:46.440075,Image_43.jpg,1,Charger Adapter,silver,medium,0.997,yolo,144472,2.1,rectangular,0.343,0.832,0.689,silver,silver,0.545,0.44,20260614_201646_637785.jpg,
+2026-06-14T20:16:46.560440,Image_43.jpg,2,Charger Adapter,silver,medium,0.607,yolo,118948,1.51,oval,0.711,0.988,0.897,silver,silver,0.568,0.374,20260614_201646_639563.jpg,
+2026-06-14T20:17:52.094373,01ebc3ce9219b7cfaf75624bde1348922fa67727.jpg,1,Mouse,white,large,0.737,yolo,107816,1.4,oval,0.799,0.997,0.921,white,white,0.95,0.449,20260614_201752_126209.jpg,
+2026-06-14T20:19:13.699774,Image_2.jpeg,1,Headphones,black,medium,0.942,yolo,646370,1.3,oval,0.508,0.947,0.723,black,black,0.549,0.568,20260614_201914_386482.jpg,
+2026-06-14T20:19:13.854679,Image_2.jpeg,2,Flash Drive,black,small,0.524,yolo,20788,2.0,block,0.412,0.887,0.562,black,black,0.761,0.758,20260614_201914_394593.jpg,
+2026-06-14T20:19:14.022997,Image_2.jpeg,3,Mouse,black,small,0.392,yolo,41476,2.66,irregular,0.367,0.924,0.565,black,black,0.075,0.571,20260614_201914_395054.jpg,
+2026-06-14T20:19:14.187625,Image_2.jpeg,4,Mouse,black,small,0.303,yolo,21164,1.79,block,0.389,0.856,0.512,black,black,0.748,0.748,20260614_201914_395836.jpg,
+2026-06-14T20:19:28.611253,8L6lQWJdNMM.jpg,1,Flash Drive,black,medium,0.63,yolo,28088,2.9,rectangular,0.557,0.988,0.969,black,black,0.781,0.796,20260614_201928_656814.jpg,
+2026-06-14T20:27:13.850406,Image_43.jpg,1,Charger Adapter,silver,medium,0.997,yolo,144472,2.1,rectangular,0.343,0.832,0.689,silver,silver,0.545,0.44,20260614_202713_922689.jpg,
+2026-06-14T20:28:03.546608,Image_43.jpg,1,Charger Adapter,silver,medium,0.997,yolo,144472,2.1,rectangular,0.343,0.832,0.689,silver,silver,0.545,0.44,20260614_202803_624800.jpg,
+2026-06-14T20:47:53.116528,Image_2.jpeg,1,Headphones,black,medium,0.942,yolo,646370,1.3,oval,0.508,0.947,0.723,black,black,0.549,0.568,20260614_204753_458213.jpg,
+2026-06-14T20:47:53.267483,Image_2.jpeg,2,Flash Drive,black,small,0.524,yolo,20788,2.0,block,0.412,0.887,0.562,black,black,0.761,0.758,20260614_204753_464568.jpg,
+2026-06-20T20:58:21.204232,Image_42.jpg,1,Charger Adapter,silver,medium,0.999,yolo,125720,1.43,oval,0.519,0.919,0.743,silver,silver,0.657,0.595,20260620_205821_205175.jpg,
+2026-06-20T20:58:21.604789,Image_43.jpg,1,Charger Adapter,silver,medium,0.997,yolo,144472,2.1,rectangular,0.343,0.832,0.689,silver,silver,0.545,0.44,20260620_205821_605902.jpg,
+2026-06-20T20:58:21.948109,Image_44.jpg,1,Charger Adapter,silver,medium,1.0,yolo,84304,1.87,rectangular,0.372,0.835,0.709,silver,silver,0.631,0.608,20260620_205821_949014.jpg,
+2026-06-20T20:58:22.333566,Image_45.jpg,1,Charger Adapter,black,medium,1.0,yolo,120148,1.06,block,0.35,0.834,0.524,black,black,0.758,0.471,20260620_205822_334544.jpg,
+2026-06-20T20:58:22.700271,Image_46.jpg,1,Charger Adapter,silver,medium,0.995,yolo,130632,1.57,rectangular,0.329,0.797,0.672,silver,silver,0.681,0.63,20260620_205822_701016.jpg,
+2026-06-20T20:58:23.047501,Image_47.jpg,1,Charger Adapter,gray,medium,0.986,yolo,172652,2.26,rectangular,0.406,0.886,0.786,gray,silver,0.83,0.542,20260620_205823_048434.jpg,
+2026-06-20T20:58:23.681358,Image_6.jpeg,1,Charger Adapter,silver,medium,0.979,yolo,131299,1.6,oval,0.429,0.872,0.745,silver,white,0.844,0.59,20260620_205823_683886.jpg,
+2026-06-20T20:58:40.217071,Image_42.jpg,1,Charger Adapter,silver,medium,0.999,yolo,125720,1.43,oval,0.519,0.919,0.743,silver,silver,0.657,0.595,20260620_205840_218037.jpg,
+2026-06-20T20:58:40.595596,Image_43.jpg,1,Charger Adapter,silver,medium,0.997,yolo,144472,2.1,rectangular,0.343,0.832,0.689,silver,silver,0.545,0.44,20260620_205840_596806.jpg,
+2026-06-20T20:58:40.941711,Image_44.jpg,1,Charger Adapter,silver,medium,1.0,yolo,84304,1.87,rectangular,0.372,0.835,0.709,silver,silver,0.631,0.608,20260620_205840_942539.jpg,
+2026-06-20T20:58:41.293734,Image_45.jpg,1,Charger Adapter,black,medium,1.0,yolo,120148,1.06,block,0.35,0.834,0.524,black,black,0.758,0.471,20260620_205841_294697.jpg,
+2026-06-20T20:58:41.672295,Image_46.jpg,1,Charger Adapter,silver,medium,0.995,yolo,130632,1.57,rectangular,0.329,0.797,0.672,silver,silver,0.681,0.63,20260620_205841_675384.jpg,
+2026-06-20T20:58:42.043807,Image_47.jpg,1,Charger Adapter,gray,medium,0.986,yolo,172652,2.26,rectangular,0.406,0.886,0.786,gray,silver,0.83,0.542,20260620_205842_044715.jpg,
+2026-06-20T20:58:42.583299,Image_6.jpeg,1,Charger Adapter,silver,medium,0.979,yolo,131299,1.6,oval,0.429,0.872,0.745,silver,white,0.844,0.59,20260620_205842_586117.jpg,
+2026-06-20T20:58:54.012018,Image_42.jpg,1,Mouse,black,medium,0.858,combined,110780,1.26,rectangular,0.41,0.891,0.607,gray,black,0.975,0.507,20260620_205854_012077.jpg,
+2026-06-20T20:58:57.167207,Image_43.jpg,1,Headphones,silver,medium,0.662,combined,34028,2.47,irregular,0.4,0.862,0.552,silver,silver,0.849,0.46,20260620_205857_167811.jpg,
+2026-06-20T20:58:59.920964,Image_44.jpg,1,USB-C Cable,white,long_thin,0.437,combined,14355,4.2,irregular,0.052,0.373,0.267,white,white,0.575,0.51,20260620_205859_921017.jpg,
+2026-06-20T20:59:03.019445,Image_45.jpg,1,Flash Drive,black,small,0.753,combined,2742,1.11,oval,0.782,0.987,0.661,black,black,0.991,0.468,20260620_205903_019499.jpg,
+2026-06-20T20:59:07.822572,Image_46.jpg,1,USB-C Cable,silver,medium,0.405,combined,47244,1.56,irregular,0.073,0.292,0.23,silver,silver,0.533,0.407,20260620_205907_822633.jpg,
+2026-06-20T20:59:13.614170,Image_47.jpg,1,Unknown Object,black,long_thin,0.259,combined,13420,4.0,rectangular,0.354,0.881,0.666,black,black,0.865,0.395,20260620_205913_614243.jpg,
+2026-06-20T20:59:13.614201,Image_47.jpg,2,Unknown Object,black,long_thin,0.3,combined,3397,9.64,irregular,0.164,0.908,0.564,black,black,1.0,0.385,20260620_205913_614774.jpg,
+2026-06-20T20:59:31.326564,Image_6.jpeg,1,Charger Adapter,silver,small,0.503,combined,90661,1.69,block,0.114,0.523,0.441,silver,white,0.599,0.519,20260620_205931_326629.jpg,
+2026-06-21T12:45:14.286003,Image_43.jpg,1,Charger Adapter,silver,medium,0.997,yolo,144472,2.1,rectangular,0.343,0.832,0.689,silver,silver,0.545,0.44,20260621_124514_418843.jpg,

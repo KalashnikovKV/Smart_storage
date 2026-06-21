@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 
-from src.color_detector import ColorDetector
+from src.pipeline.detect_color import ColorDetector
 
 
 @pytest.fixture

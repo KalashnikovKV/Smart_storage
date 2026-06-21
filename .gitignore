@@ -219,5 +219,34 @@ __marimo__/
 
 
 /.kiro
-output/stages/
+
+# Smart Storage — local media and runtime artifacts (not versioned)
+training/test_images/**
+!training/test_images/.gitkeep
+training/test_video/**
+!training/test_video/.gitkeep
+output/**
+!output/.gitkeep
+!output/results.csv
+dataset/**
+!dataset/dataset.yaml
+!dataset/**/.gitkeep
+runs/
+!models/.gitkeep
+
+# Cursor IDE — keep shared rules and plans, ignore user-specific data
+/.cursor/settings.json
+/.cursor/globalStorage/
+/.cursor/workspaceStorage/
+/.cursor/logs/
+/.cursor/extensions/
 /.cursor
+
+# Large media/archive files
+*.MOV
+*.mov
+*.mp4
+*.MP4
+*.avi
+*.AVI
+*.zip
