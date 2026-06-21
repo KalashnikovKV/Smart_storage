@@ -595,3 +595,4 @@ timestamp,image_name,object_id,category,color,size_category,confidence,method,ar
 2026-06-20T20:59:13.614170,Image_47.jpg,1,Unknown Object,black,long_thin,0.259,combined,13420,4.0,rectangular,0.354,0.881,0.666,black,black,0.865,0.395,20260620_205913_614243.jpg,
 2026-06-20T20:59:13.614201,Image_47.jpg,2,Unknown Object,black,long_thin,0.3,combined,3397,9.64,irregular,0.164,0.908,0.564,black,black,1.0,0.385,20260620_205913_614774.jpg,
 2026-06-20T20:59:31.326564,Image_6.jpeg,1,Charger Adapter,silver,small,0.503,combined,90661,1.69,block,0.114,0.523,0.441,silver,white,0.599,0.519,20260620_205931_326629.jpg,
+2026-06-21T12:45:14.286003,Image_43.jpg,1,Charger Adapter,silver,medium,0.997,yolo,144472,2.1,rectangular,0.343,0.832,0.689,silver,silver,0.545,0.44,20260621_124514_418843.jpg,

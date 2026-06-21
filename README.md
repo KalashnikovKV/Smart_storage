@@ -29,16 +29,16 @@ uv sync --group yolo     # YOLO inference + training
 uv sync --group dev      # pytest (optional)
 ```
 
-Trained model (after training):
+Trained model (ready to use):
 
 ```
-runs/segment/runs/segment/smart_storage_final/weights/best.pt
+models/smart_storage_final_best.pt
 ```
 
 Override paths/devices for wrapper scripts:
 
 ```bash
-export SMART_STORAGE_MODEL=runs/segment/runs/segment/smart_storage_final/weights/best.pt
+export SMART_STORAGE_MODEL=models/smart_storage_final_best.pt
 export SMART_STORAGE_DEVICE=cuda    # or cpu
 export SMART_STORAGE_EPOCHS=50
 ```
@@ -107,7 +107,7 @@ Same as `uv run python -m src.main`:
 ```bash
 ./run.sh --mode image --source training/test_images/Charger_Adapter/Image_43.jpg
 ./run.sh --mode image --source training/test_images/Charger_Adapter/Image_43.jpg \
-  --model runs/segment/runs/segment/smart_storage_final/weights/best.pt \
+  --model models/smart_storage_final_best.pt \
   --device cuda
 ./run.sh --mode batch --source training/test_images/mouse
 ./run.sh --mode video --source training/test_video/Video_10.MOV
@@ -148,7 +148,8 @@ scripts/          # build_dataset.py, train_yolo.py wrappers
 training/         # dataset builder + trainer implementation
 dataset/          # YOLO images/labels (from Roboflow import)
 training/test_images/   # local test photos by category
-runs/             # trained weights (local, gitignored)
+models/           # trained weights (smart_storage_final_best.pt + base backbone)
+runs/             # raw training output (local, gitignored)
 output/           # results.csv, stages/, comparison metrics
 ```
 
