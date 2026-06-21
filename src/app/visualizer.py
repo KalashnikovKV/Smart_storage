@@ -37,6 +37,7 @@ class Visualizer:
 
     def __init__(self) -> None:
         self._window_created = False
+        self._screen_size: tuple[int, int] | None = None
 
     def draw_detection(
         self,
@@ -418,7 +419,8 @@ class Visualizer:
         if not self._window_created:
             cv2.namedWindow(self.WINDOW_NAME, cv2.WINDOW_NORMAL)
             h, w = dashboard.shape[:2]
-            cv2.resizeWindow(self.WINDOW_NAME, w, h)
+            win_w, win_h = self._fit_window_size(w, h)
+            cv2.resizeWindow(self.WINDOW_NAME, win_w, win_h)
             self._window_created = True
         cv2.imshow(self.WINDOW_NAME, dashboard)
 
@@ -889,6 +891,31 @@ class Visualizer:
             )
 
         return np.vstack([title_bar, image])
+
+    def _fit_window_size(self, content_w: int, content_h: int) -> tuple[int, int]:
+        """Return window size that fits 90 % of the screen while preserving aspect ratio."""
+        if self._screen_size is None:
+            self._screen_size = self._detect_screen_size()
+        max_w = int(self._screen_size[0] * 0.9)
+        max_h = int(self._screen_size[1] * 0.9)
+        if content_w <= max_w and content_h <= max_h:
+            return content_w, content_h
+        scale = min(max_w / content_w, max_h / content_h)
+        return max(1, int(content_w * scale)), max(1, int(content_h * scale))
+
+    @staticmethod
+    def _detect_screen_size() -> tuple[int, int]:
+        """Return (width, height) of the primary screen; falls back to 1920x1080."""
+        try:
+            import tkinter as tk
+            root = tk.Tk()
+            root.withdraw()
+            w = root.winfo_screenwidth()
+            h = root.winfo_screenheight()
+            root.destroy()
+            return w, h
+        except Exception:
+            return 1920, 1080
 
     def _safe(self, text: str) -> str:
         """Make text safe for OpenCV rendering."""

@@ -29,9 +29,17 @@ _FILE_HINT = "space=pause+analyze   a=re-analyze   s=save CSV   q=quit"
 _WEBCAM_HINT = "q=quit   s=save to CSV   c=capture   p=pause"
 
 
-def _ensure_window(visualizer: Visualizer, window_name: str) -> None:
+def _ensure_window(
+    visualizer: Visualizer,
+    window_name: str,
+    content: np.ndarray | None = None,
+) -> None:
     if not visualizer._window_created:
         cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+        if content is not None:
+            h, w = content.shape[:2]
+            win_w, win_h = visualizer._fit_window_size(w, h)
+            cv2.resizeWindow(window_name, win_w, win_h)
         visualizer._window_created = True
 
 
@@ -198,7 +206,7 @@ def _show_triple_view(
         right_title=contour_title,
         status_line=status_line,
     )
-    _ensure_window(visualizer, window_name)
+    _ensure_window(visualizer, window_name, display)
     cv2.imshow(window_name, display)
 
 
